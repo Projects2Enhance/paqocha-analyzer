@@ -138,6 +138,24 @@ Ratios computed with the standard WCAG 2.1 relative-luminance formula.
   variables — so the values stay runtime-switchable instead of being baked
   in at build time.
 
+## Known build constraint: CSS Modules don't scope
+
+`next.config.ts`'s `turbopack.rules["*.css"]` routes **every** `.css` file
+(not just `app/globals.css`) through the `@tailwindcss/turbopack` loader.
+That loader doesn't apply CSS-Modules scoping, so a `*.module.css` file
+compiles with its class names **unhashed** (e.g. `.video` instead of
+`.video_a1b2c3`) — the import still resolves and `styles.video` is a string,
+but the rule frequently doesn't win against Tailwind's preflight (e.g.
+`video { max-width: 100%; height: auto }`), since nothing about it is
+actually scoped or specificity-boosted anymore.
+
+**Until this Turbopack rule is scoped to only `app/globals.css` (or dropped
+in favor of `@import` inside it), don't use `*.module.css` for component
+styles.** Use inline `style={{ ... }}` (reading tokens via
+`var(--color-x)`, as `Hero` does) or a plain global stylesheet class.
+Revisit this once a real component-styling approach is picked — see
+"Components" below.
+
 ## Typography
 
 [TO BE DEFINED] — no typeface decision yet. The `next/font` Geist
@@ -154,4 +172,27 @@ this is decided.
 
 ## Components
 
-[TO BE DEFINED]
+### Hero (`components/hero/hero.tsx`)
+
+Full-viewport background video, no overlay or text yet (that's a later
+phase). Renders as the entire homepage for now.
+
+- `<section>` is `position: fixed; inset: 0;` with `overflow: hidden` — fills
+  the viewport exactly and clips whatever the video crops.
+- `<video autoPlay muted loop playsInline>` is `position: absolute; inset:
+  0; width/height: 100%; max-width: none; object-fit: cover; object-position:
+  center;`.
+  - `object-fit: cover` scales the video by its own aspect ratio until it
+    covers the full box on both axes, cropping only the overflow — so any
+    screen size always shows a centered slice of the video, never bars or a
+    background color peeking through.
+  - `max-width: none` overrides Tailwind's preflight (see the build
+    constraint above) — without it, the video can't grow past 100% of the
+    viewport's width when a wide/short viewport needs it to, to fully cover
+    the height.
+  - Styled inline, not with a CSS Module — see the build constraint above.
+- `aria-hidden="true"` on the section: it's purely decorative with no
+  content yet; remove this once real content is added inside it.
+- No `prefers-reduced-motion` handling: hiding the video would otherwise
+  leave just `--color-bg` with nothing in it, which the brief explicitly
+  ruled out. [TO BE DEFINED] once there's real content to fall back to.
