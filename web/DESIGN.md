@@ -9,15 +9,24 @@ system only. Other sections are placeholders.
 - Cream `#FBF3D2`
 - Lime `#CFD224`
 
-These are not used directly in UI; they're refined into the semantic tokens
-below so every surface, text, and interactive color has a defined purpose and
-a verified contrast ratio.
+These aren't used directly in page-chrome UI; they're refined into the
+semantic tokens below so every surface, text, and interactive color has a
+defined purpose and a verified contrast ratio. The one exception is
+`--brand-cream`, a primitive (not theme-switching) kept for content laid
+over fixed media rather than the page background — see Tokens below.
 
 ## Tokens
 
 All tokens live in `styles/tokens.css`. `:root` defines the light theme
 (default); `[data-theme="dark"]` overrides it. Both set `color-scheme` so
 native form controls and scrollbars match the active theme.
+
+`--brand-cream` (`#FBF3D2`) is declared once in `:root` and **not**
+overridden in `[data-theme="dark"]` — it's a brand primitive, not a
+semantic/theme-switching token. Use it only for content that sits on fixed
+media (e.g. the hero video's tagline text) where the color must stay
+constant regardless of the site's light/dark theme. Everything else should
+use the semantic tokens below.
 
 ### Light theme (default)
 
@@ -174,8 +183,13 @@ this is decided.
 
 ### Hero (`components/hero/hero.tsx`)
 
-Full-viewport background video, no overlay or text yet (that's a later
-phase). Renders as the entire homepage for now.
+Full-viewport background video with the "Listen. Break it down.
+Understand." tagline (see `docs/project-context.md`) laid over it as three
+independently positioned words — modeled on compasspathways.com's hero.
+Renders as the entire homepage for now; it's a client component (`"use
+client"`) because setting video playback rate requires JS.
+
+**Video**
 
 - `<section>` is `position: fixed; inset: 0;` with `overflow: hidden` — fills
   the viewport exactly and clips whatever the video crops.
@@ -191,8 +205,53 @@ phase). Renders as the entire homepage for now.
     viewport's width when a wide/short viewport needs it to, to fully cover
     the height.
   - Styled inline, not with a CSS Module — see the build constraint above.
-- `aria-hidden="true"` on the section: it's purely decorative with no
-  content yet; remove this once real content is added inside it.
-- No `prefers-reduced-motion` handling: hiding the video would otherwise
-  leave just `--color-bg` with nothing in it, which the brief explicitly
-  ruled out. [TO BE DEFINED] once there's real content to fall back to.
+- Playback rate is set to `0.5` via a `ref` + `useEffect` on mount, and
+  reapplied `onLoadedMetadata` — there's no declarative HTML attribute for
+  this, it has to be set on the `HTMLVideoElement` imperatively, and some
+  browsers reset it once metadata actually finishes loading even if it was
+  set right after mount, so it's applied in both places. It survives the
+  `loop` automatically (the browser doesn't reset `playbackRate` between
+  loop iterations).
+- No `prefers-reduced-motion` handling on the video: hiding it would leave
+  just `--color-bg` with nothing in it, which the brief explicitly ruled
+  out. [TO BE DEFINED] once there's real content to fall back to.
+
+**Tagline words**
+
+- Markup is one real `<h1 aria-label="Listen. Break it down.
+  Understand.">` (so screen readers get one clean sentence) containing three
+  `aria-hidden="true"` `<span>`s for the visual layout — avoids a
+  screen reader running the words together as "ListenBreak it
+  downUnderstand".
+- Each word is independently `position: absolute` inside the `h1`
+  (`top`/`right`/`left`/`bottom` as percentages of the viewport), matching
+  the reference site's scattered placement: "Listen" top-right, "Break it
+  down" middle-left, "Understand" bottom-center. Percentage-based offsets
+  keep each word anchored to the same relative spot across breakpoints,
+  exactly as in the reference screenshots.
+- Font size uses `clamp(min, vw, max)` per word instead of breakpoints — it
+  scales continuously with viewport width (large on desktop, recalculated
+  down on mobile) with no layout jump at a fixed breakpoint.
+- Color is the `--brand-cream` primitive (see Tokens), not a theme token on
+  purpose: this text sits on the video, not the page background, so it must
+  stay constant across the light/dark toggle instead of flipping to dark
+  indigo in light mode. A soft `text-shadow` using the dark-indigo ink color
+  at low opacity (`rgba(31, 33, 80, 0.35)`) keeps it legible over whatever
+  part of the video is behind it at a given moment, without adding a visible
+  scrim/box.
+- Entrance animation (`@keyframes paqocha-hero-word-in`, defined in a plain
+  `<style>` tag in the component — not a CSS Module, see the build
+  constraint above): each word fades in and slides up
+  (`translateY(20px) → 0`, 1100ms, `cubic-bezier(0.22, 1, 0.36, 1)`),
+  staggered 180ms apart (`Listen` → `Break it down` → `Understand`).
+- Plays on mount, and again after a window resize settles: a debounced
+  (`200ms`) `resize` listener bumps a `replayKey` state used as the `<h1>`'s
+  React `key`, which remounts the word `<span>`s and restarts their CSS
+  animation. Debounced so it replays once after the resize finishes, not on
+  every frame while dragging. Positioning/sizing itself stays continuously
+  responsive via the percentage/`clamp()` values above regardless of this —
+  the replay is purely the extra visual flourish asked for, not what makes
+  it responsive.
+  `prefers-reduced-motion: reduce` disables the animation itself (words
+  render fully visible, no animation), but the resize listener still fires
+  harmlessly (just remounts already-visible spans).

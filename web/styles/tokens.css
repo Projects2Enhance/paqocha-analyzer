@@ -6,6 +6,11 @@
 :root {
   color-scheme: light;
 
+  /* Brand primitive, not a semantic token — stays constant across both
+     themes. For content laid over fixed media (e.g. the hero video) that
+     isn't part of the page chrome, so it must not flip with data-theme. */
+  --brand-cream: #fbf3d2;
+
   --color-bg: #fefaea;
   --color-surface: #fbf3d2;
   --color-text: #1f2150;
