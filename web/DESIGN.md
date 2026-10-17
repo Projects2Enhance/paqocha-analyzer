@@ -244,9 +244,11 @@ client"`) because setting video playback rate requires JS.
 - Entrance animation (`@keyframes paqocha-hero-word-in`, defined in a plain
   `<style>` tag in the component — not a CSS Module, see the build
   constraint above): each word fades in and slides up
-  (`translateY(28px) → 0`, 1500ms, `cubic-bezier(0.16, 1, 0.3, 1)`, an
-  ease-out-expo-style curve), staggered 220ms apart (`Listen` → `Break it
-  down` → `Understand`).
+  (`translateY(36px) → 0`, 2200ms, `cubic-bezier(0.16, 1, 0.3, 1)`, an
+  ease-out-expo-style curve), staggered 280ms apart (`Listen` → `Break it
+  down` → `Understand`). Also starts `filter: blur(16px)` and resolves to
+  `blur(0px)` over the same animation, so each word comes into focus as it
+  rises instead of popping in sharp.
 - Plays on mount, and again after a window resize settles: a debounced
   (`450ms`) `resize` listener bumps a `replayKey` state used as the `<h1>`'s
   React `key`, which remounts the word `<span>`s and restarts their CSS
@@ -269,7 +271,7 @@ compasspathways.com's dark expanding navbar pill, but it searches instead of
 navigating, and the word inside is Quechua instead of the brand name. A
 sibling of `Hero` in `app/page.tsx`, not nested inside it.
 
-- Collapsed: a pill (`border-radius: 999px`, `height: 3.25rem`) showing the
+- Collapsed: a pill (`border-radius: 999px`, `height: 4.5rem`) showing the
   word **"Maskhay"** (Southern/Cusco-Collao Quechua for "to search") and a
   circular magnifying-glass icon button. **"Maskhay" is a real word, not
   invented, but its spelling hasn't been checked against Puno/Collao-specific
@@ -278,7 +280,7 @@ sibling of `Hero` in `app/page.tsx`, not nested inside it.
 - Clicking the word swaps it for a real, autofocused `<input>` (same slot,
   same visual spot) with "Maskhay" as its `placeholder`, and the pill widens
   (`width` transitions between two `clamp()` values — collapsed
-  `clamp(190px, 46vw, 230px)`, expanded `clamp(280px, 90vw, 440px)` — height
+  `clamp(260px, 55vw, 360px)`, expanded `clamp(380px, 88vw, 620px)` — height
   stays constant, only width "extends", on purpose: simpler and less jumpy
   than also animating height for what's a one-line input). A full-screen
   backdrop (always mounted, `opacity`/`backdrop-filter` transitioned for a
@@ -291,11 +293,13 @@ sibling of `Hero` in `app/page.tsx`, not nested inside it.
 - Closes on `Escape` or a click on the backdrop (outside the pill). There's
   no close button — the magnifying-glass icon intentionally does nothing
   (see below), so it isn't overloaded as a close control too.
-- The magnifying-glass button is **decorative only, on purpose**: it has a
-  hover/press animation (background + icon color shift to
-  `--color-highlight` on hover, `scale(0.9)` on `:active`) but no `onClick`
-  handler — no search request, no navigation. Matches the brief: pressing
-  search shouldn't do anything yet.
+- The magnifying-glass button is **decorative only, on purpose**: on hover/
+  press it shows a soft neutral circle behind the icon (`rgba(251, 243,
+  210, 0.14)` on hover, `0.24` + `scale(0.92)` on `:active` — brand cream at
+  low opacity, not a colored tint, since this is a plain ghost-button
+  affordance, not a "meaningful emphasis" moment the way focus is) but has no
+  `onClick` handler — no search request, no navigation. Matches the brief:
+  pressing search shouldn't do anything yet.
 - Pill background is `--brand-ink`, text/icon color `--brand-cream` — same
   "theme-independent" reasoning as the hero tagline (see Tokens): this
   floats over the video, not the page background, so it must not flip

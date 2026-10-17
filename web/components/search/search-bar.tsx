@@ -58,7 +58,7 @@ export function SearchBar() {
       <div
         style={{
           position: "fixed",
-          top: "clamp(1rem, 3vw, 1.75rem)",
+          top: "clamp(1.1rem, 3.2vw, 2rem)",
           left: "50%",
           transform: "translateX(-50%)",
           zIndex: 50,
@@ -70,16 +70,16 @@ export function SearchBar() {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            gap: "0.5rem",
-            height: "3.25rem",
+            gap: "0.625rem",
+            height: "4.5rem",
             width: isOpen
-              ? "clamp(280px, 90vw, 440px)"
-              : "clamp(190px, 46vw, 230px)",
-            padding: "0 0.375rem 0 1.25rem",
+              ? "clamp(380px, 88vw, 620px)"
+              : "clamp(260px, 55vw, 360px)",
+            padding: "0 0.5rem 0 1.75rem",
             borderRadius: "999px",
             background: "var(--brand-ink)",
             color: "var(--brand-cream)",
-            boxShadow: "0 8px 30px rgba(31, 33, 80, 0.35)",
+            boxShadow: "0 10px 36px rgba(31, 33, 80, 0.3)",
             transition: "width 420ms cubic-bezier(0.22, 1, 0.36, 1)",
             overflow: "hidden",
           }}
@@ -96,7 +96,7 @@ export function SearchBar() {
                 border: "none",
                 background: "transparent",
                 color: "var(--brand-cream)",
-                fontSize: "0.95rem",
+                fontSize: "1.4rem",
                 fontWeight: 500,
               }}
             />
@@ -112,7 +112,7 @@ export function SearchBar() {
                 border: "none",
                 background: "transparent",
                 color: "var(--brand-cream)",
-                fontSize: "0.95rem",
+                fontSize: "1.4rem",
                 fontWeight: 500,
                 cursor: "pointer",
                 padding: 0,
@@ -132,17 +132,17 @@ export function SearchBar() {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              width: "2.25rem",
-              height: "2.25rem",
+              width: "3.25rem",
+              height: "3.25rem",
               borderRadius: "999px",
               border: "none",
               background: "transparent",
               color: "var(--brand-cream)",
               cursor: "pointer",
-              transition: "background 200ms ease, color 200ms ease, transform 150ms ease",
+              transition: "background 200ms ease, transform 150ms ease",
             }}
           >
-            <SearchIcon />
+            <SearchIcon size={26} />
           </button>
         </div>
       </div>
@@ -154,12 +154,12 @@ export function SearchBar() {
         }
 
         .paqocha-search-icon-button:hover {
-          background: rgba(207, 210, 36, 0.18);
-          color: var(--color-highlight);
+          background: rgba(251, 243, 210, 0.14);
         }
 
         .paqocha-search-icon-button:active {
-          transform: scale(0.9);
+          background: rgba(251, 243, 210, 0.24);
+          transform: scale(0.92);
         }
 
         /* Reset mouse-click focus first, then restore it for keyboard focus

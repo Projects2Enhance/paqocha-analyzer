@@ -110,7 +110,7 @@ export function Hero() {
             position: "absolute",
             top: "14%",
             right: "6%",
-            fontSize: "clamp(2rem, 6vw, 4.5rem)",
+            fontSize: "clamp(2.5rem, 7.5vw, 5.75rem)",
             animationDelay: "0ms",
           }}
         >
@@ -124,8 +124,8 @@ export function Hero() {
             top: "47%",
             left: "5%",
             maxWidth: "60%",
-            fontSize: "clamp(1.75rem, 5.5vw, 4rem)",
-            animationDelay: "220ms",
+            fontSize: "clamp(2.25rem, 7vw, 5.25rem)",
+            animationDelay: "280ms",
           }}
         >
           Break it down
@@ -137,8 +137,8 @@ export function Hero() {
             position: "absolute",
             bottom: "14%",
             left: "32%",
-            fontSize: "clamp(2rem, 6.5vw, 4.75rem)",
-            animationDelay: "440ms",
+            fontSize: "clamp(2.5rem, 8vw, 6.25rem)",
+            animationDelay: "560ms",
           }}
         >
           Understand
@@ -148,14 +148,16 @@ export function Hero() {
       <style>{`
         .hero-word {
           opacity: 0;
-          transform: translateY(28px);
-          animation: paqocha-hero-word-in 1500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          transform: translateY(36px);
+          filter: blur(16px);
+          animation: paqocha-hero-word-in 2200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         @keyframes paqocha-hero-word-in {
           to {
             opacity: 1;
             transform: translateY(0);
+            filter: blur(0px);
           }
         }
 
@@ -164,6 +166,7 @@ export function Hero() {
             animation: none;
             opacity: 1;
             transform: none;
+            filter: none;
           }
         }
       `}</style>
