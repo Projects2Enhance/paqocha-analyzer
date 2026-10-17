@@ -11,9 +11,9 @@ system only. Other sections are placeholders.
 
 These aren't used directly in page-chrome UI; they're refined into the
 semantic tokens below so every surface, text, and interactive color has a
-defined purpose and a verified contrast ratio. The one exception is
-`--brand-cream`, a primitive (not theme-switching) kept for content laid
-over fixed media rather than the page background — see Tokens below.
+defined purpose and a verified contrast ratio. The exceptions are
+`--brand-cream` and `--brand-ink`, primitives (not theme-switching) kept for
+UI laid over fixed media rather than the page background — see Tokens below.
 
 ## Tokens
 
@@ -21,12 +21,14 @@ All tokens live in `styles/tokens.css`. `:root` defines the light theme
 (default); `[data-theme="dark"]` overrides it. Both set `color-scheme` so
 native form controls and scrollbars match the active theme.
 
-`--brand-cream` (`#FBF3D2`) is declared once in `:root` and **not**
-overridden in `[data-theme="dark"]` — it's a brand primitive, not a
-semantic/theme-switching token. Use it only for content that sits on fixed
-media (e.g. the hero video's tagline text) where the color must stay
-constant regardless of the site's light/dark theme. Everything else should
-use the semantic tokens below.
+`--brand-cream` (`#FBF3D2`) and `--brand-ink` (`#1F2150`, the same hex as
+`--color-text` in the light theme) are declared once in `:root` and **not**
+overridden in `[data-theme="dark"]` — they're brand primitives, not
+semantic/theme-switching tokens. Use them only for UI that sits on fixed
+media (e.g. the hero video's tagline text, the search pill's dark
+background) where the color must stay constant regardless of the site's
+light/dark theme — see "Theme-independent UI" under Components. Everything
+else should use the semantic tokens below.
 
 ### Light theme (default)
 
@@ -242,16 +244,79 @@ client"`) because setting video playback rate requires JS.
 - Entrance animation (`@keyframes paqocha-hero-word-in`, defined in a plain
   `<style>` tag in the component — not a CSS Module, see the build
   constraint above): each word fades in and slides up
-  (`translateY(20px) → 0`, 1100ms, `cubic-bezier(0.22, 1, 0.36, 1)`),
-  staggered 180ms apart (`Listen` → `Break it down` → `Understand`).
+  (`translateY(28px) → 0`, 1500ms, `cubic-bezier(0.16, 1, 0.3, 1)`, an
+  ease-out-expo-style curve), staggered 220ms apart (`Listen` → `Break it
+  down` → `Understand`).
 - Plays on mount, and again after a window resize settles: a debounced
-  (`200ms`) `resize` listener bumps a `replayKey` state used as the `<h1>`'s
+  (`450ms`) `resize` listener bumps a `replayKey` state used as the `<h1>`'s
   React `key`, which remounts the word `<span>`s and restarts their CSS
-  animation. Debounced so it replays once after the resize finishes, not on
-  every frame while dragging. Positioning/sizing itself stays continuously
-  responsive via the percentage/`clamp()` values above regardless of this —
-  the replay is purely the extra visual flourish asked for, not what makes
-  it responsive.
+  animation. It only replays if `innerWidth`/`innerHeight` actually moved by
+  more than `24px` since the last firing — otherwise a continuous drag of
+  the window edge (each pause past 450ms counting as "settled") or a mobile
+  browser's address bar hiding/showing would retrigger the fade-in
+  repeatedly, which read as "flickery" rather than "smooth" in practice.
+  Positioning/sizing itself stays continuously responsive via the
+  percentage/`clamp()` values above regardless of this — the replay is
+  purely the extra visual flourish asked for, not what makes it responsive.
   `prefers-reduced-motion: reduce` disables the animation itself (words
   render fully visible, no animation), but the resize listener still fires
   harmlessly (just remounts already-visible spans).
+
+### SearchBar (`components/search/search-bar.tsx`)
+
+Top-center search pill, fixed above the hero — modeled on
+compasspathways.com's dark expanding navbar pill, but it searches instead of
+navigating, and the word inside is Quechua instead of the brand name. A
+sibling of `Hero` in `app/page.tsx`, not nested inside it.
+
+- Collapsed: a pill (`border-radius: 999px`, `height: 3.25rem`) showing the
+  word **"Maskhay"** (Southern/Cusco-Collao Quechua for "to search") and a
+  circular magnifying-glass icon button. **"Maskhay" is a real word, not
+  invented, but its spelling hasn't been checked against Puno/Collao-specific
+  usage by a Quechua speaker on the team yet — [TO BE DEFINED]/verify before
+  this ships for real.**
+- Clicking the word swaps it for a real, autofocused `<input>` (same slot,
+  same visual spot) with "Maskhay" as its `placeholder`, and the pill widens
+  (`width` transitions between two `clamp()` values — collapsed
+  `clamp(190px, 46vw, 230px)`, expanded `clamp(280px, 90vw, 440px)` — height
+  stays constant, only width "extends", on purpose: simpler and less jumpy
+  than also animating height for what's a one-line input). A full-screen
+  backdrop (always mounted, `opacity`/`backdrop-filter` transitioned for a
+  smooth fade rather than conditionally mounted) blurs **everything** behind
+  it — the hero video and tagline words both, since neither is inside this
+  component, `backdrop-filter: blur(18px)` on an overlay above them both
+  does it without touching Hero at all — tinted with `--brand-ink` at low
+  opacity (`rgba(31, 33, 80, 0.35)`), matching the reference screenshot's
+  darkened-and-blurred look.
+- Closes on `Escape` or a click on the backdrop (outside the pill). There's
+  no close button — the magnifying-glass icon intentionally does nothing
+  (see below), so it isn't overloaded as a close control too.
+- The magnifying-glass button is **decorative only, on purpose**: it has a
+  hover/press animation (background + icon color shift to
+  `--color-highlight` on hover, `scale(0.9)` on `:active`) but no `onClick`
+  handler — no search request, no navigation. Matches the brief: pressing
+  search shouldn't do anything yet.
+- Pill background is `--brand-ink`, text/icon color `--brand-cream` — same
+  "theme-independent" reasoning as the hero tagline (see Tokens): this
+  floats over the video, not the page background, so it must not flip
+  with the light/dark toggle.
+- Focus ring on the input/buttons is pinned to `--color-highlight` (lime)
+  rather than the page's `--color-focus`, for the same reason — in light
+  theme, `--color-focus` is a muted periwinkle that reads poorly against
+  the dark ink pill; lime stays legible regardless of site theme, and is
+  already the brand's documented "meaningful emphasis / focus" color (see
+  Usage rules).
+- Icon is a hand-drawn inline SVG magnifying glass
+  (`components/search/search-icon.tsx`), not an icon library — keeping the
+  "no new dependencies" constraint from the theme-system phase.
+- Styled inline / with a scoped `<style>` tag — see "Known build
+  constraint" above.
+
+### Theme-independent UI
+
+Both `Hero` and `SearchBar` deliberately opt out of the light/dark theme
+system (`--brand-cream` / `--brand-ink` instead of `--color-text` /
+`--color-surface`) because they sit on top of the fixed hero video, not the
+page's `--color-bg`/`--color-surface` chrome. Reach for the semantic,
+theme-switching tokens for anything that sits on the page background; reach
+for the `--brand-*` primitives only for UI that sits on the video.

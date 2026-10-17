@@ -11,7 +11,10 @@ import { useEffect, useRef, useState } from "react";
 // strips CSS-module scoping — see DESIGN.md's "Known build constraint".
 
 const PLAYBACK_RATE = 0.5;
-const RESIZE_REPLAY_DEBOUNCE_MS = 200;
+const RESIZE_REPLAY_DEBOUNCE_MS = 450;
+// Ignore sub-pixel/UI-chrome noise (e.g. a mobile browser's address bar
+// hiding) so the replay only fires on a resize the viewer actually made.
+const RESIZE_REPLAY_THRESHOLD_PX = 24;
 
 export function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -32,10 +35,20 @@ export function Hero() {
 
   useEffect(() => {
     let timeoutId: ReturnType<typeof setTimeout>;
+    let lastWidth = window.innerWidth;
+    let lastHeight = window.innerHeight;
     function handleResize() {
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => {
-        setReplayKey((key) => key + 1);
+        const { innerWidth, innerHeight } = window;
+        const changedEnough =
+          Math.abs(innerWidth - lastWidth) > RESIZE_REPLAY_THRESHOLD_PX ||
+          Math.abs(innerHeight - lastHeight) > RESIZE_REPLAY_THRESHOLD_PX;
+        lastWidth = innerWidth;
+        lastHeight = innerHeight;
+        if (changedEnough) {
+          setReplayKey((key) => key + 1);
+        }
       }, RESIZE_REPLAY_DEBOUNCE_MS);
     }
     window.addEventListener("resize", handleResize);
@@ -112,7 +125,7 @@ export function Hero() {
             left: "5%",
             maxWidth: "60%",
             fontSize: "clamp(1.75rem, 5.5vw, 4rem)",
-            animationDelay: "180ms",
+            animationDelay: "220ms",
           }}
         >
           Break it down
@@ -125,7 +138,7 @@ export function Hero() {
             bottom: "14%",
             left: "32%",
             fontSize: "clamp(2rem, 6.5vw, 4.75rem)",
-            animationDelay: "360ms",
+            animationDelay: "440ms",
           }}
         >
           Understand
@@ -135,8 +148,8 @@ export function Hero() {
       <style>{`
         .hero-word {
           opacity: 0;
-          transform: translateY(20px);
-          animation: paqocha-hero-word-in 1100ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+          transform: translateY(28px);
+          animation: paqocha-hero-word-in 1500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         @keyframes paqocha-hero-word-in {
