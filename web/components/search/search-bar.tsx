@@ -6,15 +6,21 @@ import { SearchIcon } from "./search-icon";
 // Top-center search pill, modeled on compasspathways.com's dark expanding
 // navbar (see web/DESIGN.md -> Components -> SearchBar for the full writeup).
 //
-// "Maskhay" (Southern/Cusco-Collao Quechua for "to search") is a real word,
-// not invented, but its spelling hasn't been checked by a Puno Quechua
-// speaker yet — flag for review before this ships for real.
-const QUECHUA_WORD = "Maskhay";
+// Real Quechua words (Southern/Cusco-Collao variety), not invented, themed
+// around the product's flow — search, listen, learn, speak, word — but
+// their spelling hasn't been checked against Puno/Collao-specific usage by
+// a Quechua speaker yet — flag for review before this ships for real.
+const QUECHUA_WORDS = ["Maskhay", "Uyariy", "Yachay", "Rimay", "Simi"];
+
+const WORD_DISPLAY_MS = 3000;
+const WORD_FADE_MS = 350;
 
 // Styled inline / with a scoped <style> tag on purpose — see DESIGN.md's
 // "Known build constraint" on why *.module.css doesn't work in this project.
 export function SearchBar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [wordIndex, setWordIndex] = useState(0);
+  const [wordVisible, setWordVisible] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -33,6 +39,25 @@ export function SearchBar() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen]);
+
+  // Cycles the default word every WORD_DISPLAY_MS, looping forever. Paused
+  // while open so the placeholder doesn't shift under the user while they
+  // type; `setWordVisible(true)` up front clears any fade-out left over from
+  // closing mid-transition, so the pill never reopens showing a blank word.
+  useEffect(() => {
+    if (isOpen) return;
+    setWordVisible(true);
+    const intervalId = setInterval(() => {
+      setWordVisible(false);
+      setTimeout(() => {
+        setWordIndex((prev) => (prev + 1) % QUECHUA_WORDS.length);
+        setWordVisible(true);
+      }, WORD_FADE_MS);
+    }, WORD_DISPLAY_MS);
+    return () => clearInterval(intervalId);
+  }, [isOpen]);
+
+  const currentWord = QUECHUA_WORDS[wordIndex];
 
   return (
     <>
@@ -86,7 +111,7 @@ export function SearchBar() {
             <input
               ref={inputRef}
               type="text"
-              placeholder={QUECHUA_WORD}
+              placeholder={currentWord}
               className="paqocha-search-input"
               style={{
                 flex: 1,
@@ -114,9 +139,19 @@ export function SearchBar() {
                 fontWeight: 500,
                 cursor: "pointer",
                 padding: 0,
+                overflow: "hidden",
               }}
             >
-              {QUECHUA_WORD}
+              <span
+                className="paqocha-search-word"
+                style={{
+                  display: "inline-block",
+                  opacity: wordVisible ? 1 : 0,
+                  transform: wordVisible ? "translateY(0)" : "translateY(-0.5rem)",
+                }}
+              >
+                {currentWord}
+              </span>
             </button>
           )}
 
@@ -152,6 +187,10 @@ export function SearchBar() {
         .paqocha-search-input::placeholder {
           color: var(--brand-cream);
           opacity: 0.6;
+        }
+
+        .paqocha-search-word {
+          transition: opacity ${WORD_FADE_MS}ms ease, transform ${WORD_FADE_MS}ms ease;
         }
 
         /* Base background lives here, not inline, so :hover/:active below can

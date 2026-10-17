@@ -291,14 +291,27 @@ compasspathways.com's dark expanding navbar pill, but it searches instead of
 navigating, and the word inside is Quechua instead of the brand name. A
 sibling of `Hero` in `app/page.tsx`, not nested inside it.
 
-- Collapsed: a pill (`border-radius: 999px`, `height: 4.5rem`) showing the
-  word **"Maskhay"** (Southern/Cusco-Collao Quechua for "to search") and a
-  circular magnifying-glass icon button. **"Maskhay" is a real word, not
-  invented, but its spelling hasn't been checked against Puno/Collao-specific
-  usage by a Quechua speaker on the team yet — [TO BE DEFINED]/verify before
-  this ships for real.**
+- Collapsed: a pill (`border-radius: 999px`, `height: 4.5rem`) showing a
+  rotating Quechua word and a circular magnifying-glass icon button. The
+  word cycles through a fixed list (`QUECHUA_WORDS` in `search-bar.tsx`) —
+  **"Maskhay"** (to search), **"Uyariy"** (to listen), **"Yachay"** (to
+  know/learn), **"Rimay"** (to speak), **"Simi"** (word) — themed around the
+  product's search → listen → learn flow. Every word holds for
+  `WORD_DISPLAY_MS` (3000ms), then cross-fades to the next via a `<span>`
+  that transitions `opacity`/`transform` over `WORD_FADE_MS` (350ms) while a
+  `setTimeout` nested inside a `setInterval` swaps the underlying word index
+  during that fade's invisible midpoint — looping forever, back to
+  "Maskhay" after "Simi". The rotation pauses while the pill is open (the
+  effect bails out on `isOpen`) so the word doesn't shift under the user
+  while they're focused on typing; closing it resumes the loop and force-
+  resets visibility to `true` first, in case the pill was reopened mid-
+  fade-out. **All five words are real, not invented, but none have had
+  their spelling checked against Puno/Collao-specific usage by a Quechua
+  speaker on the team yet — [TO BE DEFINED]/verify before this ships for
+  real.**
 - Clicking the word swaps it for a real, autofocused `<input>` (same slot,
-  same visual spot) with "Maskhay" as its `placeholder`, and the pill widens
+  same visual spot) with the current rotating word as its `placeholder`
+  (frozen, since rotation is paused while open), and the pill widens
   (`width` transitions between two `clamp()` values — collapsed
   `clamp(260px, 55vw, 360px)`, expanded `clamp(380px, 88vw, 620px)` — height
   stays constant, only width "extends", on purpose: simpler and less jumpy
