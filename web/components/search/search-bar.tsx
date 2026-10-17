@@ -79,8 +79,6 @@ export function SearchBar() {
             borderRadius: "999px",
             background: "var(--brand-ink)",
             color: "var(--brand-cream)",
-            boxShadow: "0 10px 36px rgba(31, 33, 80, 0.3)",
-            transition: "width 420ms cubic-bezier(0.22, 1, 0.36, 1)",
             overflow: "hidden",
           }}
         >
@@ -136,10 +134,8 @@ export function SearchBar() {
               height: "3.25rem",
               borderRadius: "999px",
               border: "none",
-              background: "transparent",
               color: "var(--brand-cream)",
               cursor: "pointer",
-              transition: "background 200ms ease, transform 150ms ease",
             }}
           >
             <SearchIcon size={26} />
@@ -148,35 +144,44 @@ export function SearchBar() {
       </div>
 
       <style>{`
+        .paqocha-search-pill {
+          box-shadow: 0 10px 36px rgba(31, 33, 80, 0.3);
+          transition: width 420ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 200ms ease;
+        }
+
         .paqocha-search-input::placeholder {
           color: var(--brand-cream);
           opacity: 0.6;
         }
 
+        /* Base background lives here, not inline, so :hover/:active below can
+           actually override it — an inline style="background:..." always
+           outranks a stylesheet rule, which was why the circle never showed. */
+        .paqocha-search-icon-button {
+          background: transparent;
+          transition: background 200ms ease, color 200ms ease, transform 150ms ease;
+        }
+
         .paqocha-search-icon-button:hover {
-          background: rgba(251, 243, 210, 0.14);
+          background: rgba(158, 161, 224, 0.25);
+          color: var(--brand-periwinkle-light);
         }
 
         .paqocha-search-icon-button:active {
-          background: rgba(251, 243, 210, 0.24);
+          background: rgba(158, 161, 224, 0.38);
           transform: scale(0.92);
         }
 
-        /* Reset mouse-click focus first, then restore it for keyboard focus
-           below — order matters, :focus-visible must come after this to win. */
-        .paqocha-search-input:focus {
-          outline: none;
-        }
-
-        /* This component sits on the video, not the page background, and
-           keeps a fixed dark pill regardless of the site's light/dark theme
-           — so its focus ring is pinned to the brand lime instead of the
-           theme-dependent --color-focus token (see DESIGN.md). */
+        /* Suppresses the page's global :focus-visible outline (app/globals.css)
+           for this component specifically — it would otherwise draw a sharp,
+           square outline right on the <input>'s own box, clipped by nothing,
+           since this bare input has no border-radius of its own. Removed on
+           request; this component currently has no visible focus indicator
+           at all as a result — see DESIGN.md's note on this trade-off. */
         .paqocha-search-input:focus-visible,
         .paqocha-search-word-button:focus-visible,
         .paqocha-search-icon-button:focus-visible {
-          outline: 2px solid var(--color-highlight);
-          outline-offset: 2px;
+          outline: none;
         }
       `}</style>
     </>

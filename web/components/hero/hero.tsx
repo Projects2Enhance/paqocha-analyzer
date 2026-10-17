@@ -109,7 +109,7 @@ export function Hero() {
           style={{
             position: "absolute",
             top: "14%",
-            right: "6%",
+            left: "6%",
             fontSize: "clamp(2.5rem, 7.5vw, 5.75rem)",
             animationDelay: "0ms",
           }}
@@ -122,7 +122,7 @@ export function Hero() {
           style={{
             position: "absolute",
             top: "47%",
-            left: "5%",
+            right: "5%",
             maxWidth: "60%",
             fontSize: "clamp(2.25rem, 7vw, 5.25rem)",
             animationDelay: "280ms",
@@ -136,7 +136,7 @@ export function Hero() {
           style={{
             position: "absolute",
             bottom: "14%",
-            left: "32%",
+            right: "32%",
             fontSize: "clamp(2.5rem, 8vw, 6.25rem)",
             animationDelay: "560ms",
           }}

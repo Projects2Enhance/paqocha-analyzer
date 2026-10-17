@@ -12,8 +12,9 @@ system only. Other sections are placeholders.
 These aren't used directly in page-chrome UI; they're refined into the
 semantic tokens below so every surface, text, and interactive color has a
 defined purpose and a verified contrast ratio. The exceptions are
-`--brand-cream` and `--brand-ink`, primitives (not theme-switching) kept for
-UI laid over fixed media rather than the page background — see Tokens below.
+`--brand-cream`, `--brand-ink`, and `--brand-periwinkle-light`, primitives
+(not theme-switching) kept for UI laid over fixed media rather than the page
+background — see Tokens below.
 
 ## Tokens
 
@@ -21,14 +22,15 @@ All tokens live in `styles/tokens.css`. `:root` defines the light theme
 (default); `[data-theme="dark"]` overrides it. Both set `color-scheme` so
 native form controls and scrollbars match the active theme.
 
-`--brand-cream` (`#FBF3D2`) and `--brand-ink` (`#1F2150`, the same hex as
-`--color-text` in the light theme) are declared once in `:root` and **not**
-overridden in `[data-theme="dark"]` — they're brand primitives, not
-semantic/theme-switching tokens. Use them only for UI that sits on fixed
-media (e.g. the hero video's tagline text, the search pill's dark
-background) where the color must stay constant regardless of the site's
-light/dark theme — see "Theme-independent UI" under Components. Everything
-else should use the semantic tokens below.
+`--brand-cream` (`#FBF3D2`), `--brand-ink` (`#1F2150`, the same hex as
+`--color-text` in the light theme), and `--brand-periwinkle-light` (`#9EA1E0`,
+the same hex as `--color-primary` in the dark theme) are declared once in
+`:root` and **not** overridden in `[data-theme="dark"]` — they're brand
+primitives, not semantic/theme-switching tokens. Use them only for UI that
+sits on fixed media (e.g. the hero video's tagline text, the search pill's
+dark background and its hover accent) where the color must stay constant
+regardless of the site's light/dark theme — see "Theme-independent UI"
+under Components. Everything else should use the semantic tokens below.
 
 ### Light theme (default)
 
@@ -169,9 +171,25 @@ Revisit this once a real component-styling approach is picked — see
 
 ## Typography
 
-[TO BE DEFINED] — no typeface decision yet. The `next/font` Geist
-setup from `create-next-app` is left untouched; do not add new fonts until
-this is decided.
+**Nunito** (`app/layout.tsx`, via `next/font/google` — no new dependency,
+`next/font` ships with Next.js itself), weights 400/500/600/700/800, CSS
+variable `--font-sans`. Replaces `create-next-app`'s default Geist.
+
+Why: Nunito's rounded terminals read as warmer and friendlier than a neutral
+grotesque like Geist — a better fit for an approachable learning tool than
+Geist's more "SaaS-neutral" look, while staying highly legible at both UI and
+body-text sizes.
+
+`body` in `app/globals.css` sets `font-family: var(--font-sans), Arial,
+Helvetica, sans-serif` — note this actually *wires up* the font variable for
+the first time; the previous Geist setup was loaded but never applied (`body`
+hardcoded `Arial, Helvetica, sans-serif` the whole time, a leftover from
+`create-next-app` nobody had corrected yet). `Hero`'s tagline and
+`SearchBar`'s text don't set their own `font-family` — they inherit this
+through normal cascade.
+
+Weight/size scale, line-height, and further pairing (e.g. a distinct display
+face for very large hero-type moments) are still [TO BE DEFINED].
 
 ## Spacing
 
@@ -226,11 +244,13 @@ client"`) because setting video playback rate requires JS.
   screen reader running the words together as "ListenBreak it
   downUnderstand".
 - Each word is independently `position: absolute` inside the `h1`
-  (`top`/`right`/`left`/`bottom` as percentages of the viewport), matching
-  the reference site's scattered placement: "Listen" top-right, "Break it
-  down" middle-left, "Understand" bottom-center. Percentage-based offsets
-  keep each word anchored to the same relative spot across breakpoints,
-  exactly as in the reference screenshots.
+  (`top`/`right`/`left`/`bottom` as percentages of the viewport) — the
+  reference site's scattered-placement pattern, but mirrored left/right from
+  it: "Listen" top-**left**, "Break it down" middle-**right**, "Understand"
+  bottom-**left**-of-center. (Still the same vertical rhythm — top / middle /
+  bottom — only the horizontal side of each word is flipped.) Percentage-based
+  offsets keep each word anchored to the same relative spot across
+  breakpoints, exactly as in the reference screenshots.
 - Font size uses `clamp(min, vw, max)` per word instead of breakpoints — it
   scales continuously with viewport width (large on desktop, recalculated
   down on mobile) with no layout jump at a fixed breakpoint.
@@ -293,23 +313,40 @@ sibling of `Hero` in `app/page.tsx`, not nested inside it.
 - Closes on `Escape` or a click on the backdrop (outside the pill). There's
   no close button — the magnifying-glass icon intentionally does nothing
   (see below), so it isn't overloaded as a close control too.
-- The magnifying-glass button is **decorative only, on purpose**: on hover/
-  press it shows a soft neutral circle behind the icon (`rgba(251, 243,
-  210, 0.14)` on hover, `0.24` + `scale(0.92)` on `:active` — brand cream at
-  low opacity, not a colored tint, since this is a plain ghost-button
-  affordance, not a "meaningful emphasis" moment the way focus is) but has no
-  `onClick` handler — no search request, no navigation. Matches the brief:
-  pressing search shouldn't do anything yet.
-- Pill background is `--brand-ink`, text/icon color `--brand-cream` — same
-  "theme-independent" reasoning as the hero tagline (see Tokens): this
-  floats over the video, not the page background, so it must not flip
-  with the light/dark toggle.
-- Focus ring on the input/buttons is pinned to `--color-highlight` (lime)
-  rather than the page's `--color-focus`, for the same reason — in light
-  theme, `--color-focus` is a muted periwinkle that reads poorly against
-  the dark ink pill; lime stays legible regardless of site theme, and is
-  already the brand's documented "meaningful emphasis / focus" color (see
-  Usage rules).
+- The magnifying-glass button is **decorative only, on purpose**: on hover it
+  shows a soft `--brand-periwinkle-light` circle behind the icon
+  (`rgba(158, 161, 224, 0.25)`, icon itself also turns that lighter
+  periwinkle), a stronger `0.38` + `scale(0.92)` on `:active` — but has no
+  `onClick` handler, so no search request, no navigation. Matches the brief:
+  pressing search shouldn't do anything yet. (Originally lime — switched to
+  a lighter periwinkle on request, since lime reads as a strong semantic
+  "active/focus" signal per the Usage rules, not a plain hover affordance.)
+  - **Bug fixed:** this circle originally never appeared, because the
+    button's *base* `background: "transparent"` was set as an inline style.
+    An inline style always outranks a stylesheet rule regardless of
+    specificity or `:hover`/`:active`, so the `<style>` tag's hover/active
+    backgrounds could never win. The fix, applied here and to the pill's
+    `box-shadow` below (same bug): move anything a `:hover`/`:active` rule
+    needs to *override* into the stylesheet as the element's own base style,
+    and keep only genuinely static values (layout, one-time colors) inline.
+- Pill background is `--brand-ink`, text/icon color `--brand-cream`; icon
+  hover/press accent is `--brand-periwinkle-light` — same "theme-independent"
+  reasoning as the hero tagline (see Tokens): this floats over the video,
+  not the page background, so none of it should flip with the light/dark
+  toggle.
+- **No focus indicator at all on this component, by explicit request.** An
+  earlier lime `box-shadow` ring around the whole pill (`:focus-within`) was
+  tried and removed; after removing it, the page's global `:focus-visible`
+  rule (`app/globals.css`) took over by default and drew its own outline —
+  which, being a plain `outline` on the bare `<input>`'s own square box (no
+  `border-radius` of its own), rendered as the exact same sharp rectangle
+  poking out of the pill, just lime-colored this time (`--color-focus` is
+  lime in the dark theme). That outline is now explicitly suppressed
+  (`:focus-visible { outline: none; }`) on the input and both buttons.
+  **[TO BE DEFINED] / accessibility gap:** this component currently gives
+  keyboard users no visible indication of which control has focus. Revisit
+  with a deliberate design (not another quick override) once the rest of
+  the component's interaction design is settled.
 - Icon is a hand-drawn inline SVG magnifying glass
   (`components/search/search-icon.tsx`), not an icon library — keeping the
   "no new dependencies" constraint from the theme-system phase.

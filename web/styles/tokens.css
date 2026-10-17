@@ -11,6 +11,10 @@
      part of the page chrome, so it must not flip with data-theme. */
   --brand-cream: #fbf3d2;
   --brand-ink: #1f2150;
+  /* Same hex as --color-primary in the dark theme — a lighter periwinkle
+     for accents/hover states on top of --brand-ink, where the base
+     periwinkle (#5F62A4) would be too close in value to read clearly. */
+  --brand-periwinkle-light: #9ea1e0;
 
   --color-bg: #fefaea;
   --color-surface: #fbf3d2;
