@@ -1,0 +1,38 @@
+/*
+ * Semantic color tokens. :root is the light theme (default); [data-theme="dark"]
+ * overrides it. See web/DESIGN.md for rationale and contrast ratios.
+ */
+
+:root {
+  color-scheme: light;
+
+  --color-bg: #fefaea;
+  --color-surface: #fbf3d2;
+  --color-text: #1f2150;
+  --color-text-muted: #5b5d80;
+  --color-primary: #5f62a4;
+  --color-on-primary: #fbf3d2;
+  --color-link: #4a4d8f;
+  --color-highlight: #cfd224;
+  --color-on-highlight: #1f2150;
+  --color-focus: #4a4d8f;
+  --color-border: #8481a0;
+  --color-border-subtle: #e9e1be;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-bg: #14152e;
+  --color-surface: #1e2046;
+  --color-text: #fbf3d2;
+  --color-text-muted: #b9b6a3;
+  --color-primary: #9ea1e0;
+  --color-on-primary: #14152e;
+  --color-link: #9ea1e0;
+  --color-highlight: #cfd224;
+  --color-on-highlight: #14152e;
+  --color-focus: #cfd224;
+  --color-border: #6e70a8;
+  --color-border-subtle: #2a2c52;
+}
