@@ -24,7 +24,7 @@ function SearchPageFallback() {
         color: "var(--color-text-muted)",
       }}
     >
-      Loading…
+      Cargando…
     </div>
   );
 }

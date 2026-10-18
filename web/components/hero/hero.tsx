@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 
-// Full-viewport background video plus the "Listen. Break it down.
-// Understand." tagline (see docs/project-context.md), laid out as three
-// independently positioned words. See web/DESIGN.md -> Components -> Hero.
+// Full-viewport background video plus the "Escucha. Descompón. Entiende."
+// tagline (see docs/project-context.md), laid out as three independently
+// positioned words. See web/DESIGN.md -> Components -> Hero.
 //
 // Styles are inline / a plain <style> tag on purpose: this project's
 // Turbopack config routes every *.css through the Tailwind loader, which
@@ -92,7 +92,7 @@ export function Hero() {
 
       <h1
         key={replayKey}
-        aria-label="Listen. Break it down. Understand."
+        aria-label="Escucha. Descompón. Entiende."
         style={{
           position: "absolute",
           inset: 0,
@@ -114,7 +114,7 @@ export function Hero() {
             animationDelay: "0ms",
           }}
         >
-          Listen
+          Escucha
         </span>
         <span
           aria-hidden="true"
@@ -128,7 +128,7 @@ export function Hero() {
             animationDelay: "280ms",
           }}
         >
-          Break it down
+          Descompón
         </span>
         <span
           aria-hidden="true"
@@ -141,7 +141,7 @@ export function Hero() {
             animationDelay: "560ms",
           }}
         >
-          Understand
+          Entiende
         </span>
       </h1>
 

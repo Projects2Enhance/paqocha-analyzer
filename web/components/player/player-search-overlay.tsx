@@ -134,7 +134,7 @@ export function PlayerSearchOverlay({
             onKeyDown={(event) => {
               if (event.key === "Enter") handleSubmit();
             }}
-            placeholder="Search a word"
+            placeholder="Busca una palabra"
             className="paqocha-player-search-input"
             style={{
               flex: 1,
@@ -149,7 +149,7 @@ export function PlayerSearchOverlay({
           <button
             type="button"
             onClick={handleSubmit}
-            aria-label="Search"
+            aria-label="Buscar"
             className="paqocha-player-search-submit"
             style={{
               flexShrink: 0,

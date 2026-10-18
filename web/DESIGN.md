@@ -201,7 +201,7 @@ Ratios computed with the standard WCAG 2.1 relative-luminance formula.
     synchronously before first paint (`ThemeScript`), so the right icon is
     showing in the very first paint purely from CSS, with no client/server
     `theme` value to reconcile at all for this component. `aria-label` is
-    theme-agnostic ("Toggle theme") for the same reason — nothing left here
+    theme-agnostic ("Cambiar tema") for the same reason — nothing left here
     that depends on knowing the theme during render.
 - No theme-change transition for now.
 - Tailwind v4 picks up the tokens via an `@theme inline` block in
@@ -261,11 +261,16 @@ face for very large hero-type moments) are still [TO BE DEFINED].
 
 ### Hero (`components/hero/hero.tsx`)
 
-Full-viewport background video with the "Listen. Break it down.
-Understand." tagline (see `docs/project-context.md`) laid over it as three
-independently positioned words — modeled on compasspathways.com's hero.
-Renders as the entire homepage for now; it's a client component (`"use
-client"`) because setting video playback rate requires JS.
+Full-viewport background video with the "Escucha. Descompón. Entiende."
+tagline (see `docs/project-context.md`) laid over it as three independently
+positioned words — modeled on compasspathways.com's hero. Renders as the
+entire homepage for now; it's a client component (`"use client"`) because
+setting video playback rate requires JS. **Originally rendered the
+tagline's English translation** ("Listen. Break it down. Understand.") —
+the UI as a whole later switched to Spanish (see `docs/project-context.md`'s
+"Language note"), at which point this became the one place still carrying
+the stand-in English text instead of the actual Spanish tagline
+`project-context.md` had specified from the start.
 
 **Video**
 
@@ -296,15 +301,14 @@ client"`) because setting video playback rate requires JS.
 
 **Tagline words**
 
-- Markup is one real `<h1 aria-label="Listen. Break it down.
-  Understand.">` (so screen readers get one clean sentence) containing three
+- Markup is one real `<h1 aria-label="Escucha. Descompón. Entiende.">` (so
+  screen readers get one clean sentence) containing three
   `aria-hidden="true"` `<span>`s for the visual layout — avoids a
-  screen reader running the words together as "ListenBreak it
-  downUnderstand".
+  screen reader running the words together as "EscuchaDescompónEntiende".
 - Each word is independently `position: absolute` inside the `h1`
   (`top`/`right`/`left`/`bottom` as percentages of the viewport) — the
   reference site's scattered-placement pattern, but mirrored left/right from
-  it: "Listen" top-**left**, "Break it down" middle-**right**, "Understand"
+  it: "Escucha" top-**left**, "Descompón" middle-**right**, "Entiende"
   bottom-**left**-of-center. (Still the same vertical rhythm — top / middle /
   bottom — only the horizontal side of each word is flipped.) Percentage-based
   offsets keep each word anchored to the same relative spot across
@@ -323,8 +327,8 @@ client"`) because setting video playback rate requires JS.
   `<style>` tag in the component — not a CSS Module, see the build
   constraint above): each word fades in and slides up
   (`translateY(36px) → 0`, 2200ms, `cubic-bezier(0.16, 1, 0.3, 1)`, an
-  ease-out-expo-style curve), staggered 280ms apart (`Listen` → `Break it
-  down` → `Understand`). Also starts `filter: blur(16px)` and resolves to
+  ease-out-expo-style curve), staggered 280ms apart (`Escucha` →
+  `Descompón` → `Entiende`). Also starts `filter: blur(16px)` and resolves to
   `blur(0px)` over the same animation, so each word comes into focus as it
   rises instead of popping in sharp.
 - Plays on mount, and again after a window resize settles: a debounced
@@ -534,7 +538,9 @@ the full dataset, not a demo of the UI shape.
   element itself (never mounted, so there's nothing to autoplay) — with a
   single centered message: a muted circular `SearchOffIcon` (the same
   magnifying glass as `SearchIcon`, with an extra diagonal slash through
-  the lens), "No matches found", and a line naming the searched term. The
+  the lens), "No se encontraron coincidencias", and a line naming the
+  searched term (UI copy in Spanish — see `docs/project-context.md`'s
+  "Language note"). The
   header (back button, in-player search, `ThemeToggle`) stays live
   throughout, so trying another word doesn't need a full round trip back
   to "/". An **empty** query (direct navigation to `/search` with no
@@ -671,8 +677,9 @@ the full dataset, not a demo of the UI shape.
   (e.g. the karaoke word hover, the transport buttons) still uses a flat
   background-color change — that's a fill, not a border, so it stays.
 - **Back button:** a circular icon-only button (just `BackArrowIcon`,
-  `aria-label="Back to home"`) replacing an earlier text+icon "← Home" link
-  — on request, to read as a plain nav control rather than a labeled link.
+  `aria-label="Volver al inicio"`) replacing an earlier text+icon "← Home"
+  link — on request, to read as a plain nav control rather than a labeled
+  link.
   Filled `--color-primary`/`--color-on-primary`, matching the play button's
   circle exactly (same colors, `filter: brightness(1.08)` hover, `scale(0.94)`
   press) — an earlier version only showed a background on `:hover`, i.e. no
@@ -801,7 +808,8 @@ the full dataset, not a demo of the UI shape.
   the list itself shows how many there are.
   - **List** (`match-card.tsx`): one card per matching clip — region/accent,
     a 2-line clamped transcript excerpt, speaker age/gender (humanized:
-    `"male_masculine"` → `"Male"`, `"thirties"` → `"30s"`), and duration.
+    `"male_masculine"` → `"Hombre"`, `"thirties"` → `"30 años"`), and
+    duration.
     The selected card's "selected" state is the tinted-fill background
     described above (not lime — lime is reserved for the karaoke
     active-word state specifically, so a second "selected" meaning doesn't

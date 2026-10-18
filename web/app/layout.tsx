@@ -16,13 +16,13 @@ const nunito = Nunito({
 export const metadata: Metadata = {
   title: "Paqocha Analyzer",
   description:
-    "Listen, break down, and understand spoken Puno Quechua (Quechua Collao).",
+    "Escucha, descompón y entiende el quechua hablado de Puno (quechua Collao).",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="en"
+      lang="es"
       suppressHydrationWarning
       className={`${nunito.variable} h-full antialiased`}
     >

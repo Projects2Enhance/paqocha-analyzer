@@ -349,7 +349,7 @@ export function KaraokePlayer() {
         onOpenSearch={() => setIsSearchOpen(true)}
       >
         <p style={{ color: "var(--color-text-muted)" }}>
-          Couldn&apos;t load search results. Try refreshing.
+          No se pudieron cargar los resultados. Intenta recargar la página.
         </p>
       </PageShell>
     );
@@ -508,7 +508,7 @@ function PageShell({
                 deliberate: see the comment above. */}
             <a
               href="/"
-              aria-label="Back to home"
+              aria-label="Volver al inicio"
               className="paqocha-icon-button"
               style={{
                 display: "inline-flex",
@@ -528,7 +528,7 @@ function PageShell({
               <button
                 type="button"
                 onClick={onOpenSearch}
-                aria-label="Search"
+                aria-label="Buscar"
                 className="paqocha-icon-button"
                 style={{
                   display: "inline-flex",
@@ -557,7 +557,7 @@ function PageShell({
               fontWeight: 700,
             }}
           >
-            {query ? `“${query}”` : "Search"}
+            {query ? `“${query}”` : "Buscar"}
           </h1>
         </header>
 

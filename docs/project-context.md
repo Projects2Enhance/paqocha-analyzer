@@ -74,9 +74,11 @@ No concrete schema, field names, or storage format are defined yet — see
 
 ## Language note
 
-Platform UI content is in English for now. [TO BE DEFINED] whether/when a
-Quechua/Spanish UI is introduced; the product tagline above is a deliberate
-exception kept in Spanish.
+Platform UI content is in Spanish (switched from an initial English pass once
+the real morphosyntactic analysis data — sourced in Spanish, see "Dataset
+model" above — made Spanish the natural fit for the whole interface, not just
+the tagline). Quechua words/transcripts themselves are never translated or
+altered. [TO BE DEFINED] whether a Quechua UI option is introduced later.
 
 ## Pending decisions
 

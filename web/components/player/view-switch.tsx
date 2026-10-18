@@ -6,8 +6,8 @@ type ViewSwitchProps = {
 };
 
 const OPTIONS: { value: ResultsView; label: string }[] = [
-  { value: "list", label: "List" },
-  { value: "analysis", label: "Analysis" },
+  { value: "list", label: "Lista" },
+  { value: "analysis", label: "Análisis" },
 ];
 
 // Flat segmented control, no border/shadow — the active tab is a filled
@@ -17,7 +17,7 @@ export function ViewSwitch({ value, onChange }: ViewSwitchProps) {
   return (
     <div
       role="tablist"
-      aria-label="Results view"
+      aria-label="Vista de resultados"
       className="paqocha-view-switch"
       style={{ display: "inline-flex", gap: "0.25rem" }}
     >

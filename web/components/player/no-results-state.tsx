@@ -40,7 +40,7 @@ export function NoResultsState({ query }: NoResultsStateProps) {
             color: "var(--color-text)",
           }}
         >
-          No matches found
+          No se encontraron coincidencias
         </p>
         <p
           style={{
@@ -52,16 +52,16 @@ export function NoResultsState({ query }: NoResultsStateProps) {
         >
           {query ? (
             <>
-              We couldn&apos;t find{" "}
+              No pudimos encontrar{" "}
               <strong style={{ color: "var(--color-text)" }}>
                 “{query}”
               </strong>{" "}
-              in this clip.
+              en este clip.
             </>
           ) : (
-            "We couldn't find that word in this clip."
+            "No pudimos encontrar esa palabra en este clip."
           )}{" "}
-          Try another Quechua word.
+          Intenta con otra palabra en quechua.
         </p>
       </div>
     </div>

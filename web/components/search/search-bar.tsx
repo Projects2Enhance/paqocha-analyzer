@@ -202,7 +202,7 @@ export function SearchBar() {
           <button
             type="button"
             className="paqocha-search-icon-button"
-            aria-label="Search"
+            aria-label="Buscar"
             onClick={handleSearch}
             style={{
               flexShrink: 0,
