@@ -365,7 +365,7 @@ export function KaraokePlayer() {
             <ViewSwitch value={view} onChange={setView} />
             {view === "list" ? (
               isReady && metadata ? (
-                <div className="flex flex-col gap-3 min-h-0 overflow-y-auto paqocha-reveal-fade">
+                <div className="flex flex-col gap-3 min-h-0 overflow-y-auto paqocha-scroll paqocha-reveal-fade">
                   {Array.from({ length: matchCount }, (_, index) => (
                     <MatchCard
                       key={index}

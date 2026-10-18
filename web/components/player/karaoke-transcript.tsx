@@ -51,7 +51,7 @@ export function KaraokeTranscript({
   return (
     <div
       ref={containerRef}
-      className="paqocha-karaoke-scroll paqocha-reveal-fade"
+      className="paqocha-scroll paqocha-reveal-fade"
       style={{
         flex: 1,
         minHeight: 0,

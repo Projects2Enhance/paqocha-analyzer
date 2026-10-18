@@ -38,7 +38,7 @@ export function WordAnalysis({
   if (!entry) return null;
 
   return (
-    <div className="flex flex-col gap-5 min-h-0 overflow-y-auto paqocha-reveal-fade">
+    <div className="flex flex-col gap-5 min-h-0 overflow-y-auto paqocha-scroll paqocha-reveal-fade">
       {/* Remounting on word change (via `key`) restarts the CSS fade-in
           below each time, instead of needing JS-tracked transition state. */}
       <div
