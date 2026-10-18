@@ -1,0 +1,58 @@
+/*
+ * Semantic color tokens. :root is the light theme (default); [data-theme="dark"]
+ * overrides it. See web/DESIGN.md for rationale and contrast ratios.
+ */
+
+:root {
+  color-scheme: light;
+
+  /* Brand primitives, not semantic tokens — stay constant across both
+     themes. For UI laid over fixed media (e.g. the hero video) that isn't
+     part of the page chrome, so it must not flip with data-theme. */
+  --brand-cream: #fbf3d2;
+  --brand-ink: #1f2150;
+  /* Same hex as --color-primary in the dark theme — a lighter periwinkle
+     for accents/hover states on top of --brand-ink, where the base
+     periwinkle (#5F62A4) would be too close in value to read clearly. */
+  --brand-periwinkle-light: #9ea1e0;
+
+  --color-bg: #fefaea;
+  --color-surface: #fbf3d2;
+  --color-text: #1f2150;
+  --color-text-muted: #5b5d80;
+  --color-primary: #5f62a4;
+  --color-on-primary: #fbf3d2;
+  --color-link: #4a4d8f;
+  --color-highlight: #cfd224;
+  --color-on-highlight: #1f2150;
+  --color-focus: #4a4d8f;
+  --color-border: #8481a0;
+  --color-border-subtle: #e9e1be;
+
+  /* Morphosyntactic gloss highlighting (KaraokePlayer's word-analysis
+     panel) — same hex as --color-primary/--color-highlight, as dedicated
+     tokens so gloss colors can be retuned later without touching those
+     semantics. Pair with --color-on-primary/--color-on-highlight for text. */
+  --color-gloss-root: #5f62a4;
+  --color-gloss-suffix: #cfd224;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-bg: #14152e;
+  --color-surface: #1e2046;
+  --color-text: #fbf3d2;
+  --color-text-muted: #b9b6a3;
+  --color-primary: #9ea1e0;
+  --color-on-primary: #14152e;
+  --color-link: #9ea1e0;
+  --color-highlight: #cfd224;
+  --color-on-highlight: #14152e;
+  --color-focus: #cfd224;
+  --color-border: #6e70a8;
+  --color-border-subtle: #2a2c52;
+
+  --color-gloss-root: #9ea1e0;
+  --color-gloss-suffix: #cfd224;
+}

@@ -1,0 +1,81 @@
+@import "tailwindcss";
+@import "../styles/tokens.css";
+
+@theme inline {
+  --color-bg: var(--color-bg);
+  --color-surface: var(--color-surface);
+  --color-text: var(--color-text);
+  --color-text-muted: var(--color-text-muted);
+  --color-primary: var(--color-primary);
+  --color-on-primary: var(--color-on-primary);
+  --color-link: var(--color-link);
+  --color-highlight: var(--color-highlight);
+  --color-on-highlight: var(--color-on-highlight);
+  --color-focus: var(--color-focus);
+  --color-border: var(--color-border);
+  --color-border-subtle: var(--color-border-subtle);
+  --font-sans: var(--font-sans);
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* Shared by every scrollable panel in the player (transcript, match list,
+   word analysis) — `color-scheme` on each theme (tokens.css) already makes
+   the native scrollbar dark/light-aware, but it still renders as a plain
+   OS-gray bar. This repaints it as a slim, floating, fully-rounded thumb
+   tinted with --color-primary (same color-mix tint idiom as MatchCard's
+   hover/active fills), transparent track, no arrows — one class, applied
+   wherever `overflow-y: auto` shows up, rather than repeating these rules
+   per component. */
+.paqocha-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--color-primary) 40%, transparent)
+    transparent;
+}
+
+.paqocha-scroll::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+.paqocha-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Windows Chrome draws classic up/down arrow buttons at each end of a
+   styled ::-webkit-scrollbar by default — hidden so only the floating
+   thumb remains. */
+.paqocha-scroll::-webkit-scrollbar-button {
+  display: none;
+}
+
+.paqocha-scroll::-webkit-scrollbar-thumb {
+  background-color: color-mix(in srgb, var(--color-primary) 40%, transparent);
+  border-radius: 999px;
+  /* Transparent border + background-clip insets the painted thumb from the
+     scrollbar's own edges, so it reads as a thin floating pill rather than
+     a bar flush against the content. */
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  transition: background-color 180ms ease;
+}
+
+.paqocha-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: color-mix(in srgb, var(--color-primary) 65%, transparent);
+  background-clip: padding-box;
+}
