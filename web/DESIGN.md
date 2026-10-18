@@ -20,7 +20,10 @@ background — see Tokens below.
 
 All tokens live in `styles/tokens.css`. `:root` defines the light theme
 (default); `[data-theme="dark"]` overrides it. Both set `color-scheme` so
-native form controls and scrollbars match the active theme.
+native form controls match the active theme. Scrollbars used to ride along
+with that (`color-scheme` alone re-colors the OS-default scrollbar) but are
+now repainted by the `.paqocha-scroll` class instead — see "Custom
+scrollbars" under Components.
 
 `--brand-cream` (`#FBF3D2`), `--brand-ink` (`#1F2150`, the same hex as
 `--color-text` in the light theme), and `--brand-periwinkle-light` (`#9EA1E0`,
@@ -473,24 +476,43 @@ matching against this transcript" below.
   transcript bullet below) and playback's initial position jumps to
   `MATCH_LEAD_IN_WORDS` (3) words before the *first* occurrence — not the
   occurrence itself, so the clip doesn't open mid-sentence right on the
-  word, and not all the way back to 0:00 either. If it doesn't occur: no
-  highlighting, starts at 0:00, same as before this existed. Computed by
+  word, and not all the way back to 0:00 either. **If it doesn't occur at
+  all, the whole player body is blocked** — see "No-results state" below;
+  this replaced an earlier version that just started at 0:00 with no
+  highlighting, same as a match, which made a failed search
+  indistinguishable from a real result. Computed by
   `findSearchMatches()`/`computeInitialSeekTime()` in `karaoke-player.tsx`,
   applied to the `<audio>` element in the event-listener effect — tried
   immediately and reapplied on `"loadedmetadata"`, since setting
   `currentTime` before the browser knows the real `duration` can silently
-  get reset once it loads. **Autoplays on load**, in both the match and
-  no-match case (`audio.play().catch(() => {})` right after the initial
-  seek) — landing on a lead-in position that then sat paused read as
-  broken, on request. The `.catch()` matters: browsers can block autoplay
-  without a preceding user gesture (`NotAllowedError`), which would
-  otherwise be an uncaught promise rejection; swallowing it just leaves
-  the clip paused at the right position instead, same as before this
-  existed. In this app's real flow, the gesture that submitted the search
-  (a click or Enter in SearchBar) carries over through the full-navigation
-  to `/search` and satisfies that requirement — confirmed in-browser;
-  autoplay only fails when the page is reached with no prior interaction
-  at all, e.g. opening the URL directly.
+  get reset once it loads. **Autoplays on load**, when there's a match
+  (`audio.play().catch(() => {})` right after the initial seek) — landing
+  on a lead-in position that then sat paused read as broken, on request.
+  The `.catch()` matters: browsers can block autoplay without a preceding
+  user gesture (`NotAllowedError`), which would otherwise be an uncaught
+  promise rejection; swallowing it just leaves the clip paused at the
+  right position instead, same as before this existed. In this app's real
+  flow, the gesture that submitted the search (a click or Enter in
+  SearchBar) carries over through the full-navigation to `/search` and
+  satisfies that requirement — confirmed in-browser; autoplay only fails
+  when the page is reached with no prior interaction at all, e.g. opening
+  the URL directly.
+- **No-results state** (`no-results-state.tsx`). Once `isReady`, a query
+  with zero occurrences in the transcript (`searchMatchIndices.length ===
+  0`) replaces the entire two-column body — transcript, transport controls,
+  match list/Analysis, and the `<audio>` element itself (never mounted, so
+  there's nothing to autoplay) — with a single centered message: a muted
+  circular `SearchOffIcon` (the same magnifying glass as `SearchIcon`, with
+  an extra diagonal slash through the lens), "No matches found", and a line
+  naming the searched term. The header (back button, in-player search,
+  `ThemeToggle`) stays live throughout, so trying another word doesn't need
+  a full round trip back to "/". An **empty** query (direct navigation to
+  `/search` with no `?q=`) is deliberately *not* treated as a no-results
+  search — there's no failed search to report, so it still falls through to
+  the one example clip as before. `karaoke-player.tsx` computes this as
+  `hasQuery`/`hasMatches`/`noResults`, and `matchCount` (`1` with a match,
+  `0` without) replaces what used to be a hardcoded `MATCH_COUNT` — see the
+  List bullet below.
 - **Simulated search delay + skeleton loading UI.** The actual data (three
   small local JSON files) loads near-instantly, which read as too abrupt —
   a page that resolves in a few milliseconds doesn't feel like a search
@@ -503,6 +525,18 @@ matching against this transcript" below.
   navigation correctness as real; this is the one place that's
   *deliberately* make-believe, on request, to preview how the loading
   state itself will eventually feel.
+  - **Replays on every in-page re-search, not just the first load.** The
+    `setTimeout` effect depends on `activeQuery` rather than `[]`, and
+    `handleInPageSearch()` (see "In-player search" below) resets
+    `minLoadingElapsed` to `false` in the same event handler that updates
+    `activeQuery` — so submitting a new word from `PlayerSearchOverlay`
+    drops straight back into the skeleton phase for `SIMULATED_SEARCH_DELAY_MS`
+    before revealing the new result, the same as the very first load, instead
+    of snapping to it instantly. `minLoadingElapsed` is reset in the handler
+    itself rather than as a side effect inside the timer effect, on purpose —
+    see `PlayerSearchOverlay`'s own near-identical `react-hooks/
+    set-state-in-effect` note for why state belonging to an event gets set in
+    that event's handler, not reactively inside an effect watching it.
   - **The whole page shell renders immediately** — header, title,
     `ViewSwitch`, `AudioPlayerControls` — only the sections whose content
     actually depends on the fetched data swap to a skeleton
@@ -748,17 +782,22 @@ matching against this transcript" below.
     active-word state specifically, so a second "selected" meaning doesn't
     dilute it); its play icon swaps for a small pulsing dot while that clip
     is actually playing. Only one real card's worth of data exists (there's
-    still only one real example), but `karaoke-player.tsx` now renders
-    `MATCH_COUNT` (5) of them — all pointing at that same example, purely
-    so the list UI itself could be previewed with more than one result, on
-    request; not meant to look like 5 distinct clips exist. The transport's
-    previous/next buttons move `activeMatchIndex` between them (clamped,
-    not wrapping) and replay from the same computed start time — real
-    interaction, even though every card resolves to the same underlying
-    audio right now. The component takes `metadata`/`isActive`/`isPlaying`/
-    `onSelect` as props and the list already scrolls independently, so it's
-    already shaped for a real, differently-sized matches array later; only
-    the `Array.from({length: MATCH_COUNT})` call site needs to change.
+    still only one real example): `karaoke-player.tsx` renders
+    `Array.from({length: matchCount})`, where `matchCount` is `1` when the
+    search actually matches this transcript and `0` otherwise (see
+    "No-results state" above) — not a hardcoded count. **This used to
+    render a fixed `MATCH_COUNT` of 5 cards, all pointing at that same
+    example, purely so the list UI itself could be previewed with more than
+    one result** — replaced once the no-results state made "how many
+    clips really matched" a real, user-visible question the card count
+    needed to answer honestly instead of always showing 5. The transport's
+    previous/next buttons move `activeMatchIndex` between them (clamped to
+    `matchCount`, not wrapping) and replay from the same computed start
+    time. The component takes `metadata`/`isActive`/`isPlaying`/`onSelect`
+    as props and the list already scrolls independently, so it's already
+    shaped for a real, differently-sized matches array later; only
+    `matchCount`'s definition needs to change, from "0 or 1" to a real
+    match count.
   - **Analysis** (`word-analysis.tsx`): a graphical morphosyntactic
     breakdown — root and suffixes rendered as flat colored chips (root =
     `--color-gloss-root`/`--color-on-primary`, suffixes =
@@ -816,6 +855,37 @@ matching against this transcript" below.
   (the Quechua prompt the speaker was given) and `transcription` (Quechua) —
   no translation field — so none is fabricated here. [TO BE DEFINED] once a
   real translation field exists in the dataset.
+
+### Custom scrollbars (`app/globals.css`)
+
+A `.paqocha-scroll` class, applied to every independently-scrolling panel in
+`KaraokePlayer` — the transcript (`karaoke-transcript.tsx`), the match list
+(`karaoke-player.tsx`), and the Analysis tab (`word-analysis.tsx`) — repaints
+the browser's default scrollbar as a slim, fully-rounded, floating thumb
+instead of the plain OS-gray bar `color-scheme` alone produces (see Tokens
+above). Global, not per-component, since all three panels need the exact
+same look; defined once in `app/globals.css` rather than three component
+`<style>` tags.
+
+- **Firefox**: `scrollbar-width: thin` + `scrollbar-color` (thumb, track) —
+  the only two properties Firefox's standardized scrollbar API exposes.
+- **Chrome/Edge/Safari**: `::-webkit-scrollbar*` pseudo-elements — a
+  transparent track, and a thumb colored with `color-mix(in srgb,
+  var(--color-primary) 40%, transparent)` (65% on hover), the same tinted-fill
+  idiom as `MatchCard`'s hover/active states. `border: 2px solid transparent`
+  + `background-clip: padding-box` insets the painted thumb from the
+  scrollbar's own edges, so it reads as a floating pill rather than a bar
+  flush against the content.
+- **Bug found on Windows Chrome: leftover up/down arrow buttons.** Styling
+  `::-webkit-scrollbar-thumb` doesn't suppress the classic Windows-style
+  arrow buttons at each end of the track — confirmed in-browser, the thumb
+  itself rendered correctly (rounded, tinted) but with native triangle arrow
+  buttons still sitting above and below it, undermining the "slim, modern"
+  intent. **Fix:** `::-webkit-scrollbar-button { display: none; }`.
+- A pre-existing `paqocha-karaoke-scroll` class on the transcript container
+  predates this and had no rule defined anywhere for it — effectively a
+  no-op left over from an earlier pass. Renamed to `paqocha-scroll` rather
+  than kept alongside it.
 
 ### Theme-independent UI
 
