@@ -66,12 +66,17 @@ under Components. Everything else should use the semantic tokens below.
 | `--color-border` | `#6E70A8` | Mid periwinkle, picked to clear the 3:1 non-text minimum against both `bg` and `surface`. |
 | `--color-border-subtle` | `#2A2C52` | Low-contrast divider, decorative only. |
 
-### Reserved (not implemented yet)
+### Morphosyntactic gloss colors
 
-`--color-gloss-root` and `--color-gloss-suffix` are reserved names for the
-future morphosyntactic gloss display (highlighting a word's root vs. its
-suffixes). No values or implementation yet — [TO BE DEFINED] in a later
-phase, once the gloss UI itself is designed.
+`--color-gloss-root` and `--color-gloss-suffix` (used by `WordAnalysis`,
+under KaraokePlayer below) highlight a word's root vs. its suffixes. Rather
+than new hex values, each is a dedicated token carrying the **same** hex as
+an existing one — `--color-gloss-root` = `--color-primary`,
+`--color-gloss-suffix` = `--color-highlight`, in both themes — so gloss
+colors can be retuned independently later without touching those tokens'
+other semantics, while reusing their already-verified contrast pairing today
+(`--color-on-primary` on a root fill, `--color-on-highlight` on a suffix
+fill — see the Contrast table above; no new ratios to verify).
 
 ## Contrast table
 
@@ -390,21 +395,48 @@ change, not a rewrite.
   boundary (see Next's Cache-Components migration guide — this repo runs
   Next 16 with `cacheComponents: true`). The header's `h1` echoes `q` back
   (`"word"` in quotes, or "Example clip" if absent) purely as context; it is
-  **not** filtered against — the italic note under it says as much
-  (`"Real audio and transcript, demo data — every search opens this clip
-  until matching across the full dataset is wired up."`), so this doesn't
-  read as a broken search to anyone poking at it before the real backend
-  exists.
+  **not** filtered against — there is currently no copy on the page saying
+  so (an earlier italic disclaimer under the title was removed on request
+  for a cleaner header), so that honesty lives here in the docs and in code
+  comments instead until real matching exists.
+- **Bug fixed — audio didn't stop on navigating away.** Clicking the back
+  button used to leave the clip audibly playing on `/`. Root cause: Next's
+  client-side navigation doesn't reliably stop an `<audio>` element just
+  because React unmounts it — in practice (confirmed in-browser) the node
+  can stay `isConnected` after navigating away, consistent with this app's
+  instant-navigation/router-cache setup (`cacheComponents` +
+  `partialPrefetching` in `next.config.ts`). **Fix:** the event-listener
+  effect's cleanup (`useEffect(..., [metadata])` in `karaoke-player.tsx`)
+  now explicitly calls `audio.pause()`, using the `audio` constant it
+  already captures at effect-setup time — not a fresh `audioRef.current`
+  read inside the cleanup, which `react-hooks/exhaustive-deps` correctly
+  flags as unreliable (the ref can change between setup and cleanup). This
+  was treated as the real bug it was, not a demo-data quirk: the data
+  source is provisional, but playback lifecycle correctness is not.
 - **Layout:** viewport-locked (`position: fixed; inset: 0`), same pattern as
-  `Hero` — no page-level scroll; the transcript and the matches list each
-  scroll independently inside their own panel. `flex-col` (stacked,
-  transcript+player above, matches below, capped at `max-h-[38vh]`) below
-  the `lg` breakpoint, `lg:flex-row` (transcript+player left, matches
-  sidebar fixed at `320px` right, full height) at/above it — satisfies
+  `Hero` — no page-level scroll; the transcript and the matches/analysis
+  panel each scroll independently inside their own area. `flex-col`
+  (stacked, transcript+player above, sidebar below, capped at
+  `max-h-[38vh]`) below the `lg` breakpoint, `lg:flex-row` (transcript+player
+  left, sidebar fixed at `320px` right, full height) at/above it — satisfies
   "matches to the right on desktop, below on small screens" directly via
   Tailwind responsive classes, no JS breakpoint logic. Content is capped at
   `max-w-[1240px]` and centered, rather than stretched edge-to-edge, since
   this one short (33s) example otherwise reads as mostly empty space.
+- **No borders or shadows anywhere in this component tree, by explicit
+  request.** `match-card.tsx` and `audio-player-controls.tsx` originally had
+  a `1px solid --color-border-subtle` outline (and the active match card had
+  a `--color-primary` border + `box-shadow` ring) — both read as generic
+  "card UI" rather than intentional design, so both are gone. Separation
+  between panels and the page background now comes from flat background
+  color alone (`--color-surface` vs. `--color-bg`); the active match card's
+  "selected" state is a tinted fill (`color-mix(in srgb, var(--color-primary)
+  14%, var(--color-surface))`) instead of a ring. Hover/pressed feedback
+  (e.g. the karaoke word hover, the transport buttons) still uses a flat
+  background-color change — that's a fill, not a border, so it stays.
+- **Back button:** a circular icon-only button (just `BackArrowIcon`,
+  `aria-label="Back to home"`) replacing an earlier text+icon "← Home" link
+  — on request, to read as a plain nav control rather than a labeled link.
 - **Karaoke transcript** (`karaoke-transcript.tsx`): renders
   `alignment.segments[].words[]` as clickable word spans. The active word
   (last word whose `start` has passed `audio.currentTime`, held through any
@@ -430,19 +462,47 @@ change, not a rewrite.
   matching the brief's "pausar, siguiente audio, anterior audio". With only
   one real example they're `disabled` and the row reads "Match 1 / 1";
   wiring them up is just passing a real matches array once search exists.
-- **Matches sidebar** (`match-card.tsx`): one card per matching clip —
-  region/accent, a 2-line clamped transcript excerpt, speaker
-  age/gender (humanized: `"male_masculine"` → `"Male"`,
-  `"thirties"` → `"30s"`), and duration. The selected card gets a
-  `--color-primary` border/ring (not lime — lime is reserved for the
-  karaoke active-word state specifically, so a second "selected" meaning
-  doesn't dilute it); its play icon swaps for a small pulsing dot while that
-  clip is actually playing. Only one real card exists right now, but the
-  component takes `metadata`/`isActive`/`onSelect` as props and the sidebar
-  already scrolls its own list independently, so it's shaped to render many.
-- **Icons** (`player-icons.tsx`): hand-drawn inline SVGs (play, pause, prev/
-  next track, back arrow), same convention as `SearchIcon` — no icon
-  library.
+- **List / Analysis switch** (`view-switch.tsx`): a flat segmented control
+  (two pill buttons, active one filled `--color-primary`) replacing what was
+  a static "Matches (N)" heading — toggles the sidebar between the matches
+  list and a morphosyntactic word-breakdown demo. No count label anymore;
+  the list itself shows how many there are.
+  - **List** (`match-card.tsx`): one card per matching clip — region/accent,
+    a 2-line clamped transcript excerpt, speaker age/gender (humanized:
+    `"male_masculine"` → `"Male"`, `"thirties"` → `"30s"`), and duration.
+    The selected card's "selected" state is the tinted-fill background
+    described above (not lime — lime is reserved for the karaoke
+    active-word state specifically, so a second "selected" meaning doesn't
+    dilute it); its play icon swaps for a small pulsing dot while that clip
+    is actually playing. Only one real card exists right now, but the
+    component takes `metadata`/`isActive`/`onSelect` as props and the list
+    already scrolls independently, so it's shaped to render many.
+  - **Analysis** (`word-analysis.tsx`): a first pass at a graphical
+    morphosyntactic breakdown — the word's root and suffixes rendered as
+    flat colored chips (root = `--color-gloss-root`/`--color-on-primary`,
+    suffixes = `--color-gloss-suffix`/`--color-on-highlight`, both finally
+    *using* the tokens that Tokens above had reserved since the theme-system
+    phase), an EN/ES translation line, then each morpheme restated with its
+    gloss and a short explanation. **Hardcoded demo data for one word**
+    (`EXAMPLE_ANALYSIS` in the component) — no real morphosyntactic-analysis
+    backend exists yet. The word, **"mikhusqaña,"** is deliberately not an
+    arbitrary example: it's real, present in this same loaded clip's own
+    transcript (`"...ña mikhusqaña uywa hampiyta qallariq kayku."`). Its
+    root/suffix split (`mikhu` "eat" + `-sqa` perfect/narrative-past +
+    `-ña` "already") is reconstructed from general Southern Quechua
+    morphology, not verified against Puno/Collao usage by a native
+    speaker — same caveat as `QUECHUA_WORDS` in SearchBar.
+    [TO BE DEFINED]: a real analysis backend, most likely keyed off
+    whichever word is active in the karaoke transcript rather than a fixed
+    word.
+- **Icons** (`player-icons.tsx`): hand-drawn inline SVGs (pause, prev/next
+  track, back arrow), same convention as `SearchIcon` — no icon library.
+  **Exception: `PlayIcon`** — the original hand-drawn triangle path's
+  centroid sat left of the 24×24 viewBox's center, so it read as visibly
+  off-center inside the round play button. Replaced with Material Design's
+  well-tested `play_arrow` path (`M8 5v14l11-7z`) instead of hand-tuning
+  another custom one, specifically for its already-correct optical
+  centering.
 - Metadata fields actually used are typed in `types.ts`; fields the UI
   doesn't read (votes, prompt IDs, etc.) are left untyped on purpose rather
   than modeling the full example schema.

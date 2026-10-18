@@ -8,6 +8,8 @@ import { KaraokeTranscript } from "./karaoke-transcript";
 import { MatchCard, MATCH_CARD_STYLES } from "./match-card";
 import { BackArrowIcon } from "./player-icons";
 import type { Alignment, AlignmentWord, AudioMetadata } from "./types";
+import { ViewSwitch, type ResultsView } from "./view-switch";
+import { WordAnalysis } from "./word-analysis";
 
 const EXAMPLE_BASE_PATH = "/example";
 
@@ -41,6 +43,7 @@ export function KaraokePlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [view, setView] = useState<ResultsView>("list");
 
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -86,6 +89,12 @@ export function KaraokePlayer() {
       audio.removeEventListener("play", handlePlay);
       audio.removeEventListener("pause", handlePause);
       audio.removeEventListener("ended", handlePause);
+      // Explicitly stop playback on unmount (e.g. navigating back to "/"
+      // via the back button). Removing an <audio> element from the DOM
+      // doesn't reliably stop it immediately in every browser — this was a
+      // real bug, not a demo-data shortcut — so it's paused directly here
+      // rather than relying on implicit cleanup.
+      audio.pause();
     };
   }, [metadata]);
 
@@ -151,26 +160,19 @@ export function KaraokePlayer() {
         </div>
 
         <div className="flex flex-col min-h-0 max-h-[38vh] lg:max-h-none lg:h-full lg:w-[320px] flex-shrink-0 gap-3">
-          <h2
-            style={{
-              margin: 0,
-              fontSize: "0.85rem",
-              fontWeight: 700,
-              color: "var(--color-text-muted)",
-              textTransform: "uppercase",
-              letterSpacing: "0.04em",
-            }}
-          >
-            Matches (1)
-          </h2>
-          <div className="flex flex-col gap-3 min-h-0 overflow-y-auto">
-            <MatchCard
-              metadata={metadata}
-              isActive
-              isPlaying={isPlaying}
-              onSelect={() => seekTo(0, true)}
-            />
-          </div>
+          <ViewSwitch value={view} onChange={setView} />
+          {view === "list" ? (
+            <div className="flex flex-col gap-3 min-h-0 overflow-y-auto">
+              <MatchCard
+                metadata={metadata}
+                isActive
+                isPlaying={isPlaying}
+                onSelect={() => seekTo(0, true)}
+              />
+            </div>
+          ) : (
+            <WordAnalysis />
+          )}
         </div>
       </div>
 
@@ -203,20 +205,19 @@ function PageShell({
         <header className="flex flex-col gap-3 px-5 sm:px-8 pt-5 sm:pt-7 pb-4">
           <Link
             href="/"
+            aria-label="Back to home"
             className="paqocha-back-link"
             style={{
               display: "inline-flex",
               alignItems: "center",
-              gap: "0.4rem",
-              width: "fit-content",
-              fontSize: "0.9rem",
-              fontWeight: 600,
+              justifyContent: "center",
+              width: "2.5rem",
+              height: "2.5rem",
+              borderRadius: "999px",
               color: "var(--color-text-muted)",
-              textDecoration: "none",
             }}
           >
-            <BackArrowIcon size={16} />
-            Home
+            <BackArrowIcon size={18} />
           </Link>
 
           <div>
@@ -241,17 +242,6 @@ function PageShell({
             >
               {query ? `“${query}”` : "Example clip"}
             </h1>
-            <p
-              style={{
-                margin: "0.3rem 0 0",
-                fontSize: "0.85rem",
-                color: "var(--color-text-muted)",
-                fontStyle: "italic",
-              }}
-            >
-              Real audio and transcript, demo data — every search opens this
-              clip until matching across the full dataset is wired up.
-            </p>
           </div>
         </header>
 
@@ -260,11 +250,12 @@ function PageShell({
 
       <style>{`
         .paqocha-back-link {
-          transition: color 160ms ease;
+          transition: background 160ms ease, color 160ms ease;
         }
 
         .paqocha-back-link:hover {
-          color: var(--color-link);
+          background: var(--color-border-subtle);
+          color: var(--color-text);
         }
       `}</style>
     </div>

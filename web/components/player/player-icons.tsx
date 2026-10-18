@@ -13,7 +13,11 @@ export function PlayIcon({ size = 20 }: IconProps) {
       fill="currentColor"
       aria-hidden="true"
     >
-      <path d="M7 4.5c0-1.1 1.2-1.77 2.14-1.2l11 6.5a1.4 1.4 0 0 1 0 2.4l-11 6.5C8.2 19.27 7 18.6 7 17.5v-13Z" />
+      {/* Material Design's play_arrow path — the previous hand-rolled
+          triangle had its centroid left of (12,12), so it read as
+          off-center inside a round button. This one is a known-good,
+          widely-used optical center for a right-pointing triangle. */}
+      <path d="M8 5v14l11-7z" />
     </svg>
   );
 }

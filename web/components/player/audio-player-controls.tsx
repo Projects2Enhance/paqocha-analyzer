@@ -40,7 +40,6 @@ export function AudioPlayerControls({
         padding: "1rem 1.25rem",
         borderRadius: "1.25rem",
         background: "var(--color-surface)",
-        border: "1px solid var(--color-border-subtle)",
       }}
     >
       <div

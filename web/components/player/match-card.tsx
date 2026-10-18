@@ -56,10 +56,8 @@ export function MatchCard({
         gap: "0.5rem",
         width: "100%",
         textAlign: "left",
-        border: "1px solid var(--color-border-subtle)",
         borderRadius: "1rem",
         padding: "1rem 1.1rem",
-        background: "var(--color-surface)",
         cursor: "pointer",
       }}
     >
@@ -138,12 +136,16 @@ export function MatchCard({
 // the matches-list container, not per card, so N cards don't inject N
 // copies of the same rules.
 export const MATCH_CARD_STYLES = `
+  /* Flat background only — no borders/shadows. "Active" is a tinted fill
+     (color-mix with --color-primary) rather than a ring, consistent with
+     the rest of KaraokePlayer's minimalism. */
   .paqocha-match-card {
-    transition: border-color 180ms ease, box-shadow 180ms ease, transform 120ms ease;
+    background: var(--color-surface);
+    transition: background 180ms ease, transform 120ms ease;
   }
 
   .paqocha-match-card:hover {
-    border-color: var(--color-border);
+    background: color-mix(in srgb, var(--color-primary) 6%, var(--color-surface));
   }
 
   .paqocha-match-card:active {
@@ -151,8 +153,7 @@ export const MATCH_CARD_STYLES = `
   }
 
   .paqocha-match-card.is-active {
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 1px var(--color-primary);
+    background: color-mix(in srgb, var(--color-primary) 14%, var(--color-surface));
   }
 
   .paqocha-match-card-indicator {

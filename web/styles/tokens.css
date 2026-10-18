@@ -28,6 +28,13 @@
   --color-focus: #4a4d8f;
   --color-border: #8481a0;
   --color-border-subtle: #e9e1be;
+
+  /* Morphosyntactic gloss highlighting (KaraokePlayer's word-analysis
+     panel) — same hex as --color-primary/--color-highlight, as dedicated
+     tokens so gloss colors can be retuned later without touching those
+     semantics. Pair with --color-on-primary/--color-on-highlight for text. */
+  --color-gloss-root: #5f62a4;
+  --color-gloss-suffix: #cfd224;
 }
 
 [data-theme="dark"] {
@@ -45,4 +52,7 @@
   --color-focus: #cfd224;
   --color-border: #6e70a8;
   --color-border-subtle: #2a2c52;
+
+  --color-gloss-root: #9ea1e0;
+  --color-gloss-suffix: #cfd224;
 }
