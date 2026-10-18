@@ -1,0 +1,256 @@
+{
+  "audio_file": "spontaneous-speech-qxp-34189.mp3",
+  "note": "Provisional, hand-authored root/suffix breakdown for every word in this one example's transcript, for UI prototyping only — not verified against Puno/Collao usage by a native speaker. One entry per word_segments entry in alignment.json, same order/count (34), so KaraokePlayer can index into this array with the same activeWordIndex it already computes from audio.currentTime.",
+  "words": [
+    {
+      "word": "Taytayqa",
+      "morphemes": [
+        { "text": "tayta", "type": "root", "gloss": "father", "meaning": "Noun root — \"father.\"" },
+        { "text": "-y", "type": "suffix", "gloss": "my", "meaning": "1st person singular possessive." },
+        { "text": "-qa", "type": "suffix", "gloss": "topic", "meaning": "Marks the topic of the sentence — what it's about." }
+      ]
+    },
+    {
+      "word": "uywa",
+      "morphemes": [
+        { "text": "uywa", "type": "root", "gloss": "animal / livestock", "meaning": "Noun root, unmarked — no suffixes here." }
+      ]
+    },
+    {
+      "word": "hampiqmi,",
+      "morphemes": [
+        { "text": "hampi", "type": "root", "gloss": "heal / medicine", "meaning": "Verb/noun root — \"to heal\" or \"medicine.\"" },
+        { "text": "-q", "type": "suffix", "gloss": "agentive", "meaning": "Forms \"one who does X\" from a verb root." },
+        { "text": "-mi", "type": "suffix", "gloss": "direct evidence", "meaning": "Marks direct, firsthand knowledge of the statement." }
+      ]
+    },
+    {
+      "word": "payqa",
+      "morphemes": [
+        { "text": "pay", "type": "root", "gloss": "he / she", "meaning": "3rd person pronoun root." },
+        { "text": "-qa", "type": "suffix", "gloss": "topic", "meaning": "Marks the topic of the sentence — what it's about." }
+      ]
+    },
+    {
+      "word": "wayna",
+      "morphemes": [
+        { "text": "wayna", "type": "root", "gloss": "young man", "meaning": "Noun root, unmarked — no suffixes here." }
+      ]
+    },
+    {
+      "word": "kasparaqmi",
+      "morphemes": [
+        { "text": "ka", "type": "root", "gloss": "be", "meaning": "Copular verb root — \"to be.\"" },
+        { "text": "-spa", "type": "suffix", "gloss": "while / by", "meaning": "Same-subject gerund — \"while doing X.\"" },
+        { "text": "-raq", "type": "suffix", "gloss": "still / yet", "meaning": "Marks an action or state still in progress." },
+        { "text": "-mi", "type": "suffix", "gloss": "direct evidence", "meaning": "Marks direct, firsthand knowledge of the statement." }
+      ]
+    },
+    {
+      "word": "ayllu-ayllunta",
+      "morphemes": [
+        { "text": "ayllu-ayllu", "type": "root", "gloss": "village to village", "meaning": "Reduplicated noun root — \"ayllu\" (community/village), doubled for \"from one to the next.\"" },
+        { "text": "-nta", "type": "suffix", "gloss": "through / along", "meaning": "Directional accusative — movement through or along something." }
+      ]
+    },
+    {
+      "word": "puriq",
+      "morphemes": [
+        { "text": "puri", "type": "root", "gloss": "walk", "meaning": "Verb root — \"to walk.\"" },
+        { "text": "-q", "type": "suffix", "gloss": "agentive", "meaning": "Forms \"one who does X\" from a verb root." }
+      ]
+    },
+    {
+      "word": "kaq,",
+      "morphemes": [
+        { "text": "ka", "type": "root", "gloss": "be", "meaning": "Copular verb root — \"to be.\"" },
+        { "text": "-q", "type": "suffix", "gloss": "agentive", "meaning": "Forms \"the one who is X\" from a verb root." }
+      ]
+    },
+    {
+      "word": "nuqataq",
+      "morphemes": [
+        { "text": "nuqa", "type": "root", "gloss": "I", "meaning": "1st person pronoun root." },
+        { "text": "-taq", "type": "suffix", "gloss": "as for / also", "meaning": "Contrastive — sets this up against something else just mentioned." }
+      ]
+    },
+    {
+      "word": "qhipanta",
+      "morphemes": [
+        { "text": "qhipa", "type": "root", "gloss": "behind / after", "meaning": "Noun root — \"behind\" or \"after.\"" },
+        { "text": "-nta", "type": "suffix", "gloss": "through / along", "meaning": "Directional accusative — movement through or along something." }
+      ]
+    },
+    {
+      "word": "puriq",
+      "morphemes": [
+        { "text": "puri", "type": "root", "gloss": "walk", "meaning": "Verb root — \"to walk.\"" },
+        { "text": "-q", "type": "suffix", "gloss": "agentive", "meaning": "Forms \"one who does X\" from a verb root." }
+      ]
+    },
+    {
+      "word": "kani.",
+      "morphemes": [
+        { "text": "ka", "type": "root", "gloss": "be", "meaning": "Copular verb root — \"to be.\"" },
+        { "text": "-ni", "type": "suffix", "gloss": "I (am)", "meaning": "1st person singular subject marker." }
+      ]
+    },
+    {
+      "word": "Payqa",
+      "morphemes": [
+        { "text": "pay", "type": "root", "gloss": "he / she", "meaning": "3rd person pronoun root." },
+        { "text": "-qa", "type": "suffix", "gloss": "topic", "meaning": "Marks the topic of the sentence — what it's about." }
+      ]
+    },
+    {
+      "word": "tutamantaraq",
+      "morphemes": [
+        { "text": "tuta", "type": "root", "gloss": "night", "meaning": "Noun root — \"night.\"" },
+        { "text": "-manta", "type": "suffix", "gloss": "from", "meaning": "Ablative — movement or origin \"from\" something." },
+        { "text": "-raq", "type": "suffix", "gloss": "still / yet", "meaning": "Marks an action or state still in progress." }
+      ]
+    },
+    {
+      "word": "puñunamantaqa",
+      "morphemes": [
+        { "text": "puñu", "type": "root", "gloss": "sleep", "meaning": "Verb root — \"to sleep.\"" },
+        { "text": "-na", "type": "suffix", "gloss": "the ...ing / for ...ing", "meaning": "Nominalizer — turns the verb into \"the act/thing of doing X.\"" },
+        { "text": "-manta", "type": "suffix", "gloss": "from", "meaning": "Ablative — movement or origin \"from\" something." },
+        { "text": "-qa", "type": "suffix", "gloss": "topic", "meaning": "Marks the topic of the sentence — what it's about." }
+      ]
+    },
+    {
+      "word": "hatariq,",
+      "morphemes": [
+        { "text": "hatari", "type": "root", "gloss": "get up / stand", "meaning": "Verb root — \"to get up\" or \"to stand.\"" },
+        { "text": "-q", "type": "suffix", "gloss": "agentive", "meaning": "Forms \"one who does X\" from a verb root." }
+      ]
+    },
+    {
+      "word": "hinaqa",
+      "morphemes": [
+        { "text": "hina", "type": "root", "gloss": "thus / like that", "meaning": "Adverbial root — \"thus\" or \"like that.\"" },
+        { "text": "-qa", "type": "suffix", "gloss": "topic", "meaning": "Marks the topic of the sentence — what it's about." }
+      ]
+    },
+    {
+      "word": "mututaña",
+      "morphemes": [
+        { "text": "mutu", "type": "root", "gloss": "ember / coal", "meaning": "Noun root — \"ember\" or \"coal.\"" },
+        { "text": "-ta", "type": "suffix", "gloss": "(object marker)", "meaning": "Accusative — marks the direct object." },
+        { "text": "-ña", "type": "suffix", "gloss": "already", "meaning": "Common discourse particle — \"already / by then.\"" }
+      ]
+    },
+    {
+      "word": "quñirichishaq,",
+      "morphemes": [
+        { "text": "quñi", "type": "root", "gloss": "warm", "meaning": "Adjective root — \"warm.\"" },
+        { "text": "-ri", "type": "suffix", "gloss": "start to / become", "meaning": "Inchoative — marks the start of an action or state." },
+        { "text": "-chi", "type": "suffix", "gloss": "make / cause to", "meaning": "Causative — \"make someone do X.\"" },
+        { "text": "-shaq", "type": "suffix", "gloss": "I will", "meaning": "1st person singular future tense." }
+      ]
+    },
+    {
+      "word": "chaymanta",
+      "morphemes": [
+        { "text": "chay", "type": "root", "gloss": "that", "meaning": "Demonstrative root — \"that.\"" },
+        { "text": "-manta", "type": "suffix", "gloss": "from", "meaning": "Ablative — movement or origin \"from\" something; here, \"from there / then.\"" }
+      ]
+    },
+    {
+      "word": "huk",
+      "morphemes": [
+        { "text": "huk", "type": "root", "gloss": "one / a", "meaning": "Numeral/determiner root, unmarked — no suffixes here." }
+      ]
+    },
+    {
+      "word": "wasita",
+      "morphemes": [
+        { "text": "wasi", "type": "root", "gloss": "house", "meaning": "Noun root — \"house.\"" },
+        { "text": "-ta", "type": "suffix", "gloss": "(object marker)", "meaning": "Accusative — marks the direct object." }
+      ]
+    },
+    {
+      "word": "chayaruq",
+      "morphemes": [
+        { "text": "chaya", "type": "root", "gloss": "arrive", "meaning": "Verb root — \"to arrive.\"" },
+        { "text": "-ru", "type": "suffix", "gloss": "completely", "meaning": "Perfective — emphasizes that the action was completed." },
+        { "text": "-q", "type": "suffix", "gloss": "agentive", "meaning": "Forms \"one who does X\" from a verb root." }
+      ]
+    },
+    {
+      "word": "kayku,",
+      "morphemes": [
+        { "text": "ka", "type": "root", "gloss": "be", "meaning": "Copular verb root — \"to be.\"" },
+        { "text": "-yku", "type": "suffix", "gloss": "we (not you)", "meaning": "1st person plural subject, excluding the listener." }
+      ]
+    },
+    {
+      "word": "chaypim",
+      "morphemes": [
+        { "text": "chay", "type": "root", "gloss": "that", "meaning": "Demonstrative root — \"that.\"" },
+        { "text": "-pi", "type": "suffix", "gloss": "at / in", "meaning": "Locative — marks where something happens." },
+        { "text": "-mi", "type": "suffix", "gloss": "direct evidence", "meaning": "Marks direct, firsthand knowledge of the statement." }
+      ]
+    },
+    {
+      "word": "mikhunata",
+      "morphemes": [
+        { "text": "mikhu", "type": "root", "gloss": "eat", "meaning": "Verb root — \"to eat.\"" },
+        { "text": "-na", "type": "suffix", "gloss": "the ...ing / for ...ing", "meaning": "Nominalizer — turns the verb into \"food, the thing to eat.\"" },
+        { "text": "-ta", "type": "suffix", "gloss": "(object marker)", "meaning": "Accusative — marks the direct object." }
+      ]
+    },
+    {
+      "word": "haywariwanku,",
+      "morphemes": [
+        { "text": "haywa", "type": "root", "gloss": "hand / give", "meaning": "Verb root — \"to hand (something) over.\"" },
+        { "text": "-ri", "type": "suffix", "gloss": "start to / become", "meaning": "Inchoative — marks the start of an action." },
+        { "text": "-wa", "type": "suffix", "gloss": "me", "meaning": "1st person object marker — \"to/for me.\"" },
+        { "text": "-nku", "type": "suffix", "gloss": "they", "meaning": "3rd person plural subject marker." }
+      ]
+    },
+    {
+      "word": "ña",
+      "morphemes": [
+        { "text": "ña", "type": "root", "gloss": "already", "meaning": "Standalone discourse particle — \"already.\"" }
+      ]
+    },
+    {
+      "word": "mikhusqaña",
+      "morphemes": [
+        { "text": "mikhu", "type": "root", "gloss": "eat", "meaning": "Verb root — \"to eat.\"" },
+        { "text": "-sqa", "type": "suffix", "gloss": "perfect · narrative past", "meaning": "Marks a completed action the speaker experienced or is recounting — roughly \"having eaten.\"" },
+        { "text": "-ña", "type": "suffix", "gloss": "already", "meaning": "Common discourse particle — \"already / by then.\"" }
+      ]
+    },
+    {
+      "word": "uywa",
+      "morphemes": [
+        { "text": "uywa", "type": "root", "gloss": "animal / livestock", "meaning": "Noun root, unmarked — no suffixes here." }
+      ]
+    },
+    {
+      "word": "hampiyta",
+      "morphemes": [
+        { "text": "hampi", "type": "root", "gloss": "heal / medicine", "meaning": "Verb/noun root — \"to heal\" or \"medicine.\"" },
+        { "text": "-y", "type": "suffix", "gloss": "-ing (infinitive)", "meaning": "Infinitive/nominalizer — \"the act of healing.\"" },
+        { "text": "-ta", "type": "suffix", "gloss": "(object marker)", "meaning": "Accusative — marks the direct object." }
+      ]
+    },
+    {
+      "word": "qallariq",
+      "morphemes": [
+        { "text": "qallari", "type": "root", "gloss": "begin", "meaning": "Verb root — \"to begin.\"" },
+        { "text": "-q", "type": "suffix", "gloss": "agentive", "meaning": "Forms \"one who does X\" from a verb root." }
+      ]
+    },
+    {
+      "word": "kayku.",
+      "morphemes": [
+        { "text": "ka", "type": "root", "gloss": "be", "meaning": "Copular verb root — \"to be.\"" },
+        { "text": "-yku", "type": "suffix", "gloss": "we (not you)", "meaning": "1st person plural subject, excluding the listener." }
+      ]
+    }
+  ]
+}

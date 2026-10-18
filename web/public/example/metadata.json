@@ -1,0 +1,21 @@
+{
+  "client_id": "52b99da1457acebd59f609f330ab5dc7",
+  "audio_id": 34189,
+  "audio_file": "spontaneous-speech-qxp-34189.mp3",
+  "duration_ms": 33264,
+  "prompt_id": 4374,
+  "prompt": "Taytaykimanta willarikamuy.",
+  "transcription": "Taytayqa uywa hampiqmi, payqa wayna kasparaqmi ayllu-ayllunta puriq kaq, nuqataq qhipanta puriq kani. Payqa tutamantaraq puñunamantaqa hatariq, hinaqa mututaña quñirichishaq, chaymanta huk wasita chayaruq kayku, chaypim mikhunata haywariwanku, ña mikhusqaña uywa hampiyta qallariq kayku.",
+  "votes": 1,
+  "age": "thirties",
+  "gender": "male_masculine",
+  "accents": "Nuñoa, Puno",
+  "variant": null,
+  "language": "Puno Quechua",
+  "prompt_upvotes": 0,
+  "prompt_reports": 0,
+  "is_edited": 0,
+  "split": "test",
+  "char_per_sec": 7.6358826359,
+  "quality_tags": null
+}
