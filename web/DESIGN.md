@@ -152,31 +152,54 @@ Ratios computed with the standard WCAG 2.1 relative-luminance formula.
     client render. That's a real client/server divergence whenever the
     stored theme was `"dark"`: the server (no `document`) always renders as
     if `"light"`, so any descendant that branches its *rendered output* on
-    `theme` — not just a CSS class, but different JSX, like `ThemeToggle`'s
-    icon and `aria-label` below — produced a server/client mismatch React's
-    hydration diffing caught (visible as a "Recoverable Error" in the dev
-    overlay, surfaced the first time anything actually consumed `theme`
-    this way). **Fix:** `theme` now comes from `useSyncExternalStore`
-    (`subscribe` on an internal listener set `setTheme` notifies,
-    `getSnapshot` = `readActiveTheme()`, `getServerSnapshot` = always
-    `"light"`) — the React-sanctioned API for exactly this "value SSR can't
-    see" case, which renders the server-safe value first and re-renders
-    with the real one right after hydration with **no mismatch warning**,
-    unlike `useState` + a mount `useEffect` doing the same sync (which also
-    separately trips `react-hooks/set-state-in-effect`). `toggleTheme` now
-    reads `readActiveTheme()` directly instead of closing over `theme`, so
-    it never toggles off a stale snapshot either.
-- `ThemeToggle` (`lib/theme/theme-toggle.tsx`): icon-only, a filled
-  `--color-primary` circle (same visual language as KaraokePlayer's back/
-  play buttons) showing a moon while light (click to go dark) or a sun
-  while dark (click to go light) — the icon for the theme a click switches
-  *to*, the common convention. Fixed top-right on the home page only
-  (`app/page.tsx`), `position: fixed`, same `top` clamp as SearchBar's pill
-  for alignment. Deliberately uses the semantic, theme-switching tokens even
-  though it sits over the hero video — unlike `Hero`/`SearchBar`, which
-  deliberately don't (see "Theme-independent UI" below), this component's
-  entire job is to reflect/control theme state, so reacting to it is
-  correct here, not an oversight.
+    `theme` produced a server/client mismatch React's hydration diffing
+    caught (visible as a "Recoverable Error" in the dev overlay, surfaced
+    the first time anything actually consumed `theme` this way). **Fix:**
+    `theme` now comes from `useSyncExternalStore` (`subscribe` on an
+    internal listener set `setTheme` notifies, `getSnapshot` =
+    `readActiveTheme()`, `getServerSnapshot` = always `"light"`) — the
+    React-sanctioned API for exactly this "value SSR can't see" case, which
+    renders the server-safe value first and re-renders with the real one
+    right after hydration with **no mismatch warning**, unlike `useState` +
+    a mount `useEffect` doing the same sync (which also separately trips
+    `react-hooks/set-state-in-effect`). `toggleTheme` reads
+    `readActiveTheme()` directly instead of closing over `theme`, so it
+    never toggles off a stale snapshot either.
+  - **Bug fixed — a visible flash on every navigation.** `useSyncExternalStore`
+    fixed the *error*, but it necessarily renders the server-safe `"light"`
+    value first and corrects to the real one only after hydration — fine
+    for CSS-driven theming (already right at first paint, from the
+    `data-theme` attribute directly), but `ThemeToggle` used `theme` from
+    this hook to pick *which icon to render in JSX*, so the wrong icon
+    genuinely painted first and was swapped a beat later — worse once every
+    page visit became a full reload (see KaraokePlayer below), since this
+    then happened on every single visit instead of once per SPA session.
+    Consuming `theme` for a one-level CSS class/attribute wouldn't have hit
+    this; branching actual child *content* on it does, no matter how
+    correctly the state itself is synced. **Fix:** described under
+    `ThemeToggle` below — the component no longer branches on `theme` in
+    JSX at all.
+- `ThemeToggle` (`lib/theme/theme-toggle.tsx`): icon-only, a plain button
+  with no self-positioning — it's a filled circle, caller decides where it
+  goes and what fills it. Shows a moon while light (click to go dark) or a
+  sun while dark (click to go light) — the icon for the theme a click
+  switches *to*, the common convention. **Lives in `KaraokePlayer`'s header
+  now** (`components/player/karaoke-player.tsx`'s `PageShell`, top-right of
+  the same row as the back button — see KaraokePlayer below), not on the
+  home page; it used to be fixed top-right over the hero video there, with
+  a `--brand-ink` fill to match SearchBar's pill (`--color-primary` read as
+  too pale in the dark theme against the bright video). On `KaraokePlayer`
+  — a normal themed page, no video — it instead takes `--color-primary`/
+  `--color-on-primary`, the same fill as that page's back/play buttons, as
+  plain props/classes from its caller rather than a baked-in color.
+  - **Both icons are always rendered**; a `[data-theme="dark"]` CSS rule
+    decides which one is `display`ed, not a React branch on `theme`. This
+    is what actually fixes the flash above: `data-theme` is set on `<html>`
+    synchronously before first paint (`ThemeScript`), so the right icon is
+    showing in the very first paint purely from CSS, with no client/server
+    `theme` value to reconcile at all for this component. `aria-label` is
+    theme-agnostic ("Toggle theme") for the same reason — nothing left here
+    that depends on knowing the theme during render.
 - No theme-change transition for now.
 - Tailwind v4 picks up the tokens via an `@theme inline` block in
   `app/globals.css` that maps Tailwind's color namespace to the same CSS
@@ -415,18 +438,36 @@ backend exists yet (see `docs/project-context.md`'s "Pending decisions"), so
 (`public/example/{metadata,alignment}.json` + its `.mp3`) — `KaraokePlayer`
 fetches those three client-side on mount (`fetch("/example/...")`, not a
 build-time import) so swapping in a real `/api/search` later is a one-line
-change, not a rewrite.
+change, not a rewrite. The matching *within* that one example is real,
+though, not faked — see "Search matching against this transcript" below.
 
 - **Route/Suspense:** `app/search/page.tsx` is a server component that just
   wraps the client `KaraokePlayer` in `<Suspense>`, because `KaraokePlayer`
   reads `?q=` via `useSearchParams()`, which always needs a Suspense
   boundary (see Next's Cache-Components migration guide — this repo runs
   Next 16 with `cacheComponents: true`). The header's `h1` echoes `q` back
-  (`"word"` in quotes, or "Example clip" if absent) purely as context; it is
-  **not** filtered against — there is currently no copy on the page saying
-  so (an earlier italic disclaimer under the title was removed on request
-  for a cleaner header), so that honesty lives here in the docs and in code
-  comments instead until real matching exists.
+  (`"word"` in quotes, or "Example clip" if absent) purely as context — this
+  is the only thing left of the header's original three lines; an earlier
+  italic disclaimer paragraph and a "SEARCH" eyebrow label above the title
+  were both removed on request, for a cleaner header with just the title
+  itself (and now the back/theme buttons above it — see "Back button"/
+  `ThemeToggle` under Tokens).
+- **Search matching against this transcript.** The query *is* matched for
+  real against this one loaded example's words — not literal substring
+  matching, equality after `normalizeWord()` (lowercase, strip only
+  leading/trailing punctuation, so `"hampiqmi,"` and `"kayku."` compare
+  correctly while internal characters like the hyphen in `"ayllu-ayllunta"`
+  survive). If the term occurs: every occurrence is highlighted (see the
+  transcript bullet below) and playback's initial position jumps to
+  `MATCH_LEAD_IN_WORDS` (3) words before the *first* occurrence — not the
+  occurrence itself, so the clip doesn't open mid-sentence right on the
+  word, and not all the way back to 0:00 either. If it doesn't occur: no
+  highlighting, starts at 0:00, same as before this existed. Computed by
+  `findSearchMatches()`/`computeInitialSeekTime()` in `karaoke-player.tsx`,
+  applied to the `<audio>` element in the event-listener effect — tried
+  immediately and reapplied on `"loadedmetadata"`, since setting
+  `currentTime` before the browser knows the real `duration` can silently
+  get reset once it loads.
 - **Bugs fixed — stale state surviving navigation, both directions.**
   Clicking the back button used to leave the clip audibly playing on `/`;
   separately, a typed-but-unsent SearchBar query (or an open pill) could
@@ -501,13 +542,25 @@ change, not a rewrite.
   small list-item play icon share the same `PlayIcon` component, so the
   rounding applies to both automatically; only the transport button's size
   changed.
-- **Seek bar border.** The native `<input type="range">` was showing a
-  default browser-drawn border/outline on its track that `accentColor`
-  alone doesn't remove. Fixed with an explicit `border: none` on the input
-  itself and, since Chromium's default styling actually lives on the
-  pseudo-elements rather than the input, on
-  `::-webkit-slider-runnable-track`/`::-webkit-slider-thumb`/
-  `::-moz-range-track`/`::-moz-range-thumb` too.
+- **Seek bar border, fixed properly.** The native `<input type="range">`
+  kept a visible groove/border around its track even after an explicit
+  `border: none` (on the input and on every vendor track/thumb
+  pseudo-element) — because that groove is the OS/browser's *native widget
+  rendering* for a range input, not an actual CSS `border` property
+  `accentColor` or `border: none` can touch. **Fix:** `appearance: none` /
+  `-webkit-appearance: none` on the input drops that native rendering
+  entirely, so the track and thumb are rebuilt by hand in
+  `audio-player-controls.tsx`'s stylesheet — flat `--color-border-subtle`
+  track, `--color-primary` thumb, no border on anything. The "filled"
+  portion left of the thumb no longer comes from `accentColor` (which does
+  nothing once `appearance` is `none` — this is why the first fix attempt,
+  which kept `accentColor` and only tried to zero out borders, couldn't
+  actually work) but from a two-stop `linear-gradient` computed in JS from
+  `currentTime / duration` and set as the input's own inline `background`,
+  shown through `::-webkit-slider-runnable-track`'s now-transparent
+  background. Firefox doesn't need the gradient trick — `::-moz-range-progress`
+  draws its own fill natively — so that rule is there too, redundantly
+  harmless alongside the gradient.
 - **Karaoke transcript** (`karaoke-transcript.tsx`): renders
   `alignment.segments[].words[]` as clickable word spans. The active word
   (last word whose `start` has passed `audio.currentTime`, held through any
@@ -519,20 +572,30 @@ change, not a rewrite.
   the audio there and plays it — a deliberate YouGlish-like "jump to this
   word" affordance, not just a progress display. The active word also
   auto-scrolls into view (`scrollIntoView({block: "nearest"})`).
-  - **Known inline-style bug, fixed here too:** the active/past/default
-    colors are applied via CSS classes (`.is-active`/`.is-past`), not inline
-    `style`, specifically so the `:hover` rule in the same stylesheet can
-    still win — see SearchBar's identical fix above. Setting these
-    conditionally in `style={{ background: ... }}` would silently defeat
-    `:hover` again.
-- **Transport controls** (`audio-player-controls.tsx`): play/pause, a native
-  `<input type="range">` seek bar (`accentColor: var(--color-primary)`,
-  simplest correct way to theme a range input, no custom track/thumb
-  markup), and previous/next-match buttons. Previous/next navigate the
-  *matches list* (different clips), not words/segments within one clip —
-  matching the brief's "pausar, siguiente audio, anterior audio". With only
-  one real example they're `disabled` and the row reads "Match 1 / 1";
-  wiring them up is just passing a real matches array once search exists.
+  - **Search matches get their own, separate highlight.** Every word index
+    in `matchWordIndices` (from "Search matching against this transcript"
+    above) gets a persistent `color-mix(in srgb, var(--color-primary) 18%,
+    transparent)` tint, `:not(.is-active)` — deliberately *not* another use
+    of lime, since lime here already means "playing right now specifically"
+    and reusing it for "this word matches the search, independent of
+    playback position" would blur two different meanings into one color.
+    When the currently-active word is also a search match, lime still wins
+    (the `:not(.is-active)` guard), so "what's playing now" never stops
+    being the most prominent signal.
+  - **Known inline-style bug, fixed here too:** the active/past/match
+    colors are applied via CSS classes (`.is-active`/`.is-past`/`.is-match`,
+    combinable), not inline `style`, specifically so the `:hover` rule in
+    the same stylesheet can still win — see SearchBar's identical fix
+    above. Setting these conditionally in `style={{ background: ... }}`
+    would silently defeat `:hover` again.
+- **Transport controls** (`audio-player-controls.tsx`): play/pause, a seek
+  bar (see "Seek bar border" above for how it's built), and previous/
+  next-match buttons. Previous/next navigate the *matches list* (different
+  clips), not words/segments within one clip — matching the brief's
+  "pausar, siguiente audio, anterior audio". No "Match N / M" text under
+  the controls anymore (removed on request, for a cleaner control row) —
+  the active card's own highlight in the sidebar list is the only
+  indicator of position now.
 - **List / Analysis switch** (`view-switch.tsx`): a flat segmented control
   (two pill buttons, active one filled `--color-primary`) replacing what was
   a static "Matches (N)" heading — toggles the sidebar between the matches
@@ -545,9 +608,18 @@ change, not a rewrite.
     described above (not lime — lime is reserved for the karaoke
     active-word state specifically, so a second "selected" meaning doesn't
     dilute it); its play icon swaps for a small pulsing dot while that clip
-    is actually playing. Only one real card exists right now, but the
-    component takes `metadata`/`isActive`/`onSelect` as props and the list
-    already scrolls independently, so it's shaped to render many.
+    is actually playing. Only one real card's worth of data exists (there's
+    still only one real example), but `karaoke-player.tsx` now renders
+    `MATCH_COUNT` (5) of them — all pointing at that same example, purely
+    so the list UI itself could be previewed with more than one result, on
+    request; not meant to look like 5 distinct clips exist. The transport's
+    previous/next buttons move `activeMatchIndex` between them (clamped,
+    not wrapping) and replay from the same computed start time — real
+    interaction, even though every card resolves to the same underlying
+    audio right now. The component takes `metadata`/`isActive`/`isPlaying`/
+    `onSelect` as props and the list already scrolls independently, so it's
+    already shaped for a real, differently-sized matches array later; only
+    the `Array.from({length: MATCH_COUNT})` call site needs to change.
   - **Analysis** (`word-analysis.tsx`): a first pass at a graphical
     morphosyntactic breakdown — the word's root and suffixes rendered as
     flat colored chips (root = `--color-gloss-root`/`--color-on-primary`,
@@ -595,6 +667,11 @@ for the `--brand-*` primitives only for UI that sits on the video.
 `KaraokePlayer` is the opposite case and a useful contrast: it's a normal
 page (own route, own `--color-bg` background, no video underneath), so it
 uses the semantic tokens throughout (`--color-surface` for the transcript/
-controls/match-card panels, `--color-primary` for the play button and
-selected-match ring, `--color-highlight` for the karaoke active word) and
-follows the site's light/dark theme like any other page content would.
+controls/match-card panels, `--color-primary` for the play/back/theme
+buttons and the selected match's tinted background, `--color-highlight` for
+the karaoke active word) and follows the site's light/dark theme like any
+other page content would. `ThemeToggle` briefly lived on the home page, over
+the video, with a `--brand-ink` fill for exactly the reason above — it now
+lives in `KaraokePlayer`'s header instead (see KaraokePlayer below for why),
+so that reasoning no longer applies to it; it takes `--color-primary` from
+its caller like the rest of that page's buttons.

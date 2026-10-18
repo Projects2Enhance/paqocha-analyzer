@@ -2,9 +2,6 @@
 
 import { useTheme } from "./theme-provider";
 
-// Shows the icon for the theme a click would switch *to* — moon (switch to
-// dark) while light, sun (switch to light) while dark — the common
-// convention (GitHub, etc.), rather than an icon for the current theme.
 function SunIcon() {
   return (
     <svg
@@ -45,30 +42,31 @@ function MoonIcon() {
   );
 }
 
-// Icon-only, fixed top-right on the home page — see app/page.tsx. Filled
-// --color-primary circle, the same visual language as KaraokePlayer's back
-// and play buttons. Deliberately uses the theme-switching semantic tokens
-// even though it sits over the hero video (where SearchBar/Hero
-// deliberately use the theme-independent --brand-* primitives instead) —
-// this component's whole job is to reflect/control theme state, so reacting
-// to the theme is correct here, not an oversight. See web/DESIGN.md.
+// Icon-only circular toggle — plain button, no self-positioning. Originally
+// lived fixed top-right on the home page (over the hero video, hence a
+// `--brand-ink` fill matching SearchBar's pill); moved to KaraokePlayer's
+// header instead, a normal themed page with no video underneath, so it
+// takes `--color-primary`/`--color-on-primary` — the same fill as that
+// page's back/play buttons — from its caller instead of carrying its own
+// fixed color or fixed positioning. See web/DESIGN.md's Theme-independent
+// UI section.
+//
+// Both icons are always rendered; which one is visible is decided by a
+// `[data-theme="dark"]` CSS rule, not a JS/React branch on the current
+// theme. That's deliberate: ThemeScript sets `data-theme` on <html>
+// synchronously before first paint, so the right icon is already showing
+// in that very first paint, from pure CSS, with nothing to hydrate — a
+// version that picked the icon in JSX from `useTheme()`'s value visibly
+// flashed the wrong one on every navigation instead (see DESIGN.md).
 export function ThemeToggle() {
-  const { theme, toggleTheme } = useTheme();
-  const isDark = theme === "dark";
+  const { toggleTheme } = useTheme();
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        top: "clamp(1.1rem, 3.2vw, 2rem)",
-        right: "clamp(1.1rem, 3.2vw, 2rem)",
-        zIndex: 50,
-      }}
-    >
+    <>
       <button
         type="button"
         onClick={toggleTheme}
-        aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
+        aria-label="Toggle theme"
         className="paqocha-theme-toggle"
         style={{
           display: "inline-flex",
@@ -83,7 +81,12 @@ export function ThemeToggle() {
           cursor: "pointer",
         }}
       >
-        {isDark ? <SunIcon /> : <MoonIcon />}
+        <span className="paqocha-theme-icon paqocha-theme-icon-moon" aria-hidden="true">
+          <MoonIcon />
+        </span>
+        <span className="paqocha-theme-icon paqocha-theme-icon-sun" aria-hidden="true">
+          <SunIcon />
+        </span>
       </button>
 
       <style>{`
@@ -98,7 +101,28 @@ export function ThemeToggle() {
         .paqocha-theme-toggle:active {
           transform: scale(0.94);
         }
+
+        /* Shows the icon for the theme a click would switch *to* — moon
+           (switch to dark) by default/light, sun (switch to light) once
+           [data-theme="dark"] is present — the common convention (GitHub,
+           etc.), driven entirely by the attribute, not React state. */
+        .paqocha-theme-icon {
+          display: none;
+          line-height: 0;
+        }
+
+        .paqocha-theme-icon-moon {
+          display: inline-flex;
+        }
+
+        [data-theme="dark"] .paqocha-theme-icon-moon {
+          display: none;
+        }
+
+        [data-theme="dark"] .paqocha-theme-icon-sun {
+          display: inline-flex;
+        }
       `}</style>
-    </div>
+    </>
   );
 }

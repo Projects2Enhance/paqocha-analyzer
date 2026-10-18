@@ -6,6 +6,7 @@ import type { AlignmentSegment } from "./types";
 type KaraokeTranscriptProps = {
   segments: AlignmentSegment[];
   activeWordIndex: number;
+  matchWordIndices: number[];
   onWordClick: (startSeconds: number) => void;
 };
 
@@ -15,9 +16,14 @@ type KaraokeTranscriptProps = {
 export function KaraokeTranscript({
   segments,
   activeWordIndex,
+  matchWordIndices,
   onWordClick,
 }: KaraokeTranscriptProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const matchIndexSet = useMemo(
+    () => new Set(matchWordIndices),
+    [matchWordIndices],
+  );
 
   useEffect(() => {
     const container = containerRef.current;
@@ -67,14 +73,20 @@ export function KaraokeTranscript({
             const index = segmentStartIndex[segmentIndex] + wordIndexInSegment;
             const isActive = index === activeWordIndex;
             const isPast = index < activeWordIndex;
+            const isMatch = matchIndexSet.has(index);
+            const className = [
+              "paqocha-karaoke-word",
+              isActive ? "is-active" : isPast ? "is-past" : "",
+              isMatch ? "is-match" : "",
+            ]
+              .filter(Boolean)
+              .join(" ");
             return (
               <span key={wordIndexInSegment}>
                 <span
                   data-word-index={index}
                   onClick={() => onWordClick(word.start)}
-                  className={`paqocha-karaoke-word${
-                    isActive ? " is-active" : isPast ? " is-past" : ""
-                  }`}
+                  className={className}
                 >
                   {word.word}
                 </span>
@@ -106,6 +118,17 @@ export function KaraokeTranscript({
         .paqocha-karaoke-word.is-active {
           color: var(--color-on-highlight);
           background: var(--color-highlight);
+        }
+
+        /* Every occurrence of the searched term, independent of playback
+           position — lime (is-active) already means "playing right now,"
+           so reusing it here would blur that meaning; this is a separate,
+           persistent marker using --color-primary instead, the same
+           tinted-fill idiom as MatchCard's selected state. Suppressed
+           while a matched word also happens to be the active one, so lime
+           still wins there. */
+        .paqocha-karaoke-word.is-match:not(.is-active) {
+          background: color-mix(in srgb, var(--color-primary) 18%, transparent);
         }
 
         .paqocha-karaoke-word:not(.is-active):hover {

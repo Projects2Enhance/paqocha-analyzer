@@ -9,8 +9,16 @@ import { BackArrowIcon } from "./player-icons";
 import type { Alignment, AlignmentWord, AudioMetadata } from "./types";
 import { ViewSwitch, type ResultsView } from "./view-switch";
 import { WordAnalysis } from "./word-analysis";
+import { ThemeToggle } from "@/lib/theme/theme-toggle";
 
 const EXAMPLE_BASE_PATH = "/example";
+// No real "other matches" dataset yet — this many cards of the same one
+// provisional example, purely to preview the list UI with more than one
+// result. See web/DESIGN.md -> Components -> KaraokePlayer.
+const MATCH_COUNT = 5;
+// How many words of lead-in before the first search match to start
+// playback from, so the clip doesn't open mid-sentence right on the word.
+const MATCH_LEAD_IN_WORDS = 3;
 
 // Finds the last word whose start time has passed — words are sorted
 // ascending, so once we pass `time` we can stop. Keeps the current word
@@ -27,10 +35,44 @@ function findActiveWordIndex(words: AlignmentWord[], time: number): number {
   return active;
 }
 
+// Lowercases and strips leading/trailing punctuation (keeps internal
+// characters, e.g. the hyphen in "ayllu-ayllunta") so a search term and a
+// transcript word compare equal regardless of trailing commas/periods.
+function normalizeWord(word: string): string {
+  return word.toLowerCase().replace(/^[^\p{L}]+|[^\p{L}]+$/gu, "");
+}
+
+// Every word index whose normalized text equals the normalized query —
+// real matching against this one loaded transcript (not a real search
+// backend; see the module doc comment below).
+function findSearchMatches(words: AlignmentWord[], query: string | undefined): number[] {
+  const normalizedQuery = query ? normalizeWord(query) : "";
+  if (!normalizedQuery) return [];
+  const indices: number[] = [];
+  words.forEach((word, index) => {
+    if (normalizeWord(word.word) === normalizedQuery) indices.push(index);
+  });
+  return indices;
+}
+
+// Start MATCH_LEAD_IN_WORDS words before the first match, or 0 if the term
+// doesn't occur in this transcript at all.
+function computeInitialSeekTime(
+  words: AlignmentWord[],
+  matchIndices: number[],
+): number {
+  if (matchIndices.length === 0) return 0;
+  const startIndex = Math.max(0, matchIndices[0] - MATCH_LEAD_IN_WORDS);
+  return words[startIndex].start;
+}
+
 // Loads the one provisional real example from public/example/ and plays it
-// karaoke-style, regardless of what was searched — see web/DESIGN.md ->
-// Components -> KaraokePlayer. No real search/backend yet; this is the UI
-// shape search results will eventually render into.
+// karaoke-style — see web/DESIGN.md -> Components -> KaraokePlayer. No real
+// search backend exists yet, so every search opens this same example, but
+// the search term *is* matched for real against this one transcript: if it
+// occurs there, playback starts a few words before the first occurrence
+// and every occurrence is highlighted in the transcript; if it doesn't,
+// playback starts at 0:00 with no highlighting.
 export function KaraokePlayer() {
   const searchParams = useSearchParams();
   const query = searchParams.get("q")?.trim();
@@ -43,6 +85,7 @@ export function KaraokePlayer() {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [view, setView] = useState<ResultsView>("list");
+  const [activeMatchIndex, setActiveMatchIndex] = useState(0);
 
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -68,10 +111,29 @@ export function KaraokePlayer() {
 
   useEffect(() => {
     const audio = audioRef.current;
-    if (!audio) return;
+    if (!audio || !alignment) return;
+
+    const initialTime = computeInitialSeekTime(
+      alignment.word_segments,
+      findSearchMatches(alignment.word_segments, query),
+    );
+
+    function applyInitialTime() {
+      if (!audio) return;
+      audio.currentTime = initialTime;
+      setCurrentTime(initialTime);
+    }
+
+    // Tried immediately (works once the browser already has metadata
+    // cached) and reapplied on "loadedmetadata" — setting currentTime
+    // before duration is known can silently get reset once it loads.
+    applyInitialTime();
 
     const handleTimeUpdate = () => setCurrentTime(audio.currentTime);
-    const handleLoadedMetadata = () => setDuration(audio.duration);
+    const handleLoadedMetadata = () => {
+      setDuration(audio.duration);
+      applyInitialTime();
+    };
     const handlePlay = () => setIsPlaying(true);
     const handlePause = () => setIsPlaying(false);
 
@@ -95,7 +157,7 @@ export function KaraokePlayer() {
       // rather than relying on implicit cleanup.
       audio.pause();
     };
-  }, [metadata]);
+  }, [metadata, alignment, query]);
 
   function seekTo(time: number, autoplay = false) {
     const audio = audioRef.current;
@@ -134,6 +196,16 @@ export function KaraokePlayer() {
     alignment.word_segments,
     currentTime,
   );
+  const searchMatchIndices = findSearchMatches(alignment.word_segments, query);
+  const matchStartTime = computeInitialSeekTime(
+    alignment.word_segments,
+    searchMatchIndices,
+  );
+
+  function selectMatch(index: number) {
+    setActiveMatchIndex(index);
+    seekTo(matchStartTime, true);
+  }
 
   return (
     <PageShell query={query}>
@@ -142,6 +214,7 @@ export function KaraokePlayer() {
           <KaraokeTranscript
             segments={alignment.segments}
             activeWordIndex={activeWordIndex}
+            matchWordIndices={searchMatchIndices}
             onWordClick={(time) => seekTo(time, true)}
           />
           <AudioPlayerControls
@@ -150,11 +223,10 @@ export function KaraokePlayer() {
             duration={duration}
             onTogglePlay={handleTogglePlay}
             onSeek={(time) => seekTo(time)}
-            onPrevious={() => {}}
-            onNext={() => {}}
-            canGoPrevious={false}
-            canGoNext={false}
-            matchPosition="1 / 1"
+            onPrevious={() => selectMatch(activeMatchIndex - 1)}
+            onNext={() => selectMatch(activeMatchIndex + 1)}
+            canGoPrevious={activeMatchIndex > 0}
+            canGoNext={activeMatchIndex < MATCH_COUNT - 1}
           />
         </div>
 
@@ -162,12 +234,15 @@ export function KaraokePlayer() {
           <ViewSwitch value={view} onChange={setView} />
           {view === "list" ? (
             <div className="flex flex-col gap-3 min-h-0 overflow-y-auto">
-              <MatchCard
-                metadata={metadata}
-                isActive
-                isPlaying={isPlaying}
-                onSelect={() => seekTo(0, true)}
-              />
+              {Array.from({ length: MATCH_COUNT }, (_, index) => (
+                <MatchCard
+                  key={index}
+                  metadata={metadata}
+                  isActive={index === activeMatchIndex}
+                  isPlaying={isPlaying}
+                  onSelect={() => selectMatch(index)}
+                />
+              ))}
             </div>
           ) : (
             <WordAnalysis />
@@ -202,51 +277,41 @@ function PageShell({
     >
       <div className="flex flex-col flex-1 min-h-0 w-full max-w-[1240px] mx-auto">
         <header className="flex flex-col gap-3 px-5 sm:px-8 pt-5 sm:pt-7 pb-4">
-          {/* Plain <a>, not next/link's <Link> — a full navigation on
-              purpose, see the long comment on SearchBar's handleSearch. */}
-          {/* eslint-disable-next-line @next/next/no-html-link-for-pages --
-              deliberate: see the comment above. */}
-          <a
-            href="/"
-            aria-label="Back to home"
-            className="paqocha-back-link"
+          <div className="flex items-center justify-between">
+            {/* Plain <a>, not next/link's <Link> — a full navigation on
+                purpose, see the long comment on SearchBar's handleSearch. */}
+            {/* eslint-disable-next-line @next/next/no-html-link-for-pages --
+                deliberate: see the comment above. */}
+            <a
+              href="/"
+              aria-label="Back to home"
+              className="paqocha-back-link"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "2.75rem",
+                height: "2.75rem",
+                borderRadius: "999px",
+                background: "var(--color-primary)",
+                color: "var(--color-on-primary)",
+              }}
+            >
+              <BackArrowIcon size={18} />
+            </a>
+
+            <ThemeToggle />
+          </div>
+
+          <h1
             style={{
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "2.75rem",
-              height: "2.75rem",
-              borderRadius: "999px",
-              background: "var(--color-primary)",
-              color: "var(--color-on-primary)",
+              margin: 0,
+              fontSize: "clamp(1.5rem, 3.4vw, 2.1rem)",
+              fontWeight: 700,
             }}
           >
-            <BackArrowIcon size={18} />
-          </a>
-
-          <div>
-            <p
-              style={{
-                margin: "0 0 0.15rem",
-                fontSize: "0.78rem",
-                fontWeight: 700,
-                color: "var(--color-text-muted)",
-                textTransform: "uppercase",
-                letterSpacing: "0.06em",
-              }}
-            >
-              Search
-            </p>
-            <h1
-              style={{
-                margin: 0,
-                fontSize: "clamp(1.5rem, 3.4vw, 2.1rem)",
-                fontWeight: 700,
-              }}
-            >
-              {query ? `“${query}”` : "Example clip"}
-            </h1>
-          </div>
+            {query ? `“${query}”` : "Example clip"}
+          </h1>
         </header>
 
         {children}

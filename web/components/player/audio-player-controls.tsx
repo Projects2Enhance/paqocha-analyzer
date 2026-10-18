@@ -16,7 +16,6 @@ type AudioPlayerControlsProps = {
   onNext: () => void;
   canGoPrevious: boolean;
   canGoNext: boolean;
-  matchPosition: string;
 };
 
 export function AudioPlayerControls({
@@ -29,8 +28,10 @@ export function AudioPlayerControls({
   onNext,
   canGoPrevious,
   canGoNext,
-  matchPosition,
 }: AudioPlayerControlsProps) {
+  const seekPercent =
+    duration > 0 ? (Math.min(currentTime, duration) / duration) * 100 : 0;
+
   return (
     <div
       style={{
@@ -69,9 +70,7 @@ export function AudioPlayerControls({
           className="paqocha-seek-bar"
           style={{
             flex: 1,
-            accentColor: "var(--color-primary)",
-            border: "none",
-            outline: "none",
+            background: `linear-gradient(to right, var(--color-primary) ${seekPercent}%, var(--color-border-subtle) ${seekPercent}%)`,
           }}
         />
         <span
@@ -124,32 +123,68 @@ export function AudioPlayerControls({
         </button>
       </div>
 
-      <span
-        style={{
-          textAlign: "center",
-          fontSize: "0.78rem",
-          color: "var(--color-text-muted)",
-        }}
-      >
-        Match {matchPosition}
-      </span>
-
       <style>{`
-        /* Chromium draws a default border/outline on the native range
-           track that accentColor alone doesn't remove — explicit here on
-           every vendor's track/thumb pseudo-element, not just the input
-           itself, to actually get rid of it. */
-        .paqocha-seek-bar,
-        .paqocha-seek-bar::-webkit-slider-runnable-track,
-        .paqocha-seek-bar::-webkit-slider-thumb,
-        .paqocha-seek-bar::-moz-range-track,
-        .paqocha-seek-bar::-moz-range-thumb {
+        /* accentColor alone left a native browser-drawn groove/border
+           around the track on Windows Chrome — that's the OS theming the
+           *native* control, not a CSS border accentColor can remove.
+           appearance: none drops that native rendering entirely, so the
+           track/thumb are rebuilt by hand below; the "filled" portion
+           comes from the gradient set inline on the input itself (its
+           JS-computed background, visible through the now-transparent
+           track), not accentColor, which has no effect once appearance
+           is none. */
+        .paqocha-seek-bar {
+          appearance: none;
+          -webkit-appearance: none;
+          width: 100%;
+          height: 0.35rem;
+          border-radius: 999px;
           border: none;
           outline: none;
+          cursor: pointer;
         }
 
-        .paqocha-seek-bar {
-          height: 1.1rem;
+        .paqocha-seek-bar::-webkit-slider-runnable-track {
+          appearance: none;
+          -webkit-appearance: none;
+          height: 0.35rem;
+          border-radius: 999px;
+          background: transparent;
+          border: none;
+        }
+
+        .paqocha-seek-bar::-webkit-slider-thumb {
+          appearance: none;
+          -webkit-appearance: none;
+          width: 1rem;
+          height: 1rem;
+          margin-top: calc((0.35rem - 1rem) / 2);
+          border-radius: 999px;
+          border: none;
+          background: var(--color-primary);
+          cursor: pointer;
+        }
+
+        .paqocha-seek-bar::-moz-range-track {
+          height: 0.35rem;
+          border-radius: 999px;
+          background: var(--color-border-subtle);
+          border: none;
+        }
+
+        .paqocha-seek-bar::-moz-range-progress {
+          height: 0.35rem;
+          border-radius: 999px;
+          background: var(--color-primary);
+          border: none;
+        }
+
+        .paqocha-seek-bar::-moz-range-thumb {
+          width: 1rem;
+          height: 1rem;
+          border-radius: 999px;
+          border: none;
+          background: var(--color-primary);
           cursor: pointer;
         }
 
