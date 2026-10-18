@@ -34,3 +34,22 @@ export type AudioMetadata = {
   accents: string;
   language: string;
 };
+
+export type Morpheme = {
+  text: string;
+  type: "root" | "suffix";
+  gloss: string;
+  meaning: string;
+};
+
+// One entry per word_segments entry in alignment.json, same order/count —
+// see public/example/word-analysis.json's own "note" field.
+export type WordAnalysisEntry = {
+  word: string;
+  morphemes: Morpheme[];
+};
+
+export type WordAnalysisData = {
+  audio_file: string;
+  words: WordAnalysisEntry[];
+};

@@ -6,7 +6,12 @@ import { AudioPlayerControls } from "./audio-player-controls";
 import { KaraokeTranscript } from "./karaoke-transcript";
 import { MatchCard, MATCH_CARD_STYLES } from "./match-card";
 import { BackArrowIcon } from "./player-icons";
-import type { Alignment, AlignmentWord, AudioMetadata } from "./types";
+import type {
+  Alignment,
+  AlignmentWord,
+  AudioMetadata,
+  WordAnalysisData,
+} from "./types";
 import { ViewSwitch, type ResultsView } from "./view-switch";
 import { WordAnalysis } from "./word-analysis";
 import { ThemeToggle } from "@/lib/theme/theme-toggle";
@@ -79,6 +84,9 @@ export function KaraokePlayer() {
 
   const [metadata, setMetadata] = useState<AudioMetadata | null>(null);
   const [alignment, setAlignment] = useState<Alignment | null>(null);
+  const [wordAnalysis, setWordAnalysis] = useState<WordAnalysisData | null>(
+    null,
+  );
   const [loadError, setLoadError] = useState(false);
 
   const [isPlaying, setIsPlaying] = useState(false);
@@ -94,13 +102,23 @@ export function KaraokePlayer() {
     Promise.all([
       fetch(`${EXAMPLE_BASE_PATH}/metadata.json`).then((res) => res.json()),
       fetch(`${EXAMPLE_BASE_PATH}/alignment.json`).then((res) => res.json()),
+      fetch(`${EXAMPLE_BASE_PATH}/word-analysis.json`).then((res) =>
+        res.json(),
+      ),
     ])
-      .then(([metadataJson, alignmentJson]: [AudioMetadata, Alignment]) => {
-        if (cancelled) return;
-        setMetadata(metadataJson);
-        setAlignment(alignmentJson);
-        setDuration(metadataJson.duration_ms / 1000);
-      })
+      .then(
+        ([metadataJson, alignmentJson, wordAnalysisJson]: [
+          AudioMetadata,
+          Alignment,
+          WordAnalysisData,
+        ]) => {
+          if (cancelled) return;
+          setMetadata(metadataJson);
+          setAlignment(alignmentJson);
+          setWordAnalysis(wordAnalysisJson);
+          setDuration(metadataJson.duration_ms / 1000);
+        },
+      )
       .catch(() => {
         if (!cancelled) setLoadError(true);
       });
@@ -128,6 +146,14 @@ export function KaraokePlayer() {
     // cached) and reapplied on "loadedmetadata" — setting currentTime
     // before duration is known can silently get reset once it loads.
     applyInitialTime();
+    // Autoplays on every fresh load (this effect only meaningfully runs
+    // once per mount — see the full-navigation note above) — requested on
+    // purpose: landing on a search-match lead-in that's still paused read
+    // as broken. `.catch()` swallows a rejected autoplay promise (blocked
+    // by the browser's autoplay policy) rather than an uncaught rejection;
+    // worst case it just stays paused at the right position, same as
+    // before this existed.
+    audio.play().catch(() => {});
 
     const handleTimeUpdate = () => setCurrentTime(audio.currentTime);
     const handleLoadedMetadata = () => {
@@ -184,7 +210,7 @@ export function KaraokePlayer() {
     );
   }
 
-  if (!metadata || !alignment) {
+  if (!metadata || !alignment || !wordAnalysis) {
     return (
       <PageShell query={query}>
         <p style={{ color: "var(--color-text-muted)" }}>Loading example…</p>
@@ -245,7 +271,11 @@ export function KaraokePlayer() {
               ))}
             </div>
           ) : (
-            <WordAnalysis />
+            <WordAnalysis
+              words={wordAnalysis.words}
+              activeWordIndex={activeWordIndex}
+              isPlaying={isPlaying}
+            />
           )}
         </div>
       </div>

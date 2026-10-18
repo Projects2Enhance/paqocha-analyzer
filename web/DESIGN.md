@@ -435,11 +435,12 @@ YouGlish-style karaoke player: synced transcript on top, classic transport
 controls below, a sidebar list of other matching clips. No real search
 backend exists yet (see `docs/project-context.md`'s "Pending decisions"), so
 **every search currently opens the same one provisional real example**
-(`public/example/{metadata,alignment}.json` + its `.mp3`) — `KaraokePlayer`
-fetches those three client-side on mount (`fetch("/example/...")`, not a
-build-time import) so swapping in a real `/api/search` later is a one-line
-change, not a rewrite. The matching *within* that one example is real,
-though, not faked — see "Search matching against this transcript" below.
+(`public/example/{metadata,alignment,word-analysis}.json` + its `.mp3`) —
+`KaraokePlayer` fetches those four client-side on mount
+(`fetch("/example/...")`, not a build-time import) so swapping in a real
+`/api/search` later is a one-line change, not a rewrite. The matching
+*within* that one example is real, though, not faked — see "Search
+matching against this transcript" below.
 
 - **Route/Suspense:** `app/search/page.tsx` is a server component that just
   wraps the client `KaraokePlayer` in `<Suspense>`, because `KaraokePlayer`
@@ -467,7 +468,18 @@ though, not faked — see "Search matching against this transcript" below.
   applied to the `<audio>` element in the event-listener effect — tried
   immediately and reapplied on `"loadedmetadata"`, since setting
   `currentTime` before the browser knows the real `duration` can silently
-  get reset once it loads.
+  get reset once it loads. **Autoplays on load**, in both the match and
+  no-match case (`audio.play().catch(() => {})` right after the initial
+  seek) — landing on a lead-in position that then sat paused read as
+  broken, on request. The `.catch()` matters: browsers can block autoplay
+  without a preceding user gesture (`NotAllowedError`), which would
+  otherwise be an uncaught promise rejection; swallowing it just leaves
+  the clip paused at the right position instead, same as before this
+  existed. In this app's real flow, the gesture that submitted the search
+  (a click or Enter in SearchBar) carries over through the full-navigation
+  to `/search` and satisfies that requirement — confirmed in-browser;
+  autoplay only fails when the page is reached with no prior interaction
+  at all, e.g. opening the URL directly.
 - **Bugs fixed — stale state surviving navigation, both directions.**
   Clicking the back button used to leave the clip audibly playing on `/`;
   separately, a typed-but-unsent SearchBar query (or an open pill) could
@@ -620,24 +632,47 @@ though, not faked — see "Search matching against this transcript" below.
     `onSelect` as props and the list already scrolls independently, so it's
     already shaped for a real, differently-sized matches array later; only
     the `Array.from({length: MATCH_COUNT})` call site needs to change.
-  - **Analysis** (`word-analysis.tsx`): a first pass at a graphical
-    morphosyntactic breakdown — the word's root and suffixes rendered as
-    flat colored chips (root = `--color-gloss-root`/`--color-on-primary`,
-    suffixes = `--color-gloss-suffix`/`--color-on-highlight`, both finally
-    *using* the tokens that Tokens above had reserved since the theme-system
-    phase), an EN/ES translation line, then each morpheme restated with its
-    gloss and a short explanation. **Hardcoded demo data for one word**
-    (`EXAMPLE_ANALYSIS` in the component) — no real morphosyntactic-analysis
-    backend exists yet. The word, **"mikhusqaña,"** is deliberately not an
-    arbitrary example: it's real, present in this same loaded clip's own
-    transcript (`"...ña mikhusqaña uywa hampiyta qallariq kayku."`). Its
-    root/suffix split (`mikhu` "eat" + `-sqa` perfect/narrative-past +
-    `-ña` "already") is reconstructed from general Southern Quechua
-    morphology, not verified against Puno/Collao usage by a native
-    speaker — same caveat as `QUECHUA_WORDS` in SearchBar.
-    [TO BE DEFINED]: a real analysis backend, most likely keyed off
-    whichever word is active in the karaoke transcript rather than a fixed
-    word.
+  - **Analysis** (`word-analysis.tsx`): a graphical morphosyntactic
+    breakdown — root and suffixes rendered as flat colored chips (root =
+    `--color-gloss-root`/`--color-on-primary`, suffixes =
+    `--color-gloss-suffix`/`--color-on-highlight`, finally *using* the
+    tokens that Tokens above had reserved since the theme-system phase) —
+    **synced to whichever word is currently active in the karaoke
+    transcript**, not a single fixed word: `KaraokePlayer` passes it the
+    same `activeWordIndex` the transcript uses, and it indexes into
+    `words` (below) with that. No translation line anymore (removed on
+    request).
+    - **Per-word data**: `public/example/word-analysis.json`, one entry
+      per `alignment.json`'s `word_segments` (same order/count — checked
+      with a one-off script when the file was generated, not hand-counted)
+      so the two line up by plain array index. **Hand-authored for all 34
+      words** of this one example's transcript, not just one — "your
+      judgment, doesn't matter if it's exactly right" was the brief, so
+      each entry is a plausible root(+suffix) split reusing common
+      documented Southern Quechua suffix glosses (`-mi` evidential, `-qa`
+      topic, `-ta` accusative, `-manta` ablative, `-pi` locative, `-q`
+      agentive, `-sqa` narrative past, `-ña` already, `-spa` same-subject
+      gerund, person markers, etc.), not verified against Puno/Collao usage
+      by a native speaker — same caveat as `QUECHUA_WORDS` in SearchBar and
+      the single-word version this replaces. [TO BE DEFINED]: a real
+      morphosyntactic-analysis backend to replace this file.
+    - **Playing vs. paused show different amounts of detail, on purpose.**
+      While `isPlaying`, only the chip row shows — in fast speech the
+      active word can advance a couple of times a second, far too fast to
+      read prose alongside it, and toggling the detail list on and off
+      that often would just be noisy. The detail list (each morpheme
+      restated with its gloss and a short explanation) only appears once
+      playback actually stops on a word — paused, or the clip reached the
+      end — the one moment there's actually time to read it.
+    - **Two separate, deliberately different animations.** The chip row
+      remounts on every `activeWordIndex` change (keyed by it) and plays a
+      short (220ms) fade/slide-up-in on each remount — quick, since it has
+      to keep up with fast speech. The detail list's reveal uses a
+      `grid-template-rows: 0fr -> 1fr` + opacity transition (360ms,
+      `cubic-bezier(0.22, 1, 0.36, 1)`) toggled by an `is-visible` class
+      tied to `!isPlaying` — a pure-CSS way to animate from/to `height:
+      auto` smoothly without measuring pixel heights in JS, slower and
+      gentler since it's for the one moment someone stops to actually read.
 - **Icons** (`player-icons.tsx`): hand-drawn inline SVGs (pause, prev/next
   track, back arrow), same convention as `SearchIcon` — no icon library.
   **Exception: `PlayIcon`** — the original hand-drawn triangle path's
