@@ -352,21 +352,27 @@ sibling of `Hero` in `app/page.tsx`, not nested inside it.
 - Collapsed: a pill (`border-radius: 999px`, `height: 4.5rem`) showing a
   rotating Quechua word and a circular magnifying-glass icon button. The
   word cycles through a fixed list (`QUECHUA_WORDS` in `search-bar.tsx`) —
-  **"Maskhay"** (to search), **"Uyariy"** (to listen), **"Yachay"** (to
-  know/learn), **"Rimay"** (to speak), **"Simi"** (word) — themed around the
-  product's search → listen → learn flow. Every word holds for
-  `WORD_DISPLAY_MS` (3000ms), then cross-fades to the next via a `<span>`
-  that transitions `opacity`/`transform` over `WORD_FADE_MS` (350ms) while a
-  `setTimeout` nested inside a `setInterval` swaps the underlying word index
-  during that fade's invisible midpoint — looping forever, back to
-  "Maskhay" after "Simi". The rotation pauses while the pill is open (the
-  effect bails out on `isOpen`) so the word doesn't shift under the user
-  while they're focused on typing; closing it resumes the loop and force-
-  resets visibility to `true` first, in case the pill was reopened mid-
-  fade-out. **All five words are real, not invented, but none have had
-  their spelling checked against Puno/Collao-specific usage by a Quechua
-  speaker on the team yet — [TO BE DEFINED]/verify before this ships for
-  real.**
+  **"P'unchaykuna"**, **"Mikhuy"**, **"T'anta"**, **"Wasi"**, **"P'unchay"**.
+  Every word holds for `WORD_DISPLAY_MS` (3000ms), then cross-fades to the
+  next via a `<span>` that transitions `opacity`/`transform` over
+  `WORD_FADE_MS` (350ms) while a `setTimeout` nested inside a `setInterval`
+  swaps the underlying word index during that fade's invisible midpoint —
+  looping forever, back to the first word after the last. The rotation
+  pauses while the pill is open (the effect bails out on `isOpen`) so the
+  word doesn't shift under the user while they're focused on typing;
+  closing it resumes the loop and force-resets visibility to `true` first,
+  in case the pill was reopened mid-fade-out. **Each word is checked
+  present in the real generated `search-index.json`, not just
+  plausible-looking** — an earlier list ("Maskhay", "Uyariy", "Yachay",
+  "Rimay", "Simi", themed around the product's search → listen → learn
+  flow) turned out to have three of five words absent from the real
+  corpus once real search replaced the single hand-placed example (see
+  KaraokePlayer below); hitting search with one of those showing landed on
+  `NoResultsState` by coincidence of word choice, which read as the search
+  itself being broken. [TO BE DEFINED]/verify the current five against
+  Puno/Collao-specific usage by a Quechua speaker before this ships for
+  real — being *indexed* confirms they occur in the corpus, not that
+  they're spelled/used correctly.
 - Clicking the word swaps it for a real, autofocused `<input>` (same slot,
   same visual spot) with the current rotating word as its `placeholder`
   (frozen, since rotation is paused while open), and the pill widens
@@ -472,25 +478,37 @@ the full dataset, not a demo of the UI shape.
   were both removed on request, for a cleaner header with just the title
   itself (and now the back/theme buttons above it — see "Back button"/
   `ThemeToggle` under Tokens).
-- **Search resolution and matching.** `activeQuery` is normalized
-  (`normalizeWord()` — lowercase, strip only leading/trailing punctuation,
-  so `"hampiqmi,"` and the index key `"hampiqmi"` compare equal while
-  internal characters like the hyphen in `"ayllu-ayllunta"` survive — this
-  must stay in sync with the identical function in
+- **Search resolution and matching — two tiers, by design.** `activeQuery`
+  is normalized (`normalizeWord()` — lowercase, strip only leading/trailing
+  punctuation, so `"hampiqmi,"` and the index key `"hampiqmi"` compare equal
+  while internal characters like the hyphen in `"ayllu-ayllunta"` survive —
+  this must stay in sync with the identical function in
   `data/scripts/lib/normalize-word.js`, which built the index's keys in the
-  first place) and looked up directly in `search-index.json` for its
-  matching `audio_id`s; each one's combined clip JSON is then fetched. This
-  two-effect dance (load the index once; refetch matched clips whenever
-  `searchIndex`/`activeQuery` change) lives in `karaoke-player.tsx`, with a
-  `resolved` state bundling `{ query, clips }` together — checking
-  `resolved.query === activeQuery` (not just `resolved !== null`) is what
-  tells "these clips actually answer the current search" apart from "the
-  previous search's clips are still sitting here while a new fetch is in
-  flight"; the alternative, clearing clips synchronously at the top of the
-  fetch effect, trips `react-hooks/set-state-in-effect` and would let the
-  *previous* clip's `<audio>` keep seeking/playing under the *new* query's
-  highlighting for a moment. Within whichever clip is active,
-  `findSearchMatches()` highlights every occurrence (see the transcript
+  first place) and looked up directly in the already-loaded
+  `search-index.json` for its matching `audio_id`s (`matchIds`, a `useMemo`
+  — a plain in-memory lookup, no fetch at all). Every one of those matches
+  renders its sidebar card straight from the also-already-loaded
+  `metadata.json` catalog. **Only the one *active* match's full clip —
+  real alignment timestamps, the word-by-word morphosyntactic breakdown,
+  and (via `<audio src>`) the audio itself — is ever fetched**, keyed on
+  `activeId` (`matchIds[activeMatchIndex]`); switching matches changes
+  `activeId` and triggers that fetch for the newly selected one, not
+  before. **This replaced an earlier version that fetched every matched
+  clip's full combined JSON up front** (metadata *and* alignment *and*
+  analysis, for every card in the list, not just the one being played) —
+  functionally fine for a handful of matches, but a common grammatical word
+  with 200+ real occurrences (see `MAX_MATCHES`'s own comment) would have
+  downloaded 24 clips' worth of alignment/analysis data to show a list that
+  only ever plays one of them at a time. `resolvedClip` bundles `{ id,
+  clip }` together — checking `resolvedClip.id === activeId` (not just
+  `resolvedClip !== null`) is what tells "this clip's full data actually
+  answers the current selection" apart from "the previous match's full
+  data is still sitting here while a new fetch is in flight"; the
+  alternative, clearing it synchronously at the top of the fetch effect,
+  trips `react-hooks/set-state-in-effect` and would let the *previous*
+  clip's `<audio>` keep seeking/playing under the *new* selection for a
+  moment. Within whichever clip is active, `findSearchMatches()` highlights
+  every occurrence (see the transcript
   bullet below) and `computeInitialSeekTime()` jumps playback to
   `MATCH_LEAD_IN_WORDS` (3) words before the *first* one, applied to the
   `<audio>` element in the event-listener effect — tried immediately and
@@ -523,38 +541,25 @@ the full dataset, not a demo of the UI shape.
   `?q=`) now counts as a no-results search too — with real, per-query data
   there's no fallback "example" clip left to fall through to the way there
   used to be back when every search opened the same hand-placed clip.
-  **Caveat found wiring this up:** `SearchBar`'s own rotating demo words
-  (`QUECHUA_WORDS` — "Maskhay", "Uyariy", "Rimay") aren't all guaranteed to
-  exist in the real corpus; three of the five currently don't, so clicking
-  search while one of those is showing lands on this no-results state by
-  coincidence of word choice, not a bug in the search itself.
-  [TO BE DEFINED]: swap `QUECHUA_WORDS` for words confirmed present in
-  `search-index.json`.
-- **Simulated search delay + skeleton loading UI.** The actual data (small
-  local static JSON files) loads near-instantly, which read as too abrupt —
-  a page that resolves in a few milliseconds doesn't feel like a search
-  happened. `SIMULATED_SEARCH_DELAY_MS` (3000) in `karaoke-player.tsx`
-  holds the page in a loading state for at least that long regardless of
-  how fast the real fetch was: a `minLoadingElapsed` flag flips true from a
-  `setTimeout` on mount, and `isReady = isCurrentQueryResolved &&
-  minLoadingElapsed` gates every section of real content. This delay is
-  the one deliberately make-believe thing left in this component now that
-  the search and data behind it are real — purely to preview how the
-  loading state itself should feel; [TO BE DEFINED] whether it survives
-  once real network latency (S3 audio, a non-local search index) exists to
-  mask instead.
-  - **Replays on every in-page re-search, not just the first load.** The
-    `setTimeout` effect depends on `activeQuery` rather than `[]`, and
-    `handleInPageSearch()` (see "In-player search" below) resets
-    `minLoadingElapsed` to `false` in the same event handler that updates
-    `activeQuery` — so submitting a new word from `PlayerSearchOverlay`
-    drops straight back into the skeleton phase for `SIMULATED_SEARCH_DELAY_MS`
-    before revealing the new result, the same as the very first load, instead
-    of snapping to it instantly. `minLoadingElapsed` is reset in the handler
-    itself rather than as a side effect inside the timer effect, on purpose —
-    see `PlayerSearchOverlay`'s own near-identical `react-hooks/
-    set-state-in-effect` note for why state belonging to an event gets set in
-    that event's handler, not reactively inside an effect watching it.
+  Wiring this up to the real dataset is also what surfaced that
+  `SearchBar`'s own rotating demo words weren't all guaranteed to exist in
+  the real corpus — see "Each word is checked present..." under SearchBar
+  above for that fix.
+- **Real loading state + skeleton UI, no artificial delay.** `isReady =
+  matchIds !== null && metadataCatalog !== null && (matchCount === 0 ||
+  activeClip !== null)` in `karaoke-player.tsx` gates every section of real
+  content on data that has *actually* arrived — nothing is held back
+  longer than the real fetches take. **This replaced an earlier
+  `SIMULATED_SEARCH_DELAY_MS` (3000ms) that force-held every search in a
+  loading state for a fixed 3 seconds regardless of how fast the local
+  fetches resolved**, on request, specifically to preview how the loading
+  UI itself should feel before there was real data or a real fetch worth
+  waiting for. Once search became real multi-clip lookups and the per-match
+  fetch split described above, an artificial floor on top of that would
+  have meant waiting even when the real work was already done — removed
+  outright rather than tuned down, since "as long as the real request
+  takes, however long that is" was the explicit replacement, not a shorter
+  fixed number.
   - **The whole page shell renders immediately** — header, title,
     `ViewSwitch`, `AudioPlayerControls` — only the sections whose content
     actually depends on the fetched data swap to a skeleton
@@ -607,10 +612,12 @@ the full dataset, not a demo of the UI shape.
     `audioRef.current.play()` directly, no effect involved), so audio
     audibly played — just with `currentTime` never updating, so the
     transcript highlight, seek bar, and Analysis tab all sat frozen.
-    **Fix:** added `minLoadingElapsed` to that effect's dependency array,
-    so it re-evaluates once `<audio>` actually exists and attaches the
-    listeners for real at that point, same as before the skeleton phase
-    existed.
+    **Fix:** added a dependency that still changes once `<audio>` actually
+    mounts, so the effect re-evaluates and attaches the listeners for real
+    at that point — `minLoadingElapsed` at the time (the skeleton phase's
+    now-removed artificial-delay flag, see "Real loading state" below);
+    today that role is filled by `activeClip` itself, which only becomes
+    non-null once the active match's clip has actually loaded.
 - **Bugs fixed — stale state surviving navigation, both directions.**
   Clicking the back button used to leave the clip audibly playing on `/`;
   separately, a typed-but-unsent SearchBar query (or an open pill) could
@@ -800,18 +807,36 @@ the full dataset, not a demo of the UI shape.
     active-word state specifically, so a second "selected" meaning doesn't
     dilute it); its play icon swaps for a small pulsing dot while that clip
     is actually playing. `karaoke-player.tsx` renders one real card per
-    fetched clip (`clips.map(...)`, keyed by `clip.metadata.audio_id` —
-    stable across refetches, unlike an array index) — `matchCount` is now a
-    genuine match count (`clips.length`, capped at `MAX_MATCHES`), not the
-    earlier placeholder that only ever showed `0` or `1`. The transport's
-    previous/next buttons move `activeMatchIndex` between them (clamped to
-    `matchCount`, not wrapping); switching clips this way now loads a
-    genuinely different audio file (a different `<audio src>`, not just a
-    different position in the same one), so `selectMatch()` just updates
-    `activeMatchIndex` and lets the event-listener effect's own
-    seek-on-`loadedmetadata` handling take it from there, rather than
-    seeking synchronously itself the way it did when every match pointed at
-    the same file.
+    match id (`matchIds.map(...)`, looked up in `metadataCatalog` — see
+    "Search resolution and matching" above — keyed by `audio_id`, stable
+    across re-searches, unlike an array index) — `matchCount` is now a
+    genuine match count (`matchIds.length`, capped at `MAX_MATCHES`), not
+    an earlier placeholder that only ever showed `0` or `1`. The
+    transport's previous/next buttons move `activeMatchIndex` between them
+    (clamped to `matchCount`, not wrapping); switching clips this way now
+    loads a genuinely different audio file (a different `<audio src>`, not
+    just a different position in the same one), so `selectMatch()` just
+    updates `activeMatchIndex` and lets the clip-fetch + event-listener
+    effects described above take it from there, rather than seeking
+    synchronously itself the way it did when every match pointed at the
+    same file.
+    - **Bug fixed — crash on a real record with no `gender`.** `humanize()`
+      assumed its `value` argument was always a string and called
+      `.replace()` on it unconditionally; 30 of the 1222 real transcribed
+      records have `gender: null` (checked against the generated dataset,
+      not assumed), so searching a word that happened to match one of them
+      crashed the whole page with `Cannot read properties of null (reading
+      'replace')` — a real-data edge case the single hand-placed example
+      never had a chance to surface, since every one of its fields was
+      always populated. **Fix:** `humanize()` returns `""` for a
+      falsy/null `value`; `speakerLine`'s existing `.filter(Boolean)` then
+      drops that empty segment on its own, so a card with no gender on
+      record just shows age alone instead of crashing. `AudioMetadata.gender`/
+      `accents` in `types.ts` are now typed `string | null` to match —
+      every field `build-audios.js` writes is nullable in principle (any
+      empty TSV cell becomes `null`), but these two are the ones actually
+      confirmed null in the real data so far; treat any other field as
+      nullable too unless it's been checked the same way.
   - **Analysis** (`word-analysis.tsx`): a graphical morphosyntactic
     breakdown — root and suffixes rendered as flat colored chips (root =
     `--color-gloss-root`/`--color-on-primary`, suffixes =

@@ -72,3 +72,9 @@ export type ClipData = {
 // public/data/search-index.json, built by data/scripts/build-search-index.js
 // — normalized word -> every audio_id whose transcript contains it.
 export type SearchIndex = Record<string, number[]>;
+
+// public/data/metadata.json, built by data/scripts/build-metadata.js —
+// every transcribed audio's metadata, keyed by audio_id, fetched once so
+// every match card in a search's results can render without fetching each
+// match's full ClipData (only ever needed for the one active match).
+export type MetadataCatalog = Record<string, AudioMetadata>;
