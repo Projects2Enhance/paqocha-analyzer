@@ -480,6 +480,74 @@ matching against this transcript" below.
   to `/search` and satisfies that requirement — confirmed in-browser;
   autoplay only fails when the page is reached with no prior interaction
   at all, e.g. opening the URL directly.
+- **Simulated search delay + skeleton loading UI.** The actual data (three
+  small local JSON files) loads near-instantly, which read as too abrupt —
+  a page that resolves in a few milliseconds doesn't feel like a search
+  happened. `SIMULATED_SEARCH_DELAY_MS` (3000) in `karaoke-player.tsx`
+  holds the page in a loading state for at least that long regardless of
+  how fast the real fetch was: a `minLoadingElapsed` flag flips true from a
+  `setTimeout` on mount, and `isReady = isDataLoaded && minLoadingElapsed`
+  gates every section of real content. Every other bug fix in this file
+  treats the provisional data source as a UI-only concern and playback/
+  navigation correctness as real; this is the one place that's
+  *deliberately* make-believe, on request, to preview how the loading
+  state itself will eventually feel.
+  - **The whole page shell renders immediately** — header, title,
+    `ViewSwitch`, `AudioPlayerControls` — only the sections whose content
+    actually depends on the fetched data swap to a skeleton
+    (`loading-skeletons.tsx`): the transcript (`TranscriptSkeleton`, word-
+    shaped blocks grouped into two paragraph-shaped clusters, a rough
+    approximation of this example's actual shape, not a literal
+    placeholder for its real word count), the matches list (exactly one
+    `MatchCardSkeleton` — the list doesn't know yet how many real matches
+    there will be, so it doesn't pretend to), and the Analysis tab
+    (`WordAnalysisSkeleton`, chip-row-shaped blocks + three detail-row-
+    shaped blocks). `AudioPlayerControls` itself needed no skeleton
+    variant: `duration` simply isn't set from `metadata` until the real
+    `<audio>` element reports it (see below), so it already reads "0:00"
+    during this whole phase for free, from its ordinary initial state.
+  - **The pulse is a slow, gentle opacity breathe** (`--color-border-subtle`
+    blocks, `opacity: 0.55 -> 1 -> 0.55` over 1.6s, `ease-in-out`,
+    infinite) — not a hard blink, matching the "soft, minimal" brief;
+    respects `prefers-reduced-motion`.
+  - **`<audio>` itself doesn't mount until `isReady`.** It used to mount as
+    soon as `metadata` arrived, to let the browser start buffering during
+    the wait — but that would leave a fully wired, clickable
+    `AudioPlayerControls` sitting over a skeleton transcript with a real
+    `<audio>` element already behind it: pressing play during the
+    simulated delay would have started real, audible playback while the
+    page still looked like it was loading. Waiting for `isReady` closes
+    that off entirely (no `<audio>` element, so `handleTogglePlay`'s
+    `if (!audio) return` is always true) at the cost of a real, independent
+    buffering delay right when the content reveals — negligible for a
+    33-second local file.
+  - **The reveal itself is one more animation, not a hard swap.**
+    Real content fades up (`paqocha-reveal-in`, `opacity`+`translateY`,
+    420ms) the moment it first mounts — which is exactly the reveal
+    moment, since each piece (`KaraokeTranscript`, the matches list,
+    `WordAnalysis`) only ever mounts once `isReady` is true. No separate
+    crossfade state is needed: the skeleton unmounts and the real content
+    mounts in the same render, and the mounting content's own entrance
+    animation is what reads as the transition.
+  - **Bug fixed — UI froze while audio kept playing.** A direct
+    consequence of making `<audio>` wait for `isReady` above: the
+    event-listener effect (the one that attaches `"timeupdate"`,
+    seeks to the lead-in position, autoplays, etc.) depended on
+    `[metadata, alignment, query]`, none of which change again once data
+    first loads — so it ran exactly once, at the moment `metadata`/
+    `alignment` settle, which is *before* `isReady` (and therefore
+    `<audio>`) exists. `audioRef.current` was still `null`, the effect's
+    `if (!audio || !alignment) return` fired, and no listeners were ever
+    attached — not then, and not later either, since nothing in its
+    dependency list changes when `<audio>` finally mounts a few seconds
+    after. The transport buttons still worked (`handleTogglePlay` calls
+    `audioRef.current.play()` directly, no effect involved), so audio
+    audibly played — just with `currentTime` never updating, so the
+    transcript highlight, seek bar, and Analysis tab all sat frozen.
+    **Fix:** added `minLoadingElapsed` to that effect's dependency array,
+    so it re-evaluates once `<audio>` actually exists and attaches the
+    listeners for real at that point, same as before the skeleton phase
+    existed.
 - **Bugs fixed — stale state surviving navigation, both directions.**
   Clicking the back button used to leave the clip audibly playing on `/`;
   separately, a typed-but-unsent SearchBar query (or an open pill) could
@@ -581,9 +649,19 @@ matching against this transcript" below.
   marks focus/active state" usage rule from Tokens, not decoration. Already-
   played words fade to `--color-text-muted`; upcoming words stay full
   `--color-text` (not grayed out, to stay legible). Clicking any word seeks
-  the audio there and plays it — a deliberate YouGlish-like "jump to this
-  word" affordance, not just a progress display. The active word also
-  auto-scrolls into view (`scrollIntoView({block: "nearest"})`).
+  the audio there — a deliberate YouGlish-like "jump to this word"
+  affordance, not just a progress display — **without changing play state**:
+  `onWordClick` calls `seekTo(time)` with no `autoplay` argument, so a
+  paused player stays paused at the new position and a playing one just
+  continues from there. An earlier version always force-played on click
+  (`seekTo(time, true)`), which meant clicking a word while paused silently
+  resumed playback — surprising, and specifically not wanted: pausing
+  should stay a deliberate, sticky state until the user presses play again,
+  not something a transcript click can undo as a side effect. (Jumping
+  straight to a search match still autoplays — that's `selectMatch()` in
+  `karaoke-player.tsx`, a different, explicit "go listen to this" action,
+  not a transcript click.) The active word also auto-scrolls into view
+  (`scrollIntoView({block: "nearest"})`).
   - **Search matches get their own, separate highlight.** Every word index
     in `matchWordIndices` (from "Search matching against this transcript"
     above) gets a persistent `color-mix(in srgb, var(--color-primary) 18%,

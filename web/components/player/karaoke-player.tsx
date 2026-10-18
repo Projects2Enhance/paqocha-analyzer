@@ -4,6 +4,12 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { AudioPlayerControls } from "./audio-player-controls";
 import { KaraokeTranscript } from "./karaoke-transcript";
+import {
+  MatchCardSkeleton,
+  SKELETON_STYLES,
+  TranscriptSkeleton,
+  WordAnalysisSkeleton,
+} from "./loading-skeletons";
 import { MatchCard, MATCH_CARD_STYLES } from "./match-card";
 import { BackArrowIcon } from "./player-icons";
 import type {
@@ -24,6 +30,10 @@ const MATCH_COUNT = 5;
 // How many words of lead-in before the first search match to start
 // playback from, so the clip doesn't open mid-sentence right on the word.
 const MATCH_LEAD_IN_WORDS = 3;
+// Artificial minimum wait before revealing real content, simulating a
+// search request — the actual fetches (static local JSON) resolve far
+// faster than this. See web/DESIGN.md -> Components -> KaraokePlayer.
+const SIMULATED_SEARCH_DELAY_MS = 3000;
 
 // Finds the last word whose start time has passed — words are sorted
 // ascending, so once we pass `time` we can stop. Keeps the current word
@@ -94,8 +104,17 @@ export function KaraokePlayer() {
   const [duration, setDuration] = useState(0);
   const [view, setView] = useState<ResultsView>("list");
   const [activeMatchIndex, setActiveMatchIndex] = useState(0);
+  const [minLoadingElapsed, setMinLoadingElapsed] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(
+      () => setMinLoadingElapsed(true),
+      SIMULATED_SEARCH_DELAY_MS,
+    );
+    return () => clearTimeout(timeoutId);
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -116,7 +135,10 @@ export function KaraokePlayer() {
           setMetadata(metadataJson);
           setAlignment(alignmentJson);
           setWordAnalysis(wordAnalysisJson);
-          setDuration(metadataJson.duration_ms / 1000);
+          // Not setting `duration` from metadata here — it stays at its
+          // initial 0 (shown as "0:00" in AudioPlayerControls) until the
+          // real <audio> element reports it below, so the skeleton phase
+          // never flashes the real duration early.
         },
       )
       .catch(() => {
@@ -146,6 +168,10 @@ export function KaraokePlayer() {
     // cached) and reapplied on "loadedmetadata" — setting currentTime
     // before duration is known can silently get reset once it loads.
     applyInitialTime();
+    // Defensive: if duration somehow is already known the instant this
+    // runs, pick it up immediately rather than only from "loadedmetadata"
+    // below (which won't fire again if it already fired once, missed).
+    if (!Number.isNaN(audio.duration)) setDuration(audio.duration);
     // Autoplays on every fresh load (this effect only meaningfully runs
     // once per mount — see the full-navigation note above) — requested on
     // purpose: landing on a search-match lead-in that's still paused read
@@ -183,7 +209,19 @@ export function KaraokePlayer() {
       // rather than relying on implicit cleanup.
       audio.pause();
     };
-  }, [metadata, alignment, query]);
+    // `minLoadingElapsed` is a real dependency, not just a formality: the
+    // <audio> element itself only mounts once `isReady` (which needs it)
+    // is true — see the render below — so `audioRef.current` is still
+    // null the first time this effect runs (right when `metadata`/
+    // `alignment` settle, well before the simulated delay elapses). Without
+    // this in the deps, the effect would hit the `!audio` early return
+    // once, never re-run once <audio> actually exists a few seconds later,
+    // and silently never attach any listeners at all — audio would still
+    // play (the transport buttons call `audioRef.current.play()`
+    // directly), just with the transcript/seek bar/Analysis never
+    // updating, since nothing was listening for "timeupdate". This was a
+    // real bug, caught after the fact, not a hypothetical.
+  }, [metadata, alignment, query, minLoadingElapsed]);
 
   function seekTo(time: number, autoplay = false) {
     const audio = audioRef.current;
@@ -210,23 +248,20 @@ export function KaraokePlayer() {
     );
   }
 
-  if (!metadata || !alignment || !wordAnalysis) {
-    return (
-      <PageShell query={query}>
-        <p style={{ color: "var(--color-text-muted)" }}>Loading example…</p>
-      </PageShell>
-    );
-  }
+  const isDataLoaded = Boolean(metadata && alignment && wordAnalysis);
+  // Gates on the simulated delay too, not just the (near-instant, local)
+  // fetches — see SIMULATED_SEARCH_DELAY_MS above.
+  const isReady = isDataLoaded && minLoadingElapsed;
 
-  const activeWordIndex = findActiveWordIndex(
-    alignment.word_segments,
-    currentTime,
-  );
-  const searchMatchIndices = findSearchMatches(alignment.word_segments, query);
-  const matchStartTime = computeInitialSeekTime(
-    alignment.word_segments,
-    searchMatchIndices,
-  );
+  const activeWordIndex = alignment
+    ? findActiveWordIndex(alignment.word_segments, currentTime)
+    : -1;
+  const searchMatchIndices = alignment
+    ? findSearchMatches(alignment.word_segments, query)
+    : [];
+  const matchStartTime = alignment
+    ? computeInitialSeekTime(alignment.word_segments, searchMatchIndices)
+    : 0;
 
   function selectMatch(index: number) {
     setActiveMatchIndex(index);
@@ -237,12 +272,16 @@ export function KaraokePlayer() {
     <PageShell query={query}>
       <div className="flex flex-1 min-h-0 flex-col lg:flex-row gap-5 lg:gap-6 px-5 sm:px-8 pb-5 sm:pb-8 overflow-hidden">
         <div className="flex flex-col min-h-0 flex-1 gap-4">
-          <KaraokeTranscript
-            segments={alignment.segments}
-            activeWordIndex={activeWordIndex}
-            matchWordIndices={searchMatchIndices}
-            onWordClick={(time) => seekTo(time, true)}
-          />
+          {isReady && alignment ? (
+            <KaraokeTranscript
+              segments={alignment.segments}
+              activeWordIndex={activeWordIndex}
+              matchWordIndices={searchMatchIndices}
+              onWordClick={(time) => seekTo(time)}
+            />
+          ) : (
+            <TranscriptSkeleton />
+          )}
           <AudioPlayerControls
             isPlaying={isPlaying}
             currentTime={currentTime}
@@ -259,30 +298,45 @@ export function KaraokePlayer() {
         <div className="flex flex-col min-h-0 max-h-[38vh] lg:max-h-none lg:h-full lg:w-[320px] flex-shrink-0 gap-3">
           <ViewSwitch value={view} onChange={setView} />
           {view === "list" ? (
-            <div className="flex flex-col gap-3 min-h-0 overflow-y-auto">
-              {Array.from({ length: MATCH_COUNT }, (_, index) => (
-                <MatchCard
-                  key={index}
-                  metadata={metadata}
-                  isActive={index === activeMatchIndex}
-                  isPlaying={isPlaying}
-                  onSelect={() => selectMatch(index)}
-                />
-              ))}
-            </div>
-          ) : (
+            isReady && metadata ? (
+              <div className="flex flex-col gap-3 min-h-0 overflow-y-auto paqocha-reveal-fade">
+                {Array.from({ length: MATCH_COUNT }, (_, index) => (
+                  <MatchCard
+                    key={index}
+                    metadata={metadata}
+                    isActive={index === activeMatchIndex}
+                    isPlaying={isPlaying}
+                    onSelect={() => selectMatch(index)}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="flex flex-col gap-3 min-h-0 overflow-y-auto">
+                <MatchCardSkeleton />
+              </div>
+            )
+          ) : isReady && wordAnalysis ? (
             <WordAnalysis
               words={wordAnalysis.words}
               activeWordIndex={activeWordIndex}
               isPlaying={isPlaying}
             />
+          ) : (
+            <WordAnalysisSkeleton />
           )}
         </div>
       </div>
 
       <style>{MATCH_CARD_STYLES}</style>
+      <style>{SKELETON_STYLES}</style>
 
-      <audio ref={audioRef} src={`${EXAMPLE_BASE_PATH}/${metadata.audio_file}`} preload="auto" />
+      {isReady && metadata && (
+        <audio
+          ref={audioRef}
+          src={`${EXAMPLE_BASE_PATH}/${metadata.audio_file}`}
+          preload="auto"
+        />
+      )}
     </PageShell>
   );
 }
