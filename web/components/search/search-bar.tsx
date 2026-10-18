@@ -15,6 +15,14 @@ const QUECHUA_WORDS = ["Maskhay", "Uyariy", "Yachay", "Rimay", "Simi"];
 const WORD_DISPLAY_MS = 3000;
 const WORD_FADE_MS = 350;
 
+// Strips every whitespace character (space, tab, newline — including a
+// pasted-in multi-word string), not just leading/trailing, so the query can
+// only ever be a single token. Shared conceptually with
+// PlayerSearchOverlay's identical helper, not literally — see that file.
+function sanitizeSingleWord(value: string): string {
+  return value.replace(/\s+/g, "");
+}
+
 // Styled inline / with a scoped <style> tag on purpose — see DESIGN.md's
 // "Known build constraint" on why *.module.css doesn't work in this project.
 export function SearchBar() {
@@ -141,7 +149,9 @@ export function SearchBar() {
               ref={inputRef}
               type="text"
               value={query}
-              onChange={(event) => setQuery(event.target.value)}
+              onChange={(event) =>
+                setQuery(sanitizeSingleWord(event.target.value))
+              }
               onKeyDown={(event) => {
                 if (event.key === "Enter") handleSearch();
               }}

@@ -12,6 +12,7 @@ import {
 } from "./loading-skeletons";
 import { MatchCard, MATCH_CARD_STYLES } from "./match-card";
 import { BackArrowIcon } from "./player-icons";
+import { PlayerSearchOverlay } from "./player-search-overlay";
 import type {
   Alignment,
   AlignmentWord,
@@ -21,6 +22,7 @@ import type {
 import { ViewSwitch, type ResultsView } from "./view-switch";
 import { WordAnalysis } from "./word-analysis";
 import { ThemeToggle } from "@/lib/theme/theme-toggle";
+import { SearchIcon } from "@/components/search/search-icon";
 
 const EXAMPLE_BASE_PATH = "/example";
 // No real "other matches" dataset yet — this many cards of the same one
@@ -90,7 +92,11 @@ function computeInitialSeekTime(
 // playback starts at 0:00 with no highlighting.
 export function KaraokePlayer() {
   const searchParams = useSearchParams();
-  const query = searchParams.get("q")?.trim();
+  // Initial value only — see handleInPageSearch below for why this isn't
+  // re-read from searchParams on every render.
+  const [activeQuery, setActiveQuery] = useState(() =>
+    searchParams.get("q")?.trim(),
+  );
 
   const [metadata, setMetadata] = useState<AudioMetadata | null>(null);
   const [alignment, setAlignment] = useState<Alignment | null>(null);
@@ -105,6 +111,7 @@ export function KaraokePlayer() {
   const [view, setView] = useState<ResultsView>("list");
   const [activeMatchIndex, setActiveMatchIndex] = useState(0);
   const [minLoadingElapsed, setMinLoadingElapsed] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -155,7 +162,7 @@ export function KaraokePlayer() {
 
     const initialTime = computeInitialSeekTime(
       alignment.word_segments,
-      findSearchMatches(alignment.word_segments, query),
+      findSearchMatches(alignment.word_segments, activeQuery),
     );
 
     function applyInitialTime() {
@@ -202,26 +209,35 @@ export function KaraokePlayer() {
       audio.removeEventListener("play", handlePlay);
       audio.removeEventListener("pause", handlePause);
       audio.removeEventListener("ended", handlePause);
-      // Explicitly stop playback on unmount (e.g. navigating back to "/"
-      // via the back button). Removing an <audio> element from the DOM
-      // doesn't reliably stop it immediately in every browser — this was a
-      // real bug, not a demo-data shortcut — so it's paused directly here
-      // rather than relying on implicit cleanup.
+      // Stops playback whenever this cleanup runs, not only on unmount —
+      // also on every `activeQuery` change, i.e. a new in-page search (see
+      // PlayerSearchOverlay/handleInPageSearch below): a brief, synchronous
+      // pause right before the new run's own `audio.play()` a few lines up,
+      // not a perceptible gap. The unmount case (e.g. navigating back to
+      // "/" via the back button) is still the main reason this exists:
+      // removing an <audio> element from the DOM doesn't reliably stop it
+      // immediately in every browser — a real bug, not a demo-data
+      // shortcut — so it's paused directly here rather than relying on
+      // implicit cleanup.
       audio.pause();
     };
-    // `minLoadingElapsed` is a real dependency, not just a formality: the
-    // <audio> element itself only mounts once `isReady` (which needs it)
-    // is true — see the render below — so `audioRef.current` is still
-    // null the first time this effect runs (right when `metadata`/
-    // `alignment` settle, well before the simulated delay elapses). Without
-    // this in the deps, the effect would hit the `!audio` early return
-    // once, never re-run once <audio> actually exists a few seconds later,
-    // and silently never attach any listeners at all — audio would still
-    // play (the transport buttons call `audioRef.current.play()`
-    // directly), just with the transcript/seek bar/Analysis never
-    // updating, since nothing was listening for "timeupdate". This was a
-    // real bug, caught after the fact, not a hypothetical.
-  }, [metadata, alignment, query, minLoadingElapsed]);
+    // `activeQuery` deliberately reruns this whole effect on an in-page
+    // re-search — same seek-to-lead-in + autoplay + (re)attach-listeners
+    // behavior as the very first load, just triggered by a new search term
+    // instead of a fresh mount. `minLoadingElapsed` is a dependency for a
+    // different reason, not just a formality: the <audio> element itself
+    // only mounts once `isReady` (which needs it) is true — see the render
+    // below — so `audioRef.current` is still null the first time this
+    // effect runs (right when `metadata`/`alignment` settle, well before
+    // the simulated delay elapses). Without this in the deps, the effect
+    // would hit the `!audio` early return once, never re-run once <audio>
+    // actually exists a few seconds later, and silently never attach any
+    // listeners at all — audio would still play (the transport buttons
+    // call `audioRef.current.play()` directly), just with the transcript/
+    // seek bar/Analysis never updating, since nothing was listening for
+    // "timeupdate". This was a real bug, caught after the fact, not a
+    // hypothetical.
+  }, [metadata, alignment, activeQuery, minLoadingElapsed]);
 
   function seekTo(time: number, autoplay = false) {
     const audio = audioRef.current;
@@ -238,9 +254,37 @@ export function KaraokePlayer() {
     else audio.pause();
   }
 
+  // Re-searching *from* the player (the new magnifying-glass button in the
+  // header, not SearchBar on "/") deliberately does *not* repeat the
+  // full-navigation pattern documented above for Home <-> player — that
+  // pattern exists to dodge Next's router-cache state leaks *across
+  // routes*; this never leaves "/search" at all. Updating `activeQuery`
+  // (plain React state) and reseeking the already-mounted <audio> element
+  // directly is simpler and smoother, and the metadata/alignment/
+  // word-analysis fetches don't need to repeat either, since they don't
+  // depend on the query — only the derived matches/seek position do.
+  // `history.replaceState`, not a Next.js navigation of any kind (no
+  // `router.push`, no `<Link>`), keeps the address bar honest without
+  // asking Next's router to do anything at all.
+  function handleInPageSearch(term: string) {
+    const sanitized = term.replace(/\s+/g, "");
+    if (!sanitized) return;
+    setActiveQuery(sanitized);
+    setActiveMatchIndex(0);
+    window.history.replaceState(
+      null,
+      "",
+      `/search?q=${encodeURIComponent(sanitized)}`,
+    );
+    setIsSearchOpen(false);
+  }
+
   if (loadError) {
     return (
-      <PageShell query={query}>
+      <PageShell
+        query={activeQuery}
+        onOpenSearch={() => setIsSearchOpen(true)}
+      >
         <p style={{ color: "var(--color-text-muted)" }}>
           Couldn&apos;t load the example clip. Try refreshing.
         </p>
@@ -257,7 +301,7 @@ export function KaraokePlayer() {
     ? findActiveWordIndex(alignment.word_segments, currentTime)
     : -1;
   const searchMatchIndices = alignment
-    ? findSearchMatches(alignment.word_segments, query)
+    ? findSearchMatches(alignment.word_segments, activeQuery)
     : [];
   const matchStartTime = alignment
     ? computeInitialSeekTime(alignment.word_segments, searchMatchIndices)
@@ -269,7 +313,7 @@ export function KaraokePlayer() {
   }
 
   return (
-    <PageShell query={query}>
+    <PageShell query={activeQuery} onOpenSearch={() => setIsSearchOpen(true)}>
       <div className="flex flex-1 min-h-0 flex-col lg:flex-row gap-5 lg:gap-6 px-5 sm:px-8 pb-5 sm:pb-8 overflow-hidden">
         <div className="flex flex-col min-h-0 flex-1 gap-4">
           {isReady && alignment ? (
@@ -337,15 +381,23 @@ export function KaraokePlayer() {
           preload="auto"
         />
       )}
+
+      <PlayerSearchOverlay
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+        onSubmit={handleInPageSearch}
+      />
     </PageShell>
   );
 }
 
 function PageShell({
   query,
+  onOpenSearch,
   children,
 }: {
   query: string | undefined;
+  onOpenSearch: () => void;
   children: ReactNode;
 }) {
   return (
@@ -369,7 +421,7 @@ function PageShell({
             <a
               href="/"
               aria-label="Back to home"
-              className="paqocha-back-link"
+              className="paqocha-icon-button"
               style={{
                 display: "inline-flex",
                 alignItems: "center",
@@ -384,7 +436,30 @@ function PageShell({
               <BackArrowIcon size={18} />
             </a>
 
-            <ThemeToggle />
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={onOpenSearch}
+                aria-label="Search"
+                className="paqocha-icon-button"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "2.75rem",
+                  height: "2.75rem",
+                  borderRadius: "999px",
+                  border: "none",
+                  background: "var(--color-primary)",
+                  color: "var(--color-on-primary)",
+                  cursor: "pointer",
+                }}
+              >
+                <SearchIcon size={18} />
+              </button>
+
+              <ThemeToggle />
+            </div>
           </div>
 
           <h1
@@ -402,15 +477,20 @@ function PageShell({
       </div>
 
       <style>{`
-        .paqocha-back-link {
+        /* Shared by the back link and the new search trigger — both are
+           plain filled --color-primary circles with identical hover/press
+           feedback, so one class covers both instead of two near-duplicate
+           ones. (ThemeToggle keeps its own equivalent rules under its own
+           class name, self-contained on purpose — see its own file.) */
+        .paqocha-icon-button {
           transition: filter 160ms ease, transform 120ms ease;
         }
 
-        .paqocha-back-link:hover {
+        .paqocha-icon-button:hover {
           filter: brightness(1.08);
         }
 
-        .paqocha-back-link:active {
+        .paqocha-icon-button:active {
           transform: scale(0.94);
         }
       `}</style>

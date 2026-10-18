@@ -427,6 +427,17 @@ sibling of `Hero` in `app/page.tsx`, not nested inside it.
   currently showing if the input is empty. See `KaraokePlayer` below for
   what that route renders, and for why this is `window.location.href`, a
   full navigation, rather than `next/link`'s client-side `router.push`.
+- **Single word only.** `onChange` runs the typed value through
+  `sanitizeSingleWord()` (`value.replace(/\s+/g, "")`) before it ever
+  reaches `query` state — strips every whitespace character anywhere in
+  the string, not just the ends, so a pasted `"two words"` becomes
+  `"twowords"` live as it's typed, not just trimmed. There's no real search
+  yet to validate this against, but the product is word lookup, not
+  phrase search, so the input shouldn't accept something it was never
+  going to honor. `PlayerSearchOverlay` (see KaraokePlayer below) has an
+  identical, separately-defined helper of the same name — small enough
+  that a shared `utils.ts` for one line felt like more ceremony than the
+  duplication it would remove.
 
 ### KaraokePlayer (`components/player/`)
 
@@ -609,7 +620,45 @@ matching against this transcript" below.
   visible circle at rest, which read as "just an arrow" until moused over,
   and that hover fill used `--color-border-subtle` rather than a button
   color, hence "a weird color" at the wrong moment. A plain `<a>` (see the
-  bug fix above), not `next/link`'s `<Link>`.
+  bug fix above), not `next/link`'s `<Link>`. Its hover/press rules now live
+  under a shared `.paqocha-icon-button` class in `PageShell`'s stylesheet
+  (was `.paqocha-back-link`) — the new search trigger button below is
+  visually identical (same fill, same feedback), so one class covers both
+  instead of defining the same four rules twice. `ThemeToggle` keeps its own
+  equivalent class in its own file rather than importing this one, on
+  purpose — it's meant to stay a self-contained, drop-in-anywhere component,
+  not coupled to a class name defined in its caller.
+- **In-player search** (`player-search-overlay.tsx`): a second, smaller
+  entry point into the same search flow as SearchBar on the home page,
+  for searching again without first going back to "/". A magnifying-glass
+  button — `SearchIcon`, the same component SearchBar uses, in a circle
+  styled identically to the back/theme buttons (`.paqocha-icon-button`,
+  `--color-primary`) — sits to the left of `ThemeToggle` in the header;
+  clicking it opens `PlayerSearchOverlay`: the same backdrop-blur +
+  centered expanding-pill interaction as SearchBar, deliberately *not* a
+  literal reuse of that component (see the file's own doc comment for why
+  — different colors, different sizing, no rotating placeholder word, no
+  collapsed-pill state), built fresh with the page's semantic tokens
+  (`--color-surface`/`--color-text`) instead of SearchBar's theme-
+  independent `--brand-*` ones, since this page has no video underneath.
+  Same single-word sanitization as SearchBar (see its own bullet above).
+  - **Submitting does *not* navigate anywhere, let alone reload** — the one
+    deliberate exception to "every Home<->player transition is a full
+    page load" elsewhere in this doc. That rule exists to dodge Next's
+    router-cache state leaking *across routes*; searching again here never
+    leaves `/search` at all, so there's no route boundary for the cache to
+    leak across. `handleInPageSearch()` in `karaoke-player.tsx` instead: 1)
+    updates `activeQuery` (plain `useState`, not derived live from
+    `useSearchParams()` after the initial render) — re-running the seek/
+    autoplay/listener effect via its `activeQuery` dependency (see the
+    effect's own comment) exactly as if it were a fresh load, just without
+    re-fetching `metadata`/`alignment`/`word-analysis` (none of which
+    depend on the query, so there's nothing to re-fetch) or repeating the
+    simulated-delay skeleton (nothing to wait on either); 2) calls
+    `window.history.replaceState(...)` directly — not `router.push` or
+    `<Link>`, so Next's router is never asked to do anything — purely to
+    keep the address bar honest. The overlay closing is just its own
+    `isOpen` prop flipping back to `false`; nothing unmounts.
 - **Play icon — size and rounding.** The transport play button's icon was
   small relative to its circle (`size={24}` in a `3.5rem` button); bumped to
   `size={28}`. Its corners are now also subtly rounded: each sharp vertex of
