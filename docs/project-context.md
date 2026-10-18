@@ -52,14 +52,22 @@ No concrete schema, field names, or storage format are defined yet — see
 ## High-level architecture
 
 - A single Next.js application (App Router, TypeScript) lives in `web/` and
-  covers both the UI and the server layer — there is no separate backend at
-  this stage.
-- Server Components, Route Handlers, and/or Server Actions will perform
-  searches and read from S3, where the dataset's audio files and associated
-  data live.
-- [TO BE DEFINED] Where transcriptions and morphosyntactic analyses will be
-  stored, and how they will be indexed for search — S3 alone is object
-  storage, not a search engine, so this needs a separate decision.
+  covers both the UI and the server layer — there is no separate backend,
+  no database, and no per-request analysis: everything the client needs is
+  precomputed offline (see `data/README.md`) into static JSON.
+- **Audio**: hosted in the `paqocha-audio` Cloudflare R2 bucket, served
+  publicly via its CDN (`https://cdn-paqocha.iampol.dev/audios/<file>`).
+  The client references it directly as a plain `<audio src>` — no fetch,
+  no CORS requirement.
+- **Transcriptions, translations, and morphosyntactic analysis**: not in a
+  database or search engine. A one-time offline pipeline
+  (`data/scripts/`) turns the raw corpus + a colleague's inverted index +
+  forced-alignment timestamps into static JSON shipped with the app
+  (`web/public/data/{metadata,search-index}.json`,
+  `web/public/data/clips/<audio_id>.json`): a lean catalog + search index
+  fetched once, and one self-contained per-clip file (alignment + full
+  word-by-word analysis) fetched lazily only for the active match. See
+  `web/DESIGN.md` -> Components -> KaraokePlayer for the fetch strategy.
 
 ## Principles
 
@@ -82,6 +90,4 @@ altered. [TO BE DEFINED] whether a Quechua UI option is introduced later.
 
 ## Pending decisions
 
-- [TO BE DEFINED] Transcript/analysis storage format and search-indexing
-  strategy (S3 is not queryable on its own).
 - [TO BE DEFINED] Hero video subject and consent.

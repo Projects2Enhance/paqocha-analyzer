@@ -457,9 +457,8 @@ sibling of `Hero` in `app/page.tsx`, not nested inside it.
 The search-results page (`app/search/page.tsx`, route `/search`) — a
 YouGlish-style karaoke player: synced transcript on top, classic transport
 controls below, a sidebar list of other matching clips. Still no database
-or search-backend server (see `docs/project-context.md`'s "Pending
-decisions") — search is real against the real corpus, but entirely over
-static files generated offline from the raw dataset. See
+or search-backend server — search is real against the real corpus, but
+entirely over static files generated offline from the raw dataset. See
 `../data/README.md` for the generation pipeline (TSV + a colleague's
 `inverted_index.json` + real forced-alignment timestamps -> `public/data/
 search-index.json` + one combined `public/data/clips/<audio_id>.json` per
@@ -493,11 +492,15 @@ the full dataset, not a demo of the UI shape.
   — a plain in-memory lookup, no fetch at all). Every one of those matches
   renders its sidebar card straight from the also-already-loaded
   `metadata.json` catalog. **Only the one *active* match's full clip —
-  real alignment timestamps, the word-by-word morphosyntactic breakdown,
-  and (via `<audio src>`) the audio itself — is ever fetched**, keyed on
+  real alignment timestamps and the word-by-word morphosyntactic
+  breakdown — is ever fetched**, keyed on
   `activeId` (`matchIds[activeMatchIndex]`); switching matches changes
   `activeId` and triggers that fetch for the newly selected one, not
-  before. **This replaced an earlier version that fetched every matched
+  before. The audio itself is never fetched by the app at all — the
+  `<audio src>` points straight at the CDN (`AUDIOS_BASE_PATH`, see
+  `../data/README.md` -> "Audio hosting"), which the browser streams
+  directly and needs no CORS headers for (a plain media `src`, not a
+  `fetch()`). **This replaced an earlier version that fetched every matched
   clip's full combined JSON up front** (metadata *and* alignment *and*
   analysis, for every card in the list, not just the one being played) —
   functionally fine for a handful of matches, but a common grammatical word

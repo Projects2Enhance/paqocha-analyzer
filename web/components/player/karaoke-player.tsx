@@ -25,12 +25,11 @@ import { SearchIcon } from "@/components/search/search-icon";
 const SEARCH_INDEX_PATH = "/data/search-index.json";
 const METADATA_PATH = "/data/metadata.json";
 const CLIPS_BASE_PATH = "/data/clips";
-// Provisional: a flat folder of every mp3, filled in by hand for now (see
-// web/public/data/audios/) — stands in for the real S3-backed audio
-// hosting that'll eventually replace it. Only `audio_file` (from each
-// clip's own metadata) is ever appended to this, never anything
+// Real audio hosting: Cloudflare R2 bucket `paqocha-audio`, served through
+// its CDN — see data/README.md -> "Audio hosting (CDN)". Only `audio_file`
+// (from each clip's own metadata) is ever appended to this, never anything
 // user-supplied.
-const AUDIOS_BASE_PATH = "/data/audios";
+const AUDIOS_BASE_PATH = "https://cdn-paqocha.iampol.dev/audios";
 // Caps how many matches get considered per search (list + fetchable active
 // clip alike). Checked against the real generated index: most words occur
 // in only a handful of clips (median 1, p90 4 across the 7541 indexed
