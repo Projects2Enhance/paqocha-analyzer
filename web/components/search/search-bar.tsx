@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { SearchIcon } from "./search-icon";
 
@@ -18,9 +19,11 @@ const WORD_FADE_MS = 350;
 // Styled inline / with a scoped <style> tag on purpose — see DESIGN.md's
 // "Known build constraint" on why *.module.css doesn't work in this project.
 export function SearchBar() {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [wordIndex, setWordIndex] = useState(0);
   const [wordVisible, setWordVisible] = useState(true);
+  const [query, setQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -29,11 +32,21 @@ export function SearchBar() {
     }
   }, [isOpen]);
 
+  // Also resets wordVisible to true, in case the pill is closing mid
+  // fade-out — otherwise the rotation effect below could restart with the
+  // word stuck invisible until its next 3s tick. Done here, in the event
+  // handlers that close the pill, rather than as a synchronous setState at
+  // the top of an effect (react-hooks/set-state-in-effect).
+  function closeSearch() {
+    setIsOpen(false);
+    setWordVisible(true);
+  }
+
   useEffect(() => {
     if (!isOpen) return;
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
-        setIsOpen(false);
+        closeSearch();
       }
     }
     window.addEventListener("keydown", handleKeyDown);
@@ -42,11 +55,9 @@ export function SearchBar() {
 
   // Cycles the default word every WORD_DISPLAY_MS, looping forever. Paused
   // while open so the placeholder doesn't shift under the user while they
-  // type; `setWordVisible(true)` up front clears any fade-out left over from
-  // closing mid-transition, so the pill never reopens showing a blank word.
+  // type.
   useEffect(() => {
     if (isOpen) return;
-    setWordVisible(true);
     const intervalId = setInterval(() => {
       setWordVisible(false);
       setTimeout(() => {
@@ -59,13 +70,22 @@ export function SearchBar() {
 
   const currentWord = QUECHUA_WORDS[wordIndex];
 
+  // No real search/backend yet (see web/DESIGN.md -> Components ->
+  // KaraokePlayer) — this always opens the same example clip, regardless of
+  // the term, but still carries it through as `?q=` for the results page's
+  // header.
+  function handleSearch() {
+    const term = query.trim() || currentWord;
+    router.push(`/search?q=${encodeURIComponent(term)}`);
+  }
+
   return (
     <>
       {/* Blurs everything behind it (hero video + tagline) while open. Always
           mounted so opacity/blur can transition smoothly in both directions. */}
       <div
         aria-hidden="true"
-        onClick={() => setIsOpen(false)}
+        onClick={closeSearch}
         style={{
           position: "fixed",
           inset: 0,
@@ -111,6 +131,11 @@ export function SearchBar() {
             <input
               ref={inputRef}
               type="text"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") handleSearch();
+              }}
               placeholder={currentWord}
               className="paqocha-search-input"
               style={{
@@ -155,11 +180,11 @@ export function SearchBar() {
             </button>
           )}
 
-          {/* Visual/button only — does not search or navigate anywhere yet. */}
           <button
             type="button"
             className="paqocha-search-icon-button"
             aria-label="Search"
+            onClick={handleSearch}
             style={{
               flexShrink: 0,
               display: "flex",

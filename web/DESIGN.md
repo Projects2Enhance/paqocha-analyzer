@@ -365,6 +365,92 @@ sibling of `Hero` in `app/page.tsx`, not nested inside it.
   "no new dependencies" constraint from the theme-system phase.
 - Styled inline / with a scoped `<style>` tag — see "Known build
   constraint" above.
+- **Search trigger:** the input is now controlled (`query` state), and
+  pressing `Enter` in it or clicking the magnifying-glass icon (now wired,
+  no longer purely decorative) calls `handleSearch()`, which
+  `router.push`es to `/search?q=<term>` — `term` falls back to whichever
+  rotating word is currently showing if the input is empty. See
+  `KaraokePlayer` below for what that route renders.
+
+### KaraokePlayer (`components/player/`)
+
+The search-results page (`app/search/page.tsx`, route `/search`) — a
+YouGlish-style karaoke player: synced transcript on top, classic transport
+controls below, a sidebar list of other matching clips. No real search
+backend exists yet (see `docs/project-context.md`'s "Pending decisions"), so
+**every search currently opens the same one provisional real example**
+(`public/example/{metadata,alignment}.json` + its `.mp3`) — `KaraokePlayer`
+fetches those three client-side on mount (`fetch("/example/...")`, not a
+build-time import) so swapping in a real `/api/search` later is a one-line
+change, not a rewrite.
+
+- **Route/Suspense:** `app/search/page.tsx` is a server component that just
+  wraps the client `KaraokePlayer` in `<Suspense>`, because `KaraokePlayer`
+  reads `?q=` via `useSearchParams()`, which always needs a Suspense
+  boundary (see Next's Cache-Components migration guide — this repo runs
+  Next 16 with `cacheComponents: true`). The header's `h1` echoes `q` back
+  (`"word"` in quotes, or "Example clip" if absent) purely as context; it is
+  **not** filtered against — the italic note under it says as much
+  (`"Real audio and transcript, demo data — every search opens this clip
+  until matching across the full dataset is wired up."`), so this doesn't
+  read as a broken search to anyone poking at it before the real backend
+  exists.
+- **Layout:** viewport-locked (`position: fixed; inset: 0`), same pattern as
+  `Hero` — no page-level scroll; the transcript and the matches list each
+  scroll independently inside their own panel. `flex-col` (stacked,
+  transcript+player above, matches below, capped at `max-h-[38vh]`) below
+  the `lg` breakpoint, `lg:flex-row` (transcript+player left, matches
+  sidebar fixed at `320px` right, full height) at/above it — satisfies
+  "matches to the right on desktop, below on small screens" directly via
+  Tailwind responsive classes, no JS breakpoint logic. Content is capped at
+  `max-w-[1240px]` and centered, rather than stretched edge-to-edge, since
+  this one short (33s) example otherwise reads as mostly empty space.
+- **Karaoke transcript** (`karaoke-transcript.tsx`): renders
+  `alignment.segments[].words[]` as clickable word spans. The active word
+  (last word whose `start` has passed `audio.currentTime`, held through any
+  inter-word silence gap until the next word's `start`) gets
+  `--color-highlight`/`--color-on-highlight` — this is exactly the "lime
+  marks focus/active state" usage rule from Tokens, not decoration. Already-
+  played words fade to `--color-text-muted`; upcoming words stay full
+  `--color-text` (not grayed out, to stay legible). Clicking any word seeks
+  the audio there and plays it — a deliberate YouGlish-like "jump to this
+  word" affordance, not just a progress display. The active word also
+  auto-scrolls into view (`scrollIntoView({block: "nearest"})`).
+  - **Known inline-style bug, fixed here too:** the active/past/default
+    colors are applied via CSS classes (`.is-active`/`.is-past`), not inline
+    `style`, specifically so the `:hover` rule in the same stylesheet can
+    still win — see SearchBar's identical fix above. Setting these
+    conditionally in `style={{ background: ... }}` would silently defeat
+    `:hover` again.
+- **Transport controls** (`audio-player-controls.tsx`): play/pause, a native
+  `<input type="range">` seek bar (`accentColor: var(--color-primary)`,
+  simplest correct way to theme a range input, no custom track/thumb
+  markup), and previous/next-match buttons. Previous/next navigate the
+  *matches list* (different clips), not words/segments within one clip —
+  matching the brief's "pausar, siguiente audio, anterior audio". With only
+  one real example they're `disabled` and the row reads "Match 1 / 1";
+  wiring them up is just passing a real matches array once search exists.
+- **Matches sidebar** (`match-card.tsx`): one card per matching clip —
+  region/accent, a 2-line clamped transcript excerpt, speaker
+  age/gender (humanized: `"male_masculine"` → `"Male"`,
+  `"thirties"` → `"30s"`), and duration. The selected card gets a
+  `--color-primary` border/ring (not lime — lime is reserved for the
+  karaoke active-word state specifically, so a second "selected" meaning
+  doesn't dilute it); its play icon swaps for a small pulsing dot while that
+  clip is actually playing. Only one real card exists right now, but the
+  component takes `metadata`/`isActive`/`onSelect` as props and the sidebar
+  already scrolls its own list independently, so it's shaped to render many.
+- **Icons** (`player-icons.tsx`): hand-drawn inline SVGs (play, pause, prev/
+  next track, back arrow), same convention as `SearchIcon` — no icon
+  library.
+- Metadata fields actually used are typed in `types.ts`; fields the UI
+  doesn't read (votes, prompt IDs, etc.) are left untyped on purpose rather
+  than modeling the full example schema.
+- **No Spanish translation shown.** `project-context.md`'s dataset model
+  describes one, but this provisional `metadata.json` only has `prompt`
+  (the Quechua prompt the speaker was given) and `transcription` (Quechua) —
+  no translation field — so none is fabricated here. [TO BE DEFINED] once a
+  real translation field exists in the dataset.
 
 ### Theme-independent UI
 
@@ -374,3 +460,10 @@ system (`--brand-cream` / `--brand-ink` instead of `--color-text` /
 page's `--color-bg`/`--color-surface` chrome. Reach for the semantic,
 theme-switching tokens for anything that sits on the page background; reach
 for the `--brand-*` primitives only for UI that sits on the video.
+
+`KaraokePlayer` is the opposite case and a useful contrast: it's a normal
+page (own route, own `--color-bg` background, no video underneath), so it
+uses the semantic tokens throughout (`--color-surface` for the transcript/
+controls/match-card panels, `--color-primary` for the play button and
+selected-match ring, `--color-highlight` for the karaoke active word) and
+follows the site's light/dark theme like any other page content would.
