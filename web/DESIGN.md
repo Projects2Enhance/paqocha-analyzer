@@ -147,9 +147,36 @@ Ratios computed with the standard WCAG 2.1 relative-luminance formula.
   the current theme and a setter/toggle via the `useTheme()` hook. It
   persists the choice to `localStorage` and updates `data-theme` on
   `<html>`.
-- `ThemeToggle` (`lib/theme/theme-toggle.tsx`) is a minimal, accessible
-  button for manually verifying the system (`aria-pressed`, clear label
-  text). It will be redesigned once real UI components are defined.
+  - **Bug fixed — hydration error.** `theme` used to come from a lazy
+    `useState` initializer that read `data-theme` off `document` on first
+    client render. That's a real client/server divergence whenever the
+    stored theme was `"dark"`: the server (no `document`) always renders as
+    if `"light"`, so any descendant that branches its *rendered output* on
+    `theme` — not just a CSS class, but different JSX, like `ThemeToggle`'s
+    icon and `aria-label` below — produced a server/client mismatch React's
+    hydration diffing caught (visible as a "Recoverable Error" in the dev
+    overlay, surfaced the first time anything actually consumed `theme`
+    this way). **Fix:** `theme` now comes from `useSyncExternalStore`
+    (`subscribe` on an internal listener set `setTheme` notifies,
+    `getSnapshot` = `readActiveTheme()`, `getServerSnapshot` = always
+    `"light"`) — the React-sanctioned API for exactly this "value SSR can't
+    see" case, which renders the server-safe value first and re-renders
+    with the real one right after hydration with **no mismatch warning**,
+    unlike `useState` + a mount `useEffect` doing the same sync (which also
+    separately trips `react-hooks/set-state-in-effect`). `toggleTheme` now
+    reads `readActiveTheme()` directly instead of closing over `theme`, so
+    it never toggles off a stale snapshot either.
+- `ThemeToggle` (`lib/theme/theme-toggle.tsx`): icon-only, a filled
+  `--color-primary` circle (same visual language as KaraokePlayer's back/
+  play buttons) showing a moon while light (click to go dark) or a sun
+  while dark (click to go light) — the icon for the theme a click switches
+  *to*, the common convention. Fixed top-right on the home page only
+  (`app/page.tsx`), `position: fixed`, same `top` clamp as SearchBar's pill
+  for alignment. Deliberately uses the semantic, theme-switching tokens even
+  though it sits over the hero video — unlike `Hero`/`SearchBar`, which
+  deliberately don't (see "Theme-independent UI" below), this component's
+  entire job is to reflect/control theme state, so reacting to it is
+  correct here, not an oversight.
 - No theme-change transition for now.
 - Tailwind v4 picks up the tokens via an `@theme inline` block in
   `app/globals.css` that maps Tailwind's color namespace to the same CSS
@@ -372,10 +399,11 @@ sibling of `Hero` in `app/page.tsx`, not nested inside it.
   constraint" above.
 - **Search trigger:** the input is now controlled (`query` state), and
   pressing `Enter` in it or clicking the magnifying-glass icon (now wired,
-  no longer purely decorative) calls `handleSearch()`, which
-  `router.push`es to `/search?q=<term>` — `term` falls back to whichever
-  rotating word is currently showing if the input is empty. See
-  `KaraokePlayer` below for what that route renders.
+  no longer purely decorative) calls `handleSearch()`, which navigates to
+  `/search?q=<term>` — `term` falls back to whichever rotating word is
+  currently showing if the input is empty. See `KaraokePlayer` below for
+  what that route renders, and for why this is `window.location.href`, a
+  full navigation, rather than `next/link`'s client-side `router.push`.
 
 ### KaraokePlayer (`components/player/`)
 
@@ -399,20 +427,37 @@ change, not a rewrite.
   so (an earlier italic disclaimer under the title was removed on request
   for a cleaner header), so that honesty lives here in the docs and in code
   comments instead until real matching exists.
-- **Bug fixed — audio didn't stop on navigating away.** Clicking the back
-  button used to leave the clip audibly playing on `/`. Root cause: Next's
-  client-side navigation doesn't reliably stop an `<audio>` element just
-  because React unmounts it — in practice (confirmed in-browser) the node
-  can stay `isConnected` after navigating away, consistent with this app's
-  instant-navigation/router-cache setup (`cacheComponents` +
-  `partialPrefetching` in `next.config.ts`). **Fix:** the event-listener
-  effect's cleanup (`useEffect(..., [metadata])` in `karaoke-player.tsx`)
-  now explicitly calls `audio.pause()`, using the `audio` constant it
-  already captures at effect-setup time — not a fresh `audioRef.current`
-  read inside the cleanup, which `react-hooks/exhaustive-deps` correctly
-  flags as unreliable (the ref can change between setup and cleanup). This
-  was treated as the real bug it was, not a demo-data quirk: the data
-  source is provisional, but playback lifecycle correctness is not.
+- **Bugs fixed — stale state surviving navigation, both directions.**
+  Clicking the back button used to leave the clip audibly playing on `/`;
+  separately, a typed-but-unsent SearchBar query (or an open pill) could
+  still be showing after a round trip to `/search` and back, and
+  revisiting `/search` could land on whatever tab/playback position the
+  *previous* visit left `KaraokePlayer` in. Root cause for all three: Next's
+  client-side navigation (`next/link`, `router.push`) doesn't reliably
+  unmount/remount components across a route change here — in practice
+  (confirmed in-browser) a previous route's `<audio>` node could stay
+  `isConnected` and its React state alive after navigating away, consistent
+  with this app's instant-navigation/router-cache setup (`cacheComponents` +
+  `partialPrefetching` in `next.config.ts`).
+  **Fix:** both directions — `SearchBar`'s `handleSearch()` and
+  `KaraokePlayer`'s back button — now use a real full-page navigation
+  (`window.location.href` / a plain `<a href="/">`, not `<Link>`/
+  `router.push`) instead of trying to out-think the router cache's edge
+  cases. A full navigation guarantees every visit to either route starts
+  from a genuinely fresh module/component instantiation — no leftover
+  `isPlaying`, `currentTime`, selected tab, or pill state is even possible,
+  by construction, not by remembering to reset each one by hand. This is a
+  deliberate trade of the SPA's instant-transition feel for correctness
+  between exactly these two routes; each `<a>`/`window.location.href` use
+  carries an `eslint-disable-next-line` for the Next.js rule that otherwise
+  pushes back toward `<Link>`, with a comment explaining why. The earlier,
+  narrower fix — the event-listener effect's cleanup in `karaoke-player.tsx`
+  explicitly calling `audio.pause()` on the `audio` constant it captures at
+  effect-setup time, not a fresh `audioRef.current` read (which
+  `react-hooks/exhaustive-deps` correctly flags as unreliable) — is kept as
+  defense-in-depth, but the full-navigation change is what actually
+  guarantees the clean-slate behavior requested, for the player and for
+  SearchBar alike.
 - **Layout:** viewport-locked (`position: fixed; inset: 0`), same pattern as
   `Hero` — no page-level scroll; the transcript and the matches/analysis
   panel each scroll independently inside their own area. `flex-col`
@@ -437,6 +482,32 @@ change, not a rewrite.
 - **Back button:** a circular icon-only button (just `BackArrowIcon`,
   `aria-label="Back to home"`) replacing an earlier text+icon "← Home" link
   — on request, to read as a plain nav control rather than a labeled link.
+  Filled `--color-primary`/`--color-on-primary`, matching the play button's
+  circle exactly (same colors, `filter: brightness(1.08)` hover, `scale(0.94)`
+  press) — an earlier version only showed a background on `:hover`, i.e. no
+  visible circle at rest, which read as "just an arrow" until moused over,
+  and that hover fill used `--color-border-subtle` rather than a button
+  color, hence "a weird color" at the wrong moment. A plain `<a>` (see the
+  bug fix above), not `next/link`'s `<Link>`.
+- **Play icon — size and rounding.** The transport play button's icon was
+  small relative to its circle (`size={24}` in a `3.5rem` button); bumped to
+  `size={28}`. Its corners are now also subtly rounded: each sharp vertex of
+  the Material `play_arrow` triangle (see the Icons bullet below for why
+  that path specifically) is cut by a quadratic Bezier curve (control point
+  = that vertex), rather than a sharp point — `player-icons.tsx` has the
+  exact coordinates and the reasoning for the specific radius per corner
+  (smaller at the tip, which is more acute). Both `AudioPlayerControls`'
+  play button and `MatchCard`'s
+  small list-item play icon share the same `PlayIcon` component, so the
+  rounding applies to both automatically; only the transport button's size
+  changed.
+- **Seek bar border.** The native `<input type="range">` was showing a
+  default browser-drawn border/outline on its track that `accentColor`
+  alone doesn't remove. Fixed with an explicit `border: none` on the input
+  itself and, since Chromium's default styling actually lives on the
+  pseudo-elements rather than the input, on
+  `::-webkit-slider-runnable-track`/`::-webkit-slider-thumb`/
+  `::-moz-range-track`/`::-moz-range-thumb` too.
 - **Karaoke transcript** (`karaoke-transcript.tsx`): renders
   `alignment.segments[].words[]` as clickable word spans. The active word
   (last word whose `start` has passed `audio.currentTime`, held through any

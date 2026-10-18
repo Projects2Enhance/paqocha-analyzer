@@ -67,7 +67,12 @@ export function AudioPlayerControls({
           value={Math.min(currentTime, duration)}
           onChange={(event) => onSeek(Number(event.target.value))}
           className="paqocha-seek-bar"
-          style={{ flex: 1, accentColor: "var(--color-primary)" }}
+          style={{
+            flex: 1,
+            accentColor: "var(--color-primary)",
+            border: "none",
+            outline: "none",
+          }}
         />
         <span
           style={{
@@ -105,7 +110,7 @@ export function AudioPlayerControls({
           onClick={onTogglePlay}
           className="paqocha-transport-button paqocha-play-button"
         >
-          {isPlaying ? <PauseIcon size={24} /> : <PlayIcon size={24} />}
+          {isPlaying ? <PauseIcon size={24} /> : <PlayIcon size={28} />}
         </button>
 
         <button
@@ -130,6 +135,19 @@ export function AudioPlayerControls({
       </span>
 
       <style>{`
+        /* Chromium draws a default border/outline on the native range
+           track that accentColor alone doesn't remove — explicit here on
+           every vendor's track/thumb pseudo-element, not just the input
+           itself, to actually get rid of it. */
+        .paqocha-seek-bar,
+        .paqocha-seek-bar::-webkit-slider-runnable-track,
+        .paqocha-seek-bar::-webkit-slider-thumb,
+        .paqocha-seek-bar::-moz-range-track,
+        .paqocha-seek-bar::-moz-range-thumb {
+          border: none;
+          outline: none;
+        }
+
         .paqocha-seek-bar {
           height: 1.1rem;
           cursor: pointer;

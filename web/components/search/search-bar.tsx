@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { SearchIcon } from "./search-icon";
 
@@ -19,7 +18,6 @@ const WORD_FADE_MS = 350;
 // Styled inline / with a scoped <style> tag on purpose — see DESIGN.md's
 // "Known build constraint" on why *.module.css doesn't work in this project.
 export function SearchBar() {
-  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [wordIndex, setWordIndex] = useState(0);
   const [wordVisible, setWordVisible] = useState(true);
@@ -74,9 +72,20 @@ export function SearchBar() {
   // KaraokePlayer) — this always opens the same example clip, regardless of
   // the term, but still carries it through as `?q=` for the results page's
   // header.
+  //
+  // A full navigation (window.location, not next/link's client-side
+  // router.push) is deliberate: Next's instant-navigation/router cache
+  // (cacheComponents + partialPrefetching in next.config.ts) was observed
+  // keeping component state alive across client-side transitions between
+  // "/" and "/search" — a typed-but-unsent query surviving a round trip to
+  // the player and back, audio surviving a navigation away. Every visit to
+  // either route must start genuinely fresh, so both directions use a real
+  // page load instead of fighting the cache's edge cases. See
+  // web/DESIGN.md -> Components -> KaraokePlayer.
   function handleSearch() {
     const term = query.trim() || currentWord;
-    router.push(`/search?q=${encodeURIComponent(term)}`);
+    // eslint-disable-next-line @next/next/no-location-assign-relative-destination -- deliberate, see the comment above.
+    window.location.href = `/search?q=${encodeURIComponent(term)}`;
   }
 
   return (

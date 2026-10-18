@@ -13,11 +13,13 @@ export function PlayIcon({ size = 20 }: IconProps) {
       fill="currentColor"
       aria-hidden="true"
     >
-      {/* Material Design's play_arrow path — the previous hand-rolled
-          triangle had its centroid left of (12,12), so it read as
-          off-center inside a round button. This one is a known-good,
-          widely-used optical center for a right-pointing triangle. */}
-      <path d="M8 5v14l11-7z" />
+      {/* Sharp-triangle vertices (8,5)/(8,19)/(19,12) — Material's
+          play_arrow, a known-good optical center for a right-pointing
+          triangle, so the original off-center hand-rolled path (centroid
+          left of (12,12)) is still gone — each corner is cut by a
+          quadratic Bezier (control point = the sharp vertex) for a subtle
+          rounded-corner read instead of Material's sharp points. */}
+      <path d="M9.52 5.97 17.99 11.36Q19 12 17.99 12.64L9.52 18.03Q8 19 8 17.2V6.8Q8 5 9.52 5.97Z" />
     </svg>
   );
 }

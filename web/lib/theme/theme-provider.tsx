@@ -4,7 +4,8 @@ import {
   createContext,
   useCallback,
   useContext,
-  useState,
+  useRef,
+  useSyncExternalStore,
   type ReactNode,
 } from "react";
 
@@ -26,12 +27,33 @@ function readActiveTheme(): Theme {
     : "light";
 }
 
+function getServerTheme(): Theme {
+  return "light";
+}
+
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  // Lazy init reads the attribute the inline ThemeScript already set before
-  // hydration; falls back to "light" during SSR, where document is undefined.
-  const [theme, setThemeState] = useState<Theme>(() =>
-    typeof document === "undefined" ? "light" : readActiveTheme(),
-  );
+  // Notified by setTheme below; lets every ThemeProvider-consuming
+  // component re-read the DOM via useSyncExternalStore when it changes.
+  const listenersRef = useRef(new Set<() => void>());
+
+  const subscribe = useCallback((onStoreChange: () => void) => {
+    const listeners = listenersRef.current;
+    listeners.add(onStoreChange);
+    return () => {
+      listeners.delete(onStoreChange);
+    };
+  }, []);
+
+  // useSyncExternalStore, not useState+useEffect, specifically because
+  // `theme` reads something SSR can't see (the `data-theme` attribute
+  // ThemeScript sets on <html> from localStorage, before hydration, in
+  // <head>) — the sanctioned React API for exactly this case. The client
+  // snapshot (readActiveTheme) and server snapshot ("light", since
+  // `document` doesn't exist server-side) are allowed to differ: React
+  // renders the server snapshot first, then re-renders with the real
+  // client value right after hydration, with no mismatch warning, no
+  // manual effect, and no extra setState-in-effect render pass.
+  const theme = useSyncExternalStore(subscribe, readActiveTheme, getServerTheme);
 
   const setTheme = useCallback((next: Theme) => {
     document.documentElement.setAttribute("data-theme", next);
@@ -40,12 +62,14 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     } catch {
       // localStorage may be unavailable (private mode, blocked storage).
     }
-    setThemeState(next);
+    for (const listener of listenersRef.current) listener();
   }, []);
 
+  // Reads the DOM directly rather than closing over the `theme` value, so
+  // this never toggles off a stale snapshot.
   const toggleTheme = useCallback(() => {
-    setTheme(theme === "dark" ? "light" : "dark");
-  }, [theme, setTheme]);
+    setTheme(readActiveTheme() === "dark" ? "light" : "dark");
+  }, [setTheme]);
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme, toggleTheme }}>

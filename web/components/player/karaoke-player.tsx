@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { AudioPlayerControls } from "./audio-player-controls";
@@ -203,7 +202,11 @@ function PageShell({
     >
       <div className="flex flex-col flex-1 min-h-0 w-full max-w-[1240px] mx-auto">
         <header className="flex flex-col gap-3 px-5 sm:px-8 pt-5 sm:pt-7 pb-4">
-          <Link
+          {/* Plain <a>, not next/link's <Link> — a full navigation on
+              purpose, see the long comment on SearchBar's handleSearch. */}
+          {/* eslint-disable-next-line @next/next/no-html-link-for-pages --
+              deliberate: see the comment above. */}
+          <a
             href="/"
             aria-label="Back to home"
             className="paqocha-back-link"
@@ -211,14 +214,15 @@ function PageShell({
               display: "inline-flex",
               alignItems: "center",
               justifyContent: "center",
-              width: "2.5rem",
-              height: "2.5rem",
+              width: "2.75rem",
+              height: "2.75rem",
               borderRadius: "999px",
-              color: "var(--color-text-muted)",
+              background: "var(--color-primary)",
+              color: "var(--color-on-primary)",
             }}
           >
             <BackArrowIcon size={18} />
-          </Link>
+          </a>
 
           <div>
             <p
@@ -250,12 +254,15 @@ function PageShell({
 
       <style>{`
         .paqocha-back-link {
-          transition: background 160ms ease, color 160ms ease;
+          transition: filter 160ms ease, transform 120ms ease;
         }
 
         .paqocha-back-link:hover {
-          background: var(--color-border-subtle);
-          color: var(--color-text);
+          filter: brightness(1.08);
+        }
+
+        .paqocha-back-link:active {
+          transform: scale(0.94);
         }
       `}</style>
     </div>
