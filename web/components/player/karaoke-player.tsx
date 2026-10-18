@@ -11,6 +11,7 @@ import {
   WordAnalysisSkeleton,
 } from "./loading-skeletons";
 import { MatchCard, MATCH_CARD_STYLES } from "./match-card";
+import { NoResultsState } from "./no-results-state";
 import { BackArrowIcon } from "./player-icons";
 import { PlayerSearchOverlay } from "./player-search-overlay";
 import type {
@@ -25,10 +26,6 @@ import { ThemeToggle } from "@/lib/theme/theme-toggle";
 import { SearchIcon } from "@/components/search/search-icon";
 
 const EXAMPLE_BASE_PATH = "/example";
-// No real "other matches" dataset yet — this many cards of the same one
-// provisional example, purely to preview the list UI with more than one
-// result. See web/DESIGN.md -> Components -> KaraokePlayer.
-const MATCH_COUNT = 5;
 // How many words of lead-in before the first search match to start
 // playback from, so the clip doesn't open mid-sentence right on the word.
 const MATCH_LEAD_IN_WORDS = 3;
@@ -87,9 +84,11 @@ function computeInitialSeekTime(
 // karaoke-style — see web/DESIGN.md -> Components -> KaraokePlayer. No real
 // search backend exists yet, so every search opens this same example, but
 // the search term *is* matched for real against this one transcript: if it
-// occurs there, playback starts a few words before the first occurrence
-// and every occurrence is highlighted in the transcript; if it doesn't,
-// playback starts at 0:00 with no highlighting.
+// occurs there, playback starts a few words before the first occurrence,
+// every occurrence is highlighted in the transcript, and the match list
+// shows this one real clip; if it doesn't occur at all, the whole player
+// body is replaced by NoResultsState — no transcript, controls, or match
+// list/analysis to interact with.
 export function KaraokePlayer() {
   const searchParams = useSearchParams();
   // Initial value only — see handleInPageSearch below for why this isn't
@@ -115,13 +114,17 @@ export function KaraokePlayer() {
 
   const audioRef = useRef<HTMLAudioElement>(null);
 
+  // Depends on `activeQuery`, not `[]`: an in-page re-search (see
+  // handleInPageSearch) resets `minLoadingElapsed` to false in its own event
+  // handler, and this effect re-arms the same timer, so the skeleton phase
+  // plays again for every search, not just the first one.
   useEffect(() => {
     const timeoutId = setTimeout(
       () => setMinLoadingElapsed(true),
       SIMULATED_SEARCH_DELAY_MS,
     );
     return () => clearTimeout(timeoutId);
-  }, []);
+  }, [activeQuery]);
 
   useEffect(() => {
     let cancelled = false;
@@ -271,6 +274,10 @@ export function KaraokePlayer() {
     if (!sanitized) return;
     setActiveQuery(sanitized);
     setActiveMatchIndex(0);
+    // Replays the same simulated-search skeleton phase as the first load
+    // (see the `minLoadingElapsed` effect above) instead of snapping
+    // straight to the new result.
+    setMinLoadingElapsed(false);
     window.history.replaceState(
       null,
       "",
@@ -307,6 +314,18 @@ export function KaraokePlayer() {
     ? computeInitialSeekTime(alignment.word_segments, searchMatchIndices)
     : 0;
 
+  // A query with zero real occurrences in this transcript blocks the whole
+  // player body (see NoResultsState) instead of showing a dead transcript
+  // and an empty match list. An empty query (direct nav to "/search" with
+  // no "?q=") isn't a "no results" search at all, so it still falls
+  // through to the one example clip as before.
+  const hasQuery = Boolean(activeQuery);
+  const hasMatches = !hasQuery || searchMatchIndices.length > 0;
+  const noResults = isReady && hasQuery && !hasMatches;
+  // Exactly one real clip exists either way — this isn't "how many times
+  // the word occurs", it's "how many clips matched" (see MatchCard).
+  const matchCount = hasMatches ? 1 : 0;
+
   function selectMatch(index: number) {
     setActiveMatchIndex(index);
     seekTo(matchStartTime, true);
@@ -314,67 +333,71 @@ export function KaraokePlayer() {
 
   return (
     <PageShell query={activeQuery} onOpenSearch={() => setIsSearchOpen(true)}>
-      <div className="flex flex-1 min-h-0 flex-col lg:flex-row gap-5 lg:gap-6 px-5 sm:px-8 pb-5 sm:pb-8 overflow-hidden">
-        <div className="flex flex-col min-h-0 flex-1 gap-4">
-          {isReady && alignment ? (
-            <KaraokeTranscript
-              segments={alignment.segments}
-              activeWordIndex={activeWordIndex}
-              matchWordIndices={searchMatchIndices}
-              onWordClick={(time) => seekTo(time)}
-            />
-          ) : (
-            <TranscriptSkeleton />
-          )}
-          <AudioPlayerControls
-            isPlaying={isPlaying}
-            currentTime={currentTime}
-            duration={duration}
-            onTogglePlay={handleTogglePlay}
-            onSeek={(time) => seekTo(time)}
-            onPrevious={() => selectMatch(activeMatchIndex - 1)}
-            onNext={() => selectMatch(activeMatchIndex + 1)}
-            canGoPrevious={activeMatchIndex > 0}
-            canGoNext={activeMatchIndex < MATCH_COUNT - 1}
-          />
-        </div>
-
-        <div className="flex flex-col min-h-0 max-h-[38vh] lg:max-h-none lg:h-full lg:w-[320px] flex-shrink-0 gap-3">
-          <ViewSwitch value={view} onChange={setView} />
-          {view === "list" ? (
-            isReady && metadata ? (
-              <div className="flex flex-col gap-3 min-h-0 overflow-y-auto paqocha-reveal-fade">
-                {Array.from({ length: MATCH_COUNT }, (_, index) => (
-                  <MatchCard
-                    key={index}
-                    metadata={metadata}
-                    isActive={index === activeMatchIndex}
-                    isPlaying={isPlaying}
-                    onSelect={() => selectMatch(index)}
-                  />
-                ))}
-              </div>
+      {noResults ? (
+        <NoResultsState query={activeQuery} />
+      ) : (
+        <div className="flex flex-1 min-h-0 flex-col lg:flex-row gap-5 lg:gap-6 px-5 sm:px-8 pb-5 sm:pb-8 overflow-hidden">
+          <div className="flex flex-col min-h-0 flex-1 gap-4">
+            {isReady && alignment ? (
+              <KaraokeTranscript
+                segments={alignment.segments}
+                activeWordIndex={activeWordIndex}
+                matchWordIndices={searchMatchIndices}
+                onWordClick={(time) => seekTo(time)}
+              />
             ) : (
-              <div className="flex flex-col gap-3 min-h-0 overflow-y-auto">
-                <MatchCardSkeleton />
-              </div>
-            )
-          ) : isReady && wordAnalysis ? (
-            <WordAnalysis
-              words={wordAnalysis.words}
-              activeWordIndex={activeWordIndex}
+              <TranscriptSkeleton />
+            )}
+            <AudioPlayerControls
               isPlaying={isPlaying}
+              currentTime={currentTime}
+              duration={duration}
+              onTogglePlay={handleTogglePlay}
+              onSeek={(time) => seekTo(time)}
+              onPrevious={() => selectMatch(activeMatchIndex - 1)}
+              onNext={() => selectMatch(activeMatchIndex + 1)}
+              canGoPrevious={activeMatchIndex > 0}
+              canGoNext={activeMatchIndex < matchCount - 1}
             />
-          ) : (
-            <WordAnalysisSkeleton />
-          )}
+          </div>
+
+          <div className="flex flex-col min-h-0 max-h-[38vh] lg:max-h-none lg:h-full lg:w-[320px] flex-shrink-0 gap-3">
+            <ViewSwitch value={view} onChange={setView} />
+            {view === "list" ? (
+              isReady && metadata ? (
+                <div className="flex flex-col gap-3 min-h-0 overflow-y-auto paqocha-reveal-fade">
+                  {Array.from({ length: matchCount }, (_, index) => (
+                    <MatchCard
+                      key={index}
+                      metadata={metadata}
+                      isActive={index === activeMatchIndex}
+                      isPlaying={isPlaying}
+                      onSelect={() => selectMatch(index)}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="flex flex-col gap-3 min-h-0 overflow-y-auto">
+                  <MatchCardSkeleton />
+                </div>
+              )
+            ) : isReady && wordAnalysis ? (
+              <WordAnalysis
+                words={wordAnalysis.words}
+                activeWordIndex={activeWordIndex}
+                isPlaying={isPlaying}
+              />
+            ) : (
+              <WordAnalysisSkeleton />
+            )}
+          </div>
         </div>
-      </div>
+      )}
 
       <style>{MATCH_CARD_STYLES}</style>
       <style>{SKELETON_STYLES}</style>
 
-      {isReady && metadata && (
+      {isReady && metadata && !noResults && (
         <audio
           ref={audioRef}
           src={`${EXAMPLE_BASE_PATH}/${metadata.audio_file}`}

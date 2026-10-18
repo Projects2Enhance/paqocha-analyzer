@@ -30,8 +30,9 @@ type MatchCardProps = {
 };
 
 // A single "coincidence" card — one audio clip where the searched word
-// occurs. Only one real example exists right now (see KaraokePlayer), but
-// this is shaped to render a scrollable list of many once search is real.
+// occurs. Only one real example exists right now (see KaraokePlayer), so
+// the list renders at most one of these; shaped to scroll a list of many
+// once a real multi-clip dataset exists.
 export function MatchCard({
   metadata,
   isActive,

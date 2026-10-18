@@ -69,6 +69,28 @@ export function NextTrackIcon({ size = 18 }: IconProps) {
   );
 }
 
+// Same magnifying glass as search-icon.tsx with an extra diagonal slash
+// through the lens, reading as "no results" rather than plain "search".
+export function SearchOffIcon({ size = 20 }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="11" cy="11" r="7" />
+      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      <line x1="7" y1="7" x2="15" y2="15" />
+    </svg>
+  );
+}
+
 export function BackArrowIcon({ size = 18 }: IconProps) {
   return (
     <svg
