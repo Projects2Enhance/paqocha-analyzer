@@ -18,7 +18,12 @@ const GENDER_LABELS: Record<string, string> = {
   female_feminine: "Female",
 };
 
-function humanize(value: string, table: Record<string, string>): string {
+// `value` is `null` for some real records (30 of 1222 have no `gender`,
+// confirmed against the generated dataset) — humanize-able data isn't
+// guaranteed to exist, unlike the hand-placed single example this
+// component was originally written against.
+function humanize(value: string | null, table: Record<string, string>): string {
+  if (!value) return "";
   return table[value] ?? value.replace(/_/g, " ");
 }
 
