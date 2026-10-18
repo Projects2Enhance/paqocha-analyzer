@@ -43,13 +43,27 @@ const MAX_MATCHES = 24;
 // playback from, so the clip doesn't open mid-sentence right on the word.
 const MATCH_LEAD_IN_WORDS = 3;
 
+// Seeking an <audio> element to an exact value doesn't reliably land on
+// that exact value — confirmed in-browser: clicking a word whose
+// `start` is `8.264` left `audio.currentTime` at `8.263999`, a browser
+// seek-precision artifact, not anything this app's own code computed.
+// Comparing that against `word.start` with plain `<=` then fails by a
+// fraction of a millisecond, right at the moment of the click, and the
+// active word resolves to the *previous* one instead — reported as
+// "clicking a word jumps to the word before it". This epsilon absorbs
+// exactly that: small enough to stay well under any real inter-word gap
+// in the dataset (tens to hundreds of ms), so it can't make the *next*
+// word activate early, but comfortably larger than the sub-millisecond
+// seek drift actually observed.
+const ACTIVE_WORD_EPSILON_S = 0.02;
+
 // Finds the last word whose start time has passed — words are sorted
 // ascending, so once we pass `time` we can stop. Keeps the current word
 // highlighted through any silence gap until the next word actually starts.
 function findActiveWordIndex(words: AlignmentWord[], time: number): number {
   let active = -1;
   for (const word of words) {
-    if (word.start <= time) {
+    if (word.start <= time + ACTIVE_WORD_EPSILON_S) {
       active += 1;
     } else {
       break;
@@ -317,6 +331,32 @@ export function KaraokePlayer() {
     else audio.pause();
   }
 
+  // Remembers whether the clip was actually playing right before the
+  // in-player search overlay opened, so dismissing it (Escape or a
+  // backdrop click — not submitting a search, which never calls this: see
+  // `handleInPageSearch`, which has its own autoplay via the clip-fetch
+  // effect for whatever clip the new query resolves to) resumes from
+  // exactly where it left off, rather than leaving it paused or
+  // restarting it. Everything that visually "plays" while the clip does —
+  // the transcript highlight, the seek bar — is itself driven by
+  // `currentTime`, which only advances while the <audio> element is
+  // actually playing, so pausing it here is also what pauses those.
+  const wasPlayingBeforeSearchRef = useRef(false);
+
+  function openSearchOverlay() {
+    const audio = audioRef.current;
+    wasPlayingBeforeSearchRef.current = Boolean(audio && !audio.paused);
+    audio?.pause();
+    setIsSearchOpen(true);
+  }
+
+  function closeSearchOverlay() {
+    setIsSearchOpen(false);
+    if (wasPlayingBeforeSearchRef.current) {
+      audioRef.current?.play().catch(() => {});
+    }
+  }
+
   // Re-searching *from* the player (the new magnifying-glass button in the
   // header, not SearchBar on "/") deliberately does *not* repeat the
   // full-navigation pattern documented above for Home <-> player — that
@@ -391,7 +431,7 @@ export function KaraokePlayer() {
   }
 
   return (
-    <PageShell query={activeQuery} onOpenSearch={() => setIsSearchOpen(true)}>
+    <PageShell query={activeQuery} onOpenSearch={openSearchOverlay}>
       {noResults ? (
         <NoResultsState query={activeQuery} />
       ) : (
@@ -472,7 +512,7 @@ export function KaraokePlayer() {
 
       <PlayerSearchOverlay
         isOpen={isSearchOpen}
-        onClose={() => setIsSearchOpen(false)}
+        onClose={closeSearchOverlay}
         onSubmit={handleInPageSearch}
       />
     </PageShell>

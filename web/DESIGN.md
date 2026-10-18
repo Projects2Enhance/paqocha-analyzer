@@ -715,16 +715,39 @@ the full dataset, not a demo of the UI shape.
     leaves `/search` at all, so there's no route boundary for the cache to
     leak across. `handleInPageSearch()` in `karaoke-player.tsx` instead: 1)
     updates `activeQuery` (plain `useState`, not derived live from
-    `useSearchParams()` after the initial render) — re-running the seek/
-    autoplay/listener effect via its `activeQuery` dependency (see the
-    effect's own comment) exactly as if it were a fresh load, just without
-    re-fetching `metadata`/`alignment`/`word-analysis` (none of which
-    depend on the query, so there's nothing to re-fetch) or repeating the
-    simulated-delay skeleton (nothing to wait on either); 2) calls
-    `window.history.replaceState(...)` directly — not `router.push` or
-    `<Link>`, so Next's router is never asked to do anything — purely to
-    keep the address bar honest. The overlay closing is just its own
-    `isOpen` prop flipping back to `false`; nothing unmounts.
+    `useSearchParams()` after the initial render) — `matchIds` recomputes
+    against the already-loaded search index synchronously, and the new
+    `activeId` this produces triggers the clip-fetch effect for real (see
+    "Search resolution and matching" above — this *does* fetch, unlike the
+    search index/metadata catalog, which never need refetching since
+    neither depends on the query); 2) calls `window.history.replaceState(...)`
+    directly — not `router.push` or `<Link>`, so Next's router is never
+    asked to do anything — purely to keep the address bar honest. The
+    overlay closing (without submitting) is its own `isOpen` prop flipping
+    back to `false` via `closeSearchOverlay()` — see "Bug fixed — playback
+    kept running under the search overlay" below.
+  - **Bug fixed — playback kept running under the search overlay.**
+    Opening this overlay used to leave the clip audibly playing (and its
+    transcript highlight still advancing) behind the blur, on request
+    fixed to stop everything — audio and the highlight it drives — while
+    searching, then pick back up exactly where it left off if the overlay
+    is dismissed without submitting a new search. **Fix:** `openSearchOverlay()`
+    records whether the `<audio>` element was actually playing
+    (`wasPlayingBeforeSearchRef`, a ref rather than state — this is a
+    one-shot fact read back once on close, never rendered, so it doesn't
+    need to trigger a re-render) and pauses it before opening the overlay;
+    `closeSearchOverlay()` resumes playback only if that ref says it was
+    playing. Both are wired to `PageShell`'s `onOpenSearch` and
+    `PlayerSearchOverlay`'s `onClose` instead of the plain `setIsSearchOpen`
+    calls those used to be — `handleInPageSearch()` (an actual submission)
+    deliberately keeps calling `setIsSearchOpen(false)` directly, not
+    `closeSearchOverlay()`, since a submitted search already autoplays
+    whatever clip it resolves to on its own (see "Search resolution and
+    matching" above) and doesn't need this resume logic layered on top.
+    No separate "animation" pause was needed: the transcript highlight and
+    seek bar are both driven by `currentTime`, which only advances while
+    the `<audio>` element is actually playing, so pausing *it* is what
+    pauses *them* too.
 - **Play icon — size and rounding.** The transport play button's icon was
   small relative to its circle (`size={24}` in a `3.5rem` button); bumped to
   `size={28}`. Its corners are now also subtly rounded: each sharp vertex of
@@ -793,6 +816,25 @@ the full dataset, not a demo of the UI shape.
     the same stylesheet can still win — see SearchBar's identical fix
     above. Setting these conditionally in `style={{ background: ... }}`
     would silently defeat `:hover` again.
+  - **Bug fixed — clicking a word activated the *previous* one.** Reported
+    against a real clip: clicking "kan," (immediately after "nuqapaq," no
+    gap to speak of) highlighted "nuqapaq" instead — reproducible, not a
+    punctuation issue as it first looked. Confirmed in-browser: "kan,"'s
+    recorded `start` is `8.264`, but seeking `audio.currentTime` to exactly
+    that value and reading it back immediately gave `8.263999` — a
+    browser/media seek-precision artifact, not anything this app computed
+    wrong. `findActiveWordIndex()`'s plain `word.start <= time` then failed
+    by a fraction of a millisecond right at the moment of the click, so the
+    word seeked-to was never counted as "reached," and the previous word
+    stayed active. **Fix:** `ACTIVE_WORD_EPSILON_S` (0.02s) added to the
+    comparison (`word.start <= time + ACTIVE_WORD_EPSILON_S`) — comfortably
+    larger than the sub-millisecond drift actually observed, comfortably
+    smaller than any real inter-word gap in the dataset (tens to hundreds
+    of ms), so it absorbs the seek imprecision without ever making the
+    *next* word activate early. Affects every path that sets
+    `audio.currentTime` directly (word clicks, the match-lead-in seek,
+    the seek bar), not just this one report — the same imprecision could
+    otherwise surface anywhere a word's own exact `start` is seeked to.
 - **Transport controls** (`audio-player-controls.tsx`): play/pause, a seek
   bar (see "Seek bar border" above for how it's built), and previous/
   next-match buttons. Previous/next navigate the *matches list* (different
