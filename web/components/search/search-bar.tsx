@@ -14,6 +14,7 @@ const QUECHUA_WORDS = ["P'unchaykuna", "Mikhuy", "T'anta", "Wasi", "P'unchay"];
 
 const SUGGESTION_COUNT = 3;
 const TOUR_START_DELAY_MS = 2800;
+const TOUR_REPLAY_SETTLE_MS = 480;
 const WORD_DISPLAY_MS = 3000;
 const WORD_FADE_MS = 350;
 
@@ -77,6 +78,17 @@ export function SearchBar() {
   function openSearch() {
     setSuggestions(pickRandomWords(SUGGESTION_COUNT));
     setIsOpen(true);
+  }
+
+  // Manual replay from the "?" button. Closes the pill first (and waits out
+  // its 420ms width transition) so step 1 measures the collapsed pill.
+  async function replayTour() {
+    closeSearch();
+    const { startSearchTour } = await import("./search-tour");
+    setTimeout(
+      () => startSearchTour({ openSearch, closeSearch }),
+      TOUR_REPLAY_SETTLE_MS,
+    );
   }
 
   function closeSearch() {
@@ -284,7 +296,55 @@ export function SearchBar() {
         </div>
       </div>
 
+      <button
+        type="button"
+        className="paqocha-tour-help"
+        aria-label="Ver tutorial"
+        title="Ver tutorial"
+        onClick={replayTour}
+      >
+        ?
+      </button>
+
       <style>{`
+        .paqocha-tour-help {
+          position: fixed;
+          right: max(1rem, env(safe-area-inset-right));
+          bottom: max(1rem, env(safe-area-inset-bottom));
+          z-index: 30;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 2.25rem;
+          height: 2.25rem;
+          border: none;
+          border-radius: 999px;
+          background: var(--brand-ink);
+          color: var(--brand-cream);
+          font-size: 1rem;
+          font-weight: 600;
+          cursor: pointer;
+          opacity: 0.5;
+          transition: opacity 200ms ease, background 200ms ease, color 200ms ease, transform 150ms ease;
+        }
+
+        .paqocha-tour-help:hover {
+          opacity: 1;
+          background: rgba(158, 161, 224, 0.25);
+          color: var(--brand-periwinkle-light);
+          backdrop-filter: blur(12px);
+        }
+
+        .paqocha-tour-help:active {
+          transform: scale(0.92);
+        }
+
+        .paqocha-tour-help:focus-visible {
+          opacity: 1;
+          outline: 2px solid var(--brand-periwinkle-light);
+          outline-offset: 2px;
+        }
+
         /* First-visit tour (driver.js) — same ink/cream/periwinkle language as
            the pill, so it reads as part of the interface, not a third-party
            widget. */
