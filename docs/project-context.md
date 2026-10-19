@@ -75,8 +75,8 @@ No concrete schema, field names, or storage format are defined yet — see
   a historical or folkloric framing.
 - Exclusive focus on Puno Quechua (Collao); avoid imagery or references tied
   to other cultures, regions, or countries.
-- Tagline (Spanish, product-facing): "Escucha. Descompón. Entiende." ("Listen.
-  Break down. Understand.")
+- Tagline (Spanish, product-facing): "Escucha. Analiza. Entiende." ("Listen.
+  Analyze. Understand.")
 - Planned hero: a short, looping video of a face. [TO BE DEFINED] — pending
   confirmation that the subject is a person from Puno, with their permission.
 

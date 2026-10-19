@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-// Full-viewport background video plus the "Escucha. Descompón. Entiende."
+// Full-viewport background video plus the "Escucha. Analiza. Entiende."
 // tagline (see docs/project-context.md), laid out as three independently
 // positioned words. See web/DESIGN.md -> Components -> Hero.
 //
@@ -127,7 +127,7 @@ export function Hero() {
 
       <h1
         key={replayKey}
-        aria-label="Escucha. Descompón. Entiende."
+        aria-label="Escucha. Analiza. Entiende."
         style={{
           position: "absolute",
           inset: 0,
@@ -163,7 +163,7 @@ export function Hero() {
             animationDelay: "280ms",
           }}
         >
-          Descompón
+          Analiza
         </span>
         <span
           aria-hidden="true"

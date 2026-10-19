@@ -261,7 +261,7 @@ face for very large hero-type moments) are still [TO BE DEFINED].
 
 ### Hero (`components/hero/hero.tsx`)
 
-Full-viewport background video with the "Escucha. Descompón. Entiende."
+Full-viewport background video with the "Escucha. Analiza. Entiende."
 tagline (see `docs/project-context.md`) laid over it as three independently
 positioned words — modeled on compasspathways.com's hero. Renders as the
 entire homepage for now; it's a client component (`"use client"`) because
@@ -323,14 +323,14 @@ the stand-in English text instead of the actual Spanish tagline
 
 **Tagline words**
 
-- Markup is one real `<h1 aria-label="Escucha. Descompón. Entiende.">` (so
+- Markup is one real `<h1 aria-label="Escucha. Analiza. Entiende.">` (so
   screen readers get one clean sentence) containing three
   `aria-hidden="true"` `<span>`s for the visual layout — avoids a
-  screen reader running the words together as "EscuchaDescompónEntiende".
+  screen reader running the words together as "EscuchaAnalizaEntiende".
 - Each word is independently `position: absolute` inside the `h1`
   (`top`/`right`/`left`/`bottom` as percentages of the viewport) — the
   reference site's scattered-placement pattern, but mirrored left/right from
-  it: "Escucha" top-**left**, "Descompón" middle-**right**, "Entiende"
+  it: "Escucha" top-**left**, "Analiza" middle-**right**, "Entiende"
   bottom-**left**-of-center. (Still the same vertical rhythm — top / middle /
   bottom — only the horizontal side of each word is flipped.) Percentage-based
   offsets keep each word anchored to the same relative spot across
@@ -350,7 +350,7 @@ the stand-in English text instead of the actual Spanish tagline
   constraint above): each word fades in and slides up
   (`translateY(36px) → 0`, 2200ms, `cubic-bezier(0.16, 1, 0.3, 1)`, an
   ease-out-expo-style curve), staggered 280ms apart (`Escucha` →
-  `Descompón` → `Entiende`). Also starts `filter: blur(16px)` and resolves to
+  `Analiza` → `Entiende`). Also starts `filter: blur(16px)` and resolves to
   `blur(0px)` over the same animation, so each word comes into focus as it
   rises instead of popping in sharp.
 - Plays on mount, and again after a window resize settles: a debounced

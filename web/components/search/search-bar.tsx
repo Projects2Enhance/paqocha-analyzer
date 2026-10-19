@@ -12,6 +12,8 @@ import { SearchIcon } from "./search-icon";
 // search without typing anything, by coincidence of word choice alone.
 const QUECHUA_WORDS = ["P'unchaykuna", "Mikhuy", "T'anta", "Wasi", "P'unchay"];
 
+const SUGGESTION_COUNT = 3;
+const TOUR_START_DELAY_MS = 2800;
 const WORD_DISPLAY_MS = 3000;
 const WORD_FADE_MS = 350;
 
@@ -23,6 +25,18 @@ function sanitizeSingleWord(value: string): string {
   return value.replace(/\s+/g, "");
 }
 
+// Fisher-Yates over a copy, so QUECHUA_WORDS itself is never mutated. Only
+// called from event handlers (never during render), so Math.random can't
+// cause a server/client hydration mismatch.
+function pickRandomWords(count: number): string[] {
+  const pool = [...QUECHUA_WORDS];
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  return pool.slice(0, count);
+}
+
 // Styled inline / with a scoped <style> tag on purpose — see DESIGN.md's
 // "Known build constraint" on why *.module.css doesn't work in this project.
 export function SearchBar() {
@@ -30,7 +44,24 @@ export function SearchBar() {
   const [wordIndex, setWordIndex] = useState(0);
   const [wordVisible, setWordVisible] = useState(true);
   const [query, setQuery] = useState("");
+  const [suggestions, setSuggestions] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // First visit only: walk the viewer through the pill once the hero's
+  // entrance animation has settled. driver.js is loaded on demand so it
+  // never weighs on the initial bundle.
+  useEffect(() => {
+    const timeoutId = setTimeout(async () => {
+      const { hasSeenSearchTour, startSearchTour } = await import(
+        "./search-tour"
+      );
+      if (hasSeenSearchTour()) return;
+      startSearchTour({ openSearch, closeSearch });
+    }, TOUR_START_DELAY_MS);
+    return () => clearTimeout(timeoutId);
+    // Mount-only on purpose: openSearch/closeSearch only call stable state
+    // setters, so the first-render closures stay valid for the tour's life.
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -43,6 +74,11 @@ export function SearchBar() {
   // word stuck invisible until its next 3s tick. Done here, in the event
   // handlers that close the pill, rather than as a synchronous setState at
   // the top of an effect (react-hooks/set-state-in-effect).
+  function openSearch() {
+    setSuggestions(pickRandomWords(SUGGESTION_COUNT));
+    setIsOpen(true);
+  }
+
   function closeSearch() {
     setIsOpen(false);
     setWordVisible(true);
@@ -90,8 +126,8 @@ export function SearchBar() {
   // either route must start genuinely fresh, so both directions use a real
   // page load instead of fighting the cache's edge cases. See
   // web/DESIGN.md -> Components -> KaraokePlayer.
-  function handleSearch() {
-    const term = query.trim() || currentWord;
+  function handleSearch(word?: string) {
+    const term = word ?? (query.trim() || currentWord);
     // eslint-disable-next-line @next/next/no-location-assign-relative-destination -- deliberate, see the comment above.
     window.location.href = `/search?q=${encodeURIComponent(term)}`;
   }
@@ -171,7 +207,7 @@ export function SearchBar() {
             <button
               type="button"
               className="paqocha-search-word-button"
-              onClick={() => setIsOpen(true)}
+              onClick={openSearch}
               style={{
                 flex: 1,
                 minWidth: 0,
@@ -203,7 +239,7 @@ export function SearchBar() {
             type="button"
             className="paqocha-search-icon-button"
             aria-label="Buscar"
-            onClick={handleSearch}
+            onClick={() => handleSearch()}
             style={{
               flexShrink: 0,
               display: "flex",
@@ -220,9 +256,185 @@ export function SearchBar() {
             <SearchIcon size={26} />
           </button>
         </div>
+
+        {/* Known-to-exist words (see QUECHUA_WORDS), so a tap always lands on
+            real results. Always mounted so the fade can run both ways;
+            tabIndex/aria-hidden keep it out of reach while closed. */}
+        <div
+          className="paqocha-search-suggestions"
+          aria-hidden={!isOpen}
+          style={{
+            opacity: isOpen ? 1 : 0,
+            transform: isOpen ? "translateY(0)" : "translateY(-0.5rem)",
+            pointerEvents: isOpen ? "auto" : "none",
+          }}
+        >
+          <span className="paqocha-search-suggestions-label">Prueba con</span>
+          {suggestions.map((word) => (
+            <button
+              key={word}
+              type="button"
+              tabIndex={isOpen ? 0 : -1}
+              className="paqocha-search-chip"
+              onClick={() => handleSearch(word)}
+            >
+              {word}
+            </button>
+          ))}
+        </div>
       </div>
 
       <style>{`
+        /* First-visit tour (driver.js) — same ink/cream/periwinkle language as
+           the pill, so it reads as part of the interface, not a third-party
+           widget. */
+        .driver-popover.paqocha-tour-popover {
+          max-width: min(320px, calc(100vw - 2rem));
+          padding: 1.25rem 1.375rem;
+          border-radius: 1.5rem;
+          background: var(--brand-ink);
+          color: var(--brand-cream);
+          box-shadow: 0 14px 44px rgba(31, 33, 80, 0.45);
+          font-family: inherit;
+        }
+
+        .paqocha-tour-popover .driver-popover-title {
+          font-size: 1.15rem;
+          font-weight: 600;
+          color: var(--brand-cream);
+        }
+
+        .paqocha-tour-popover .driver-popover-description {
+          margin-top: 0.4rem;
+          font-size: 0.95rem;
+          line-height: 1.45;
+          color: var(--brand-cream);
+          opacity: 0.85;
+        }
+
+        .paqocha-tour-popover .driver-popover-description strong {
+          font-weight: 700;
+          color: var(--brand-cream);
+        }
+
+        .paqocha-tour-popover .driver-popover-progress-text {
+          font-size: 0.8rem;
+          color: var(--brand-cream);
+          opacity: 0.6;
+        }
+
+        .paqocha-tour-popover .driver-popover-close-btn {
+          color: var(--brand-cream);
+          opacity: 0.7;
+        }
+
+        .paqocha-tour-popover .driver-popover-footer button {
+          min-height: 2.5rem;
+          padding: 0 1.1rem;
+          border: none;
+          border-radius: 999px;
+          font-family: inherit;
+          font-size: 0.95rem;
+          font-weight: 500;
+          text-shadow: none;
+          cursor: pointer;
+          transition: background 200ms ease, color 200ms ease, transform 150ms ease;
+        }
+
+        .paqocha-tour-popover .driver-popover-prev-btn {
+          background: transparent;
+          color: var(--brand-cream);
+        }
+
+        .paqocha-tour-popover .driver-popover-next-btn {
+          background: var(--brand-periwinkle-light);
+          color: var(--brand-ink);
+        }
+
+        .paqocha-tour-popover .driver-popover-next-btn:hover {
+          background: var(--brand-cream);
+        }
+
+        .paqocha-tour-popover .driver-popover-prev-btn:hover {
+          background: rgba(158, 161, 224, 0.25);
+        }
+
+        .paqocha-tour-popover .driver-popover-footer button:active {
+          transform: scale(0.95);
+        }
+
+        .paqocha-tour-popover .driver-popover-arrow-side-top.driver-popover-arrow {
+          border-top-color: var(--brand-ink);
+        }
+        .paqocha-tour-popover .driver-popover-arrow-side-bottom.driver-popover-arrow {
+          border-bottom-color: var(--brand-ink);
+        }
+        .paqocha-tour-popover .driver-popover-arrow-side-left.driver-popover-arrow {
+          border-left-color: var(--brand-ink);
+        }
+        .paqocha-tour-popover .driver-popover-arrow-side-right.driver-popover-arrow {
+          border-right-color: var(--brand-ink);
+        }
+
+        .paqocha-search-suggestions {
+          position: absolute;
+          top: calc(100% + 0.875rem);
+          left: 0;
+          right: 0;
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+          transition: opacity 320ms ease 120ms, transform 320ms ease 120ms;
+        }
+
+        .paqocha-search-suggestions-label {
+          width: 100%;
+          text-align: center;
+          font-size: 0.8rem;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+          color: var(--brand-cream);
+          opacity: 0.85;
+          text-shadow: 0 1px 8px rgba(31, 33, 80, 0.6);
+        }
+
+        .paqocha-search-chip {
+          min-height: 2.75rem;
+          padding: 0 1.25rem;
+          border: none;
+          border-radius: 999px;
+          background: var(--brand-ink);
+          color: var(--brand-cream);
+          font-size: 1.05rem;
+          font-weight: 500;
+          cursor: pointer;
+          box-shadow: 0 6px 20px rgba(31, 33, 80, 0.3);
+          transition: background 200ms ease, color 200ms ease, transform 150ms ease;
+        }
+
+        .paqocha-search-chip:hover {
+          background: rgba(158, 161, 224, 0.25);
+          color: var(--brand-periwinkle-light);
+          backdrop-filter: blur(12px);
+        }
+
+        .paqocha-search-chip:active {
+          transform: scale(0.95);
+        }
+
+        .paqocha-search-chip:focus-visible {
+          outline: 2px solid var(--brand-periwinkle-light);
+          outline-offset: 2px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .paqocha-search-suggestions {
+            transition: none;
+          }
+        }
+
         .paqocha-search-pill {
           box-shadow: 0 10px 36px rgba(31, 33, 80, 0.3);
           transition: width 420ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 200ms ease;
