@@ -29,6 +29,41 @@ export function Hero() {
     }
   };
 
+  // Bug fixed — paused on first load on iOS (Safari, Chrome, Brave — all
+  // WebKit there), showing a native play button instead of looping.
+  // React never writes `muted` into the server-rendered HTML for a <video>
+  // (it only sets the `.muted` *property* imperatively, after hydration) —
+  // confirmed by inspecting the SSR output, which has `autoplay` and
+  // `playsinline` but no `muted` attribute. iOS's autoplay gate checks the
+  // element's actual muted state at the moment the `autoplay` attribute
+  // tries to fire, which happens as the browser parses the tag — i.e.
+  // before React's JS has run at all. An unmuted autoplay is blocked there,
+  // and unlike desktop Chrome, iOS doesn't retry once `.muted` is set a
+  // moment later by hydration — the video just stays paused.
+  // Fix: a callback ref runs synchronously at commit (still before paint,
+  // and far earlier than a useEffect), so `muted`/`defaultMuted` are set as
+  // real DOM properties and `play()` is requested from JS as early as
+  // possible instead of relying on the declarative `autoplay` attribute at
+  // all. The `autoPlay`/`muted` JSX props stay as a no-JS fallback.
+  const setVideoRef = (node: HTMLVideoElement | null) => {
+    videoRef.current = node;
+    if (!node) return;
+    node.defaultMuted = true;
+    node.muted = true;
+    node.playbackRate = PLAYBACK_RATE;
+    node.play().catch(() => {
+      // Autoplay can still be blocked outright (e.g. Brave's "Block
+      // Autoplay" shield) regardless of muted state — fall back to
+      // starting playback on the viewer's first tap/click anywhere, so it
+      // never requires a visible play button to get going.
+      const resume = () => {
+        node.play().catch(() => {});
+      };
+      document.addEventListener("touchstart", resume, { once: true });
+      document.addEventListener("pointerdown", resume, { once: true });
+    });
+  };
+
   useEffect(() => {
     applyPlaybackRate();
   }, []);
@@ -68,7 +103,7 @@ export function Hero() {
       }}
     >
       <video
-        ref={videoRef}
+        ref={setVideoRef}
         src="/video.mp4"
         autoPlay
         muted

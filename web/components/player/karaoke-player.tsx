@@ -145,7 +145,7 @@ export function KaraokePlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [view, setView] = useState<ResultsView>("list");
+  const [view, setView] = useState<ResultsView>("analysis");
   const [activeMatchIndex, setActiveMatchIndex] = useState(0);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
@@ -256,6 +256,32 @@ export function KaraokePlayer() {
     // Tried immediately (works once the browser already has metadata
     // cached) and reapplied on "loadedmetadata" — setting currentTime
     // before duration is known can silently get reset once it loads.
+    const handleTimeUpdate = () => setCurrentTime(audio.currentTime);
+    const handleLoadedMetadata = () => {
+      setDuration(audio.duration);
+      applyInitialTime();
+    };
+    const handlePlay = () => setIsPlaying(true);
+    const handlePause = () => setIsPlaying(false);
+
+    // Listeners are attached *before* the initial seek/play below — on
+    // mobile (confirmed as a cross-browser issue, not just one engine: it
+    // showed up under Chrome, Brave, and Safari on the same phone), a slow
+    // connection means `currentTime`/`play()` below can land while the
+    // element's `readyState` is still `HAVE_NOTHING`, and some mobile
+    // builds handle that combination unreliably. Attaching the listeners
+    // first means that even if the seek/play sequence below misbehaves,
+    // `timeupdate`/`play`/`pause` are already wired up and the transcript
+    // highlight + seek bar track real playback instead of sitting frozen
+    // while the audio itself is audibly running.
+    audio.addEventListener("timeupdate", handleTimeUpdate);
+    audio.addEventListener("loadedmetadata", handleLoadedMetadata);
+    audio.addEventListener("play", handlePlay);
+    audio.addEventListener("pause", handlePause);
+    // "ended" doesn't reliably also fire "pause" per the HTML spec, so
+    // isPlaying would otherwise stay stuck true once playback reaches the end.
+    audio.addEventListener("ended", handlePause);
+
     applyInitialTime();
     // Defensive: if duration somehow is already known the instant this
     // runs, pick it up immediately rather than only from "loadedmetadata"
@@ -269,21 +295,6 @@ export function KaraokePlayer() {
     // before this existed.
     audio.play().catch(() => {});
 
-    const handleTimeUpdate = () => setCurrentTime(audio.currentTime);
-    const handleLoadedMetadata = () => {
-      setDuration(audio.duration);
-      applyInitialTime();
-    };
-    const handlePlay = () => setIsPlaying(true);
-    const handlePause = () => setIsPlaying(false);
-
-    audio.addEventListener("timeupdate", handleTimeUpdate);
-    audio.addEventListener("loadedmetadata", handleLoadedMetadata);
-    audio.addEventListener("play", handlePlay);
-    audio.addEventListener("pause", handlePause);
-    // "ended" doesn't reliably also fire "pause" per the HTML spec, so
-    // isPlaying would otherwise stay stuck true once playback reaches the end.
-    audio.addEventListener("ended", handlePause);
     return () => {
       audio.removeEventListener("timeupdate", handleTimeUpdate);
       audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
@@ -427,6 +438,10 @@ export function KaraokePlayer() {
   // did back when every match pointed at the same one audio file.
   function selectMatch(index: number) {
     setActiveMatchIndex(index);
+    // Picking a different clip — from the list, or via the transport's
+    // previous/next — jumps back to Analysis by request, so choosing one
+    // doesn't leave you stuck looking at the list you just picked from.
+    setView("analysis");
   }
 
   return (

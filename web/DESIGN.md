@@ -295,6 +295,28 @@ the stand-in English text instead of the actual Spanish tagline
   set right after mount, so it's applied in both places. It survives the
   `loop` automatically (the browser doesn't reset `playbackRate` between
   loop iterations).
+- **Bug fixed — paused on first load on iOS (Safari, Chrome, Brave — all
+  WebKit there), showing a native play affordance instead of looping.**
+  React never writes a `muted` *attribute* into the server-rendered HTML
+  for a `<video>` — confirmed against the actual SSR output, which has
+  `autoplay`/`playsinline` but no `muted` — it only sets the `.muted`
+  *property* imperatively, after hydration. iOS's autoplay gate checks the
+  element's real muted state at the moment the `autoplay` attribute itself
+  tries to fire, which happens as the browser parses the tag, before any
+  of React's JS has run. An unmuted autoplay request there gets blocked,
+  and unlike desktop Chrome, iOS doesn't retry once `.muted` is set a
+  moment later by hydration — the video is just left paused. **Fix:** the
+  `ref` on `<video>` (`setVideoRef`) is now a callback ref instead of a
+  plain `useRef` target — callback refs run synchronously at commit, well
+  before a `useEffect` would, and well before the gap above — and it sets
+  `defaultMuted`/`muted` as real DOM properties and calls `.play()` itself
+  from JS, instead of relying on the declarative `autoplay` attribute at
+  all (the `autoPlay`/`muted` JSX props stay too, as a no-JS fallback).
+  If `.play()` still rejects — e.g. a shield like Brave's "Block Autoplay"
+  blocking it outright regardless of mute state — a one-time
+  `touchstart`/`pointerdown` listener on `document` retries it on the
+  viewer's first tap, so it never depends on a visible play button to get
+  going.
 - No `prefers-reduced-motion` handling on the video: hiding it would leave
   just `--color-bg` with nothing in it, which the brief explicitly ruled
   out. [TO BE DEFINED] once there's real content to fall back to.
@@ -627,6 +649,23 @@ the full dataset, not a demo of the UI shape.
     now-removed artificial-delay flag, see "Real loading state" below);
     today that role is filled by `activeClip` itself, which only becomes
     non-null once the active match's clip has actually loaded.
+  - **Hardening — same symptom reported again, mobile-only (Safari,
+    Chrome, and Brave on the same phone — not one engine specifically).**
+    Audio audibly plays, but the transcript highlight/seek bar never move.
+    Not reproduced directly (no iOS device in this environment, and this
+    project's browser-automation tooling can't force a genuine mobile
+    viewport/engine here either), so unlike the fix above this isn't a
+    confirmed root cause — it's a defensive change pending a real retest.
+    Inside the effect, the listener-attachment lines used to come *after*
+    the initial seek (`applyInitialTime()`) and `audio.play()` call; if
+    either of those ever behaves unexpectedly on a slow mobile connection
+    (e.g. `currentTime` set while `readyState` is still `HAVE_NOTHING`),
+    everything after it in the same effect — including every
+    `addEventListener` call — would never run, while playback itself can
+    still have already started. **Change:** `addEventListener` for
+    `timeupdate`/`loadedmetadata`/`play`/`pause`/`ended` now happens
+    *first*, before the initial seek and `play()` — so the listeners are
+    wired up regardless of what the seek/play sequence does afterward.
 - **Bugs fixed — stale state surviving navigation, both directions.**
   Clicking the back button used to leave the clip audibly playing on `/`;
   separately, a typed-but-unsent SearchBar query (or an open pill) could
@@ -846,11 +885,21 @@ the full dataset, not a demo of the UI shape.
   the controls anymore (removed on request, for a cleaner control row) —
   the active card's own highlight in the sidebar list is the only
   indicator of position now.
-- **List / Analysis switch** (`view-switch.tsx`): a flat segmented control
+- **Analysis / List switch** (`view-switch.tsx`): a flat segmented control
   (two pill buttons, active one filled `--color-primary`) replacing what was
-  a static "Matches (N)" heading — toggles the sidebar between the matches
-  list and a morphosyntactic word-breakdown demo. No count label anymore;
-  the list itself shows how many there are.
+  a static "Matches (N)" heading — toggles the sidebar between a
+  morphosyntactic word-breakdown demo and the matches list. No count label
+  anymore; the list itself shows how many there are. **Analysis is first
+  (left) and is the default tab on open** — on request, switched from the
+  original Lista-first/Lista-default order; `view-switch.tsx`'s `OPTIONS`
+  array controls the order (`ViewSwitch` just renders it in order, so this
+  is the only place that needs to change to reorder the tabs again) and
+  `karaoke-player.tsx`'s `useState<ResultsView>("analysis")` controls the
+  default. **Picking a match resets the tab back to Analysis** too —
+  `selectMatch()` (used by the list's own cards and by the transport's
+  previous/next buttons, see below) calls `setView("analysis")` alongside
+  updating `activeMatchIndex`, on request, so choosing a clip from the list
+  doesn't leave you sitting on the list you just picked from.
   - **List** (`match-card.tsx`): one card per matching clip — region/accent,
     a 2-line clamped transcript excerpt, speaker age/gender (humanized:
     `"male_masculine"` → `"Hombre"`, `"thirties"` → `"30 años"`), and
@@ -869,7 +918,8 @@ the full dataset, not a demo of the UI shape.
     (clamped to `matchCount`, not wrapping); switching clips this way now
     loads a genuinely different audio file (a different `<audio src>`, not
     just a different position in the same one), so `selectMatch()` just
-    updates `activeMatchIndex` and lets the clip-fetch + event-listener
+    updates `activeMatchIndex` (and resets the tab to Analysis — see
+    "Analysis / List switch" above) and lets the clip-fetch + event-listener
     effects described above take it from there, rather than seeking
     synchronously itself the way it did when every match pointed at the
     same file.

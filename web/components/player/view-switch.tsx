@@ -6,8 +6,8 @@ type ViewSwitchProps = {
 };
 
 const OPTIONS: { value: ResultsView; label: string }[] = [
-  { value: "list", label: "Lista" },
   { value: "analysis", label: "Análisis" },
+  { value: "list", label: "Lista" },
 ];
 
 // Flat segmented control, no border/shadow — the active tab is a filled
