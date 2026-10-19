@@ -649,23 +649,37 @@ the full dataset, not a demo of the UI shape.
     now-removed artificial-delay flag, see "Real loading state" below);
     today that role is filled by `activeClip` itself, which only becomes
     non-null once the active match's clip has actually loaded.
-  - **Hardening — same symptom reported again, mobile-only (Safari,
-    Chrome, and Brave on the same phone — not one engine specifically).**
-    Audio audibly plays, but the transcript highlight/seek bar never move.
-    Not reproduced directly (no iOS device in this environment, and this
-    project's browser-automation tooling can't force a genuine mobile
-    viewport/engine here either), so unlike the fix above this isn't a
-    confirmed root cause — it's a defensive change pending a real retest.
-    Inside the effect, the listener-attachment lines used to come *after*
-    the initial seek (`applyInitialTime()`) and `audio.play()` call; if
-    either of those ever behaves unexpectedly on a slow mobile connection
-    (e.g. `currentTime` set while `readyState` is still `HAVE_NOTHING`),
-    everything after it in the same effect — including every
-    `addEventListener` call — would never run, while playback itself can
-    still have already started. **Change:** `addEventListener` for
-    `timeupdate`/`loadedmetadata`/`play`/`pause`/`ended` now happens
-    *first*, before the initial seek and `play()` — so the listeners are
-    wired up regardless of what the seek/play sequence does afterward.
+  - **Bug fixed (for real this time) — same symptom reported again,
+    iPhone-only but across Safari, Chrome, *and* Brave there (so not one
+    rendering engine specifically).** Landing on `/search` from a Home
+    search left playback paused (iOS doesn't carry the tap's user-gesture
+    token across the full-navigation to `/search`, unlike what was
+    observed on desktop Chrome — see "autoplay only fails when the page is
+    reached with no prior interaction at all" above, which turns out not
+    to generalize to iOS); tapping the transport's own play button *did*
+    start audible playback (a real, synchronous click handler, so iOS
+    allows it) — but after that, the transcript highlight, seek bar, and
+    play/pause icon never moved again, no matter how long it played:
+    "pierdo el control". An intermediate attempt reordered this effect so
+    `addEventListener` for `timeupdate`/`play`/`pause`/`ended` ran
+    *before* the initial seek/`play()` call, on the theory that something
+    in the seek/play sequence was throwing and skipping the
+    `addEventListener` lines after it — that didn't fix it, which rules
+    that theory out: whatever's actually happening on that device, those
+    three events themselves just never fire, regardless of when they're
+    attached. **Fix:** stopped depending on `timeupdate`/`play`/`pause`
+    entirely. A `setInterval` (100ms) reads `audio.currentTime` and
+    `audio.paused`/`audio.ended` directly off the real `HTMLAudioElement`
+    instead and mirrors them into `currentTime`/`isPlaying` state every
+    tick — this needs nothing to have fired correctly first, so it can't
+    be broken by whatever made those three events unreliable on that
+    device; the UI can never drift more than one tick (100ms) from actual
+    playback. `loadedmetadata` is kept as a real listener (it only needs
+    to fire once, to pick up `duration` and reapply the lead-in seek, not
+    continuously), and `ended` no longer needs its own listener — the
+    poll's `!audio.paused && !audio.ended` already covers it, which also
+    removes the old reliance on "`ended` doesn't reliably also fire
+    `pause`" needing its own workaround.
 - **Bugs fixed — stale state surviving navigation, both directions.**
   Clicking the back button used to leave the clip audibly playing on `/`;
   separately, a typed-but-unsent SearchBar query (or an open pill) could

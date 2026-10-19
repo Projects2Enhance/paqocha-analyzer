@@ -256,31 +256,35 @@ export function KaraokePlayer() {
     // Tried immediately (works once the browser already has metadata
     // cached) and reapplied on "loadedmetadata" — setting currentTime
     // before duration is known can silently get reset once it loads.
-    const handleTimeUpdate = () => setCurrentTime(audio.currentTime);
     const handleLoadedMetadata = () => {
       setDuration(audio.duration);
       applyInitialTime();
     };
-    const handlePlay = () => setIsPlaying(true);
-    const handlePause = () => setIsPlaying(false);
-
-    // Listeners are attached *before* the initial seek/play below — on
-    // mobile (confirmed as a cross-browser issue, not just one engine: it
-    // showed up under Chrome, Brave, and Safari on the same phone), a slow
-    // connection means `currentTime`/`play()` below can land while the
-    // element's `readyState` is still `HAVE_NOTHING`, and some mobile
-    // builds handle that combination unreliably. Attaching the listeners
-    // first means that even if the seek/play sequence below misbehaves,
-    // `timeupdate`/`play`/`pause` are already wired up and the transcript
-    // highlight + seek bar track real playback instead of sitting frozen
-    // while the audio itself is audibly running.
-    audio.addEventListener("timeupdate", handleTimeUpdate);
     audio.addEventListener("loadedmetadata", handleLoadedMetadata);
-    audio.addEventListener("play", handlePlay);
-    audio.addEventListener("pause", handlePause);
-    // "ended" doesn't reliably also fire "pause" per the HTML spec, so
-    // isPlaying would otherwise stay stuck true once playback reaches the end.
-    audio.addEventListener("ended", handlePause);
+
+    // Bug report (iPhone, confirmed across Safari/Chrome/Brave there —
+    // so not one rendering engine specifically): tapping play makes the
+    // clip audibly play, but the transcript highlight, seek bar, and
+    // play/pause icon never update again — "pierdo el control". That's
+    // exactly what happens if `timeupdate`/`play`/`pause` never actually
+    // fire (or this effect's `addEventListener` calls for them never ran)
+    // on that device — this component then has no way to learn that
+    // play/pause state or position ever changed, no matter when or how
+    // reliably those listeners are attached (the previous fix here only
+    // reordered *when* they were attached, which doesn't help if they
+    // never fire at all). **Fix:** stop relying on those three events
+    // entirely. A short poll reads `audio.currentTime`/`audio.paused`
+    // directly off the real DOM element instead — it needs nothing to
+    // have fired correctly first, so the UI can never get more than one
+    // tick (100ms) out of sync with actual playback, regardless of why
+    // the event-based version failed on that device. `audio.ended` is
+    // folded into the same read, since "ended" doesn't reliably also
+    // fire "pause" per the HTML spec.
+    const POLL_MS = 100;
+    const pollId = setInterval(() => {
+      setCurrentTime(audio.currentTime);
+      setIsPlaying(!audio.paused && !audio.ended);
+    }, POLL_MS);
 
     applyInitialTime();
     // Defensive: if duration somehow is already known the instant this
@@ -296,11 +300,8 @@ export function KaraokePlayer() {
     audio.play().catch(() => {});
 
     return () => {
-      audio.removeEventListener("timeupdate", handleTimeUpdate);
+      clearInterval(pollId);
       audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
-      audio.removeEventListener("play", handlePlay);
-      audio.removeEventListener("pause", handlePause);
-      audio.removeEventListener("ended", handlePause);
       // Stops playback whenever this cleanup runs, not only on unmount —
       // also on every `activeClip` change, i.e. a new in-page search or
       // switching matches (see handleInPageSearch/selectMatch below): a
