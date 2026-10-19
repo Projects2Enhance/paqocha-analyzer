@@ -61,7 +61,7 @@ export function AudioPlayerControls({
         </span>
         <input
           type="range"
-          aria-label="Seek"
+          aria-label="Buscar posición"
           min={0}
           max={Math.max(duration, 0.01)}
           step={0.01}
@@ -95,7 +95,7 @@ export function AudioPlayerControls({
       >
         <button
           type="button"
-          aria-label="Previous match"
+          aria-label="Coincidencia anterior"
           disabled={!canGoPrevious}
           onClick={onPrevious}
           className="paqocha-transport-button"
@@ -105,7 +105,7 @@ export function AudioPlayerControls({
 
         <button
           type="button"
-          aria-label={isPlaying ? "Pause" : "Play"}
+          aria-label={isPlaying ? "Pausar" : "Reproducir"}
           onClick={onTogglePlay}
           className="paqocha-transport-button paqocha-play-button"
         >
@@ -114,7 +114,7 @@ export function AudioPlayerControls({
 
         <button
           type="button"
-          aria-label="Next match"
+          aria-label="Siguiente coincidencia"
           disabled={!canGoNext}
           onClick={onNext}
           className="paqocha-transport-button"

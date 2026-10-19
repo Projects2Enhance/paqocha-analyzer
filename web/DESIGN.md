@@ -20,7 +20,10 @@ background — see Tokens below.
 
 All tokens live in `styles/tokens.css`. `:root` defines the light theme
 (default); `[data-theme="dark"]` overrides it. Both set `color-scheme` so
-native form controls and scrollbars match the active theme.
+native form controls match the active theme. Scrollbars used to ride along
+with that (`color-scheme` alone re-colors the OS-default scrollbar) but are
+now repainted by the `.paqocha-scroll` class instead — see "Custom
+scrollbars" under Components.
 
 `--brand-cream` (`#FBF3D2`), `--brand-ink` (`#1F2150`, the same hex as
 `--color-text` in the light theme), and `--brand-periwinkle-light` (`#9EA1E0`,
@@ -198,7 +201,7 @@ Ratios computed with the standard WCAG 2.1 relative-luminance formula.
     synchronously before first paint (`ThemeScript`), so the right icon is
     showing in the very first paint purely from CSS, with no client/server
     `theme` value to reconcile at all for this component. `aria-label` is
-    theme-agnostic ("Toggle theme") for the same reason — nothing left here
+    theme-agnostic ("Cambiar tema") for the same reason — nothing left here
     that depends on knowing the theme during render.
 - No theme-change transition for now.
 - Tailwind v4 picks up the tokens via an `@theme inline` block in
@@ -258,11 +261,16 @@ face for very large hero-type moments) are still [TO BE DEFINED].
 
 ### Hero (`components/hero/hero.tsx`)
 
-Full-viewport background video with the "Listen. Break it down.
-Understand." tagline (see `docs/project-context.md`) laid over it as three
-independently positioned words — modeled on compasspathways.com's hero.
-Renders as the entire homepage for now; it's a client component (`"use
-client"`) because setting video playback rate requires JS.
+Full-viewport background video with the "Escucha. Descompón. Entiende."
+tagline (see `docs/project-context.md`) laid over it as three independently
+positioned words — modeled on compasspathways.com's hero. Renders as the
+entire homepage for now; it's a client component (`"use client"`) because
+setting video playback rate requires JS. **Originally rendered the
+tagline's English translation** ("Listen. Break it down. Understand.") —
+the UI as a whole later switched to Spanish (see `docs/project-context.md`'s
+"Language note"), at which point this became the one place still carrying
+the stand-in English text instead of the actual Spanish tagline
+`project-context.md` had specified from the start.
 
 **Video**
 
@@ -293,15 +301,14 @@ client"`) because setting video playback rate requires JS.
 
 **Tagline words**
 
-- Markup is one real `<h1 aria-label="Listen. Break it down.
-  Understand.">` (so screen readers get one clean sentence) containing three
+- Markup is one real `<h1 aria-label="Escucha. Descompón. Entiende.">` (so
+  screen readers get one clean sentence) containing three
   `aria-hidden="true"` `<span>`s for the visual layout — avoids a
-  screen reader running the words together as "ListenBreak it
-  downUnderstand".
+  screen reader running the words together as "EscuchaDescompónEntiende".
 - Each word is independently `position: absolute` inside the `h1`
   (`top`/`right`/`left`/`bottom` as percentages of the viewport) — the
   reference site's scattered-placement pattern, but mirrored left/right from
-  it: "Listen" top-**left**, "Break it down" middle-**right**, "Understand"
+  it: "Escucha" top-**left**, "Descompón" middle-**right**, "Entiende"
   bottom-**left**-of-center. (Still the same vertical rhythm — top / middle /
   bottom — only the horizontal side of each word is flipped.) Percentage-based
   offsets keep each word anchored to the same relative spot across
@@ -320,8 +327,8 @@ client"`) because setting video playback rate requires JS.
   `<style>` tag in the component — not a CSS Module, see the build
   constraint above): each word fades in and slides up
   (`translateY(36px) → 0`, 2200ms, `cubic-bezier(0.16, 1, 0.3, 1)`, an
-  ease-out-expo-style curve), staggered 280ms apart (`Listen` → `Break it
-  down` → `Understand`). Also starts `filter: blur(16px)` and resolves to
+  ease-out-expo-style curve), staggered 280ms apart (`Escucha` →
+  `Descompón` → `Entiende`). Also starts `filter: blur(16px)` and resolves to
   `blur(0px)` over the same animation, so each word comes into focus as it
   rises instead of popping in sharp.
 - Plays on mount, and again after a window resize settles: a debounced
@@ -349,21 +356,27 @@ sibling of `Hero` in `app/page.tsx`, not nested inside it.
 - Collapsed: a pill (`border-radius: 999px`, `height: 4.5rem`) showing a
   rotating Quechua word and a circular magnifying-glass icon button. The
   word cycles through a fixed list (`QUECHUA_WORDS` in `search-bar.tsx`) —
-  **"Maskhay"** (to search), **"Uyariy"** (to listen), **"Yachay"** (to
-  know/learn), **"Rimay"** (to speak), **"Simi"** (word) — themed around the
-  product's search → listen → learn flow. Every word holds for
-  `WORD_DISPLAY_MS` (3000ms), then cross-fades to the next via a `<span>`
-  that transitions `opacity`/`transform` over `WORD_FADE_MS` (350ms) while a
-  `setTimeout` nested inside a `setInterval` swaps the underlying word index
-  during that fade's invisible midpoint — looping forever, back to
-  "Maskhay" after "Simi". The rotation pauses while the pill is open (the
-  effect bails out on `isOpen`) so the word doesn't shift under the user
-  while they're focused on typing; closing it resumes the loop and force-
-  resets visibility to `true` first, in case the pill was reopened mid-
-  fade-out. **All five words are real, not invented, but none have had
-  their spelling checked against Puno/Collao-specific usage by a Quechua
-  speaker on the team yet — [TO BE DEFINED]/verify before this ships for
-  real.**
+  **"P'unchaykuna"**, **"Mikhuy"**, **"T'anta"**, **"Wasi"**, **"P'unchay"**.
+  Every word holds for `WORD_DISPLAY_MS` (3000ms), then cross-fades to the
+  next via a `<span>` that transitions `opacity`/`transform` over
+  `WORD_FADE_MS` (350ms) while a `setTimeout` nested inside a `setInterval`
+  swaps the underlying word index during that fade's invisible midpoint —
+  looping forever, back to the first word after the last. The rotation
+  pauses while the pill is open (the effect bails out on `isOpen`) so the
+  word doesn't shift under the user while they're focused on typing;
+  closing it resumes the loop and force-resets visibility to `true` first,
+  in case the pill was reopened mid-fade-out. **Each word is checked
+  present in the real generated `search-index.json`, not just
+  plausible-looking** — an earlier list ("Maskhay", "Uyariy", "Yachay",
+  "Rimay", "Simi", themed around the product's search → listen → learn
+  flow) turned out to have three of five words absent from the real
+  corpus once real search replaced the single hand-placed example (see
+  KaraokePlayer below); hitting search with one of those showing landed on
+  `NoResultsState` by coincidence of word choice, which read as the search
+  itself being broken. [TO BE DEFINED]/verify the current five against
+  Puno/Collao-specific usage by a Quechua speaker before this ships for
+  real — being *indexed* confirms they occur in the corpus, not that
+  they're spelled/used correctly.
 - Clicking the word swaps it for a real, autofocused `<input>` (same slot,
   same visual spot) with the current rotating word as its `placeholder`
   (frozen, since rotation is paused while open), and the pill widens
@@ -443,15 +456,19 @@ sibling of `Hero` in `app/page.tsx`, not nested inside it.
 
 The search-results page (`app/search/page.tsx`, route `/search`) — a
 YouGlish-style karaoke player: synced transcript on top, classic transport
-controls below, a sidebar list of other matching clips. No real search
-backend exists yet (see `docs/project-context.md`'s "Pending decisions"), so
-**every search currently opens the same one provisional real example**
-(`public/example/{metadata,alignment,word-analysis}.json` + its `.mp3`) —
-`KaraokePlayer` fetches those four client-side on mount
-(`fetch("/example/...")`, not a build-time import) so swapping in a real
-`/api/search` later is a one-line change, not a rewrite. The matching
-*within* that one example is real, though, not faked — see "Search
-matching against this transcript" below.
+controls below, a sidebar list of other matching clips. Still no database
+or search-backend server — search is real against the real corpus, but
+entirely over static files generated offline from the raw dataset. See
+`../data/README.md` for the generation pipeline (TSV + a colleague's
+`inverted_index.json` + real forced-alignment timestamps -> `public/data/
+search-index.json` + one combined `public/data/clips/<audio_id>.json` per
+transcribed audio, 1222 of them). `KaraokePlayer` fetches
+`search-index.json` once on mount, looks up the normalized query for its
+matching `audio_id`s (capped at `MAX_MATCHES`, 24 — see that constant's own
+comment for why), and fetches each matched clip's combined JSON. This
+replaced an earlier version of this component that always opened the same
+one hand-placed example clip regardless of the query — real search over
+the full dataset, not a demo of the UI shape.
 
 - **Route/Suspense:** `app/search/page.tsx` is a server component that just
   wraps the client `KaraokePlayer` in `<Suspense>`, because `KaraokePlayer`
@@ -464,45 +481,94 @@ matching against this transcript" below.
   were both removed on request, for a cleaner header with just the title
   itself (and now the back/theme buttons above it — see "Back button"/
   `ThemeToggle` under Tokens).
-- **Search matching against this transcript.** The query *is* matched for
-  real against this one loaded example's words — not literal substring
-  matching, equality after `normalizeWord()` (lowercase, strip only
-  leading/trailing punctuation, so `"hampiqmi,"` and `"kayku."` compare
-  correctly while internal characters like the hyphen in `"ayllu-ayllunta"`
-  survive). If the term occurs: every occurrence is highlighted (see the
-  transcript bullet below) and playback's initial position jumps to
-  `MATCH_LEAD_IN_WORDS` (3) words before the *first* occurrence — not the
-  occurrence itself, so the clip doesn't open mid-sentence right on the
-  word, and not all the way back to 0:00 either. If it doesn't occur: no
-  highlighting, starts at 0:00, same as before this existed. Computed by
-  `findSearchMatches()`/`computeInitialSeekTime()` in `karaoke-player.tsx`,
-  applied to the `<audio>` element in the event-listener effect — tried
-  immediately and reapplied on `"loadedmetadata"`, since setting
-  `currentTime` before the browser knows the real `duration` can silently
-  get reset once it loads. **Autoplays on load**, in both the match and
-  no-match case (`audio.play().catch(() => {})` right after the initial
-  seek) — landing on a lead-in position that then sat paused read as
-  broken, on request. The `.catch()` matters: browsers can block autoplay
-  without a preceding user gesture (`NotAllowedError`), which would
-  otherwise be an uncaught promise rejection; swallowing it just leaves
-  the clip paused at the right position instead, same as before this
-  existed. In this app's real flow, the gesture that submitted the search
-  (a click or Enter in SearchBar) carries over through the full-navigation
-  to `/search` and satisfies that requirement — confirmed in-browser;
-  autoplay only fails when the page is reached with no prior interaction
-  at all, e.g. opening the URL directly.
-- **Simulated search delay + skeleton loading UI.** The actual data (three
-  small local JSON files) loads near-instantly, which read as too abrupt —
-  a page that resolves in a few milliseconds doesn't feel like a search
-  happened. `SIMULATED_SEARCH_DELAY_MS` (3000) in `karaoke-player.tsx`
-  holds the page in a loading state for at least that long regardless of
-  how fast the real fetch was: a `minLoadingElapsed` flag flips true from a
-  `setTimeout` on mount, and `isReady = isDataLoaded && minLoadingElapsed`
-  gates every section of real content. Every other bug fix in this file
-  treats the provisional data source as a UI-only concern and playback/
-  navigation correctness as real; this is the one place that's
-  *deliberately* make-believe, on request, to preview how the loading
-  state itself will eventually feel.
+- **Search resolution and matching — two tiers, by design.** `activeQuery`
+  is normalized (`normalizeWord()` — lowercase, strip only leading/trailing
+  punctuation, so `"hampiqmi,"` and the index key `"hampiqmi"` compare equal
+  while internal characters like the hyphen in `"ayllu-ayllunta"` survive —
+  this must stay in sync with the identical function in
+  `data/scripts/lib/normalize-word.js`, which built the index's keys in the
+  first place) and looked up directly in the already-loaded
+  `search-index.json` for its matching `audio_id`s (`matchIds`, a `useMemo`
+  — a plain in-memory lookup, no fetch at all). Every one of those matches
+  renders its sidebar card straight from the also-already-loaded
+  `metadata.json` catalog. **Only the one *active* match's full clip —
+  real alignment timestamps and the word-by-word morphosyntactic
+  breakdown — is ever fetched**, keyed on
+  `activeId` (`matchIds[activeMatchIndex]`); switching matches changes
+  `activeId` and triggers that fetch for the newly selected one, not
+  before. The audio itself is never fetched by the app at all — the
+  `<audio src>` points straight at the CDN (`AUDIOS_BASE_PATH`, see
+  `../data/README.md` -> "Audio hosting"), which the browser streams
+  directly and needs no CORS headers for (a plain media `src`, not a
+  `fetch()`). **This replaced an earlier version that fetched every matched
+  clip's full combined JSON up front** (metadata *and* alignment *and*
+  analysis, for every card in the list, not just the one being played) —
+  functionally fine for a handful of matches, but a common grammatical word
+  with 200+ real occurrences (see `MAX_MATCHES`'s own comment) would have
+  downloaded 24 clips' worth of alignment/analysis data to show a list that
+  only ever plays one of them at a time. `resolvedClip` bundles `{ id,
+  clip }` together — checking `resolvedClip.id === activeId` (not just
+  `resolvedClip !== null`) is what tells "this clip's full data actually
+  answers the current selection" apart from "the previous match's full
+  data is still sitting here while a new fetch is in flight"; the
+  alternative, clearing it synchronously at the top of the fetch effect,
+  trips `react-hooks/set-state-in-effect` and would let the *previous*
+  clip's `<audio>` keep seeking/playing under the *new* selection for a
+  moment. Within whichever clip is active, `findSearchMatches()` highlights
+  every occurrence (see the transcript
+  bullet below) and `computeInitialSeekTime()` jumps playback to
+  `MATCH_LEAD_IN_WORDS` (3) words before the *first* one, applied to the
+  `<audio>` element in the event-listener effect — tried immediately and
+  reapplied on `"loadedmetadata"`, since setting `currentTime` before the
+  browser knows the real `duration` can silently get reset once it loads.
+  **Autoplays** on every fresh match or match switch
+  (`audio.play().catch(() => {})` right after the initial seek) — landing
+  on a lead-in position that then sat paused read as broken, on request.
+  The `.catch()` matters: browsers can block autoplay without a preceding
+  user gesture (`NotAllowedError`), which would otherwise be an uncaught
+  promise rejection; swallowing it just leaves the clip paused at the
+  right position instead. In this app's real flow, the gesture that
+  submitted the search (a click or Enter in SearchBar) carries over
+  through the full-navigation to `/search` and satisfies that requirement
+  — confirmed in-browser; autoplay only fails when the page is reached
+  with no prior interaction at all, e.g. opening the URL directly. If the
+  term occurs in zero transcripts, the whole player body is blocked — see
+  "No-results state" below.
+- **No-results state** (`no-results-state.tsx`). Once `isReady`, a query
+  that resolved to zero matching clips (`matchCount === 0` — see
+  "Search resolution" above) replaces the entire two-column body —
+  transcript, transport controls, match list/Analysis, and the `<audio>`
+  element itself (never mounted, so there's nothing to autoplay) — with a
+  single centered message: a muted circular `SearchOffIcon` (the same
+  magnifying glass as `SearchIcon`, with an extra diagonal slash through
+  the lens), "No se encontraron coincidencias", and a line naming the
+  searched term (UI copy in Spanish — see `docs/project-context.md`'s
+  "Language note"). The
+  header (back button, in-player search, `ThemeToggle`) stays live
+  throughout, so trying another word doesn't need a full round trip back
+  to "/". An **empty** query (direct navigation to `/search` with no
+  `?q=`) now counts as a no-results search too — with real, per-query data
+  there's no fallback "example" clip left to fall through to the way there
+  used to be back when every search opened the same hand-placed clip.
+  Wiring this up to the real dataset is also what surfaced that
+  `SearchBar`'s own rotating demo words weren't all guaranteed to exist in
+  the real corpus — see "Each word is checked present..." under SearchBar
+  above for that fix.
+- **Real loading state + skeleton UI, no artificial delay.** `isReady =
+  matchIds !== null && metadataCatalog !== null && (matchCount === 0 ||
+  activeClip !== null)` in `karaoke-player.tsx` gates every section of real
+  content on data that has *actually* arrived — nothing is held back
+  longer than the real fetches take. **This replaced an earlier
+  `SIMULATED_SEARCH_DELAY_MS` (3000ms) that force-held every search in a
+  loading state for a fixed 3 seconds regardless of how fast the local
+  fetches resolved**, on request, specifically to preview how the loading
+  UI itself should feel before there was real data or a real fetch worth
+  waiting for. Once search became real multi-clip lookups and the per-match
+  fetch split described above, an artificial floor on top of that would
+  have meant waiting even when the real work was already done — removed
+  outright rather than tuned down, since "as long as the real request
+  takes, however long that is" was the explicit replacement, not a shorter
+  fixed number.
   - **The whole page shell renders immediately** — header, title,
     `ViewSwitch`, `AudioPlayerControls` — only the sections whose content
     actually depends on the fetched data swap to a skeleton
@@ -555,10 +621,12 @@ matching against this transcript" below.
     `audioRef.current.play()` directly, no effect involved), so audio
     audibly played — just with `currentTime` never updating, so the
     transcript highlight, seek bar, and Analysis tab all sat frozen.
-    **Fix:** added `minLoadingElapsed` to that effect's dependency array,
-    so it re-evaluates once `<audio>` actually exists and attaches the
-    listeners for real at that point, same as before the skeleton phase
-    existed.
+    **Fix:** added a dependency that still changes once `<audio>` actually
+    mounts, so the effect re-evaluates and attaches the listeners for real
+    at that point — `minLoadingElapsed` at the time (the skeleton phase's
+    now-removed artificial-delay flag, see "Real loading state" below);
+    today that role is filled by `activeClip` itself, which only becomes
+    non-null once the active match's clip has actually loaded.
 - **Bugs fixed — stale state surviving navigation, both directions.**
   Clicking the back button used to leave the clip audibly playing on `/`;
   separately, a typed-but-unsent SearchBar query (or an open pill) could
@@ -612,8 +680,9 @@ matching against this transcript" below.
   (e.g. the karaoke word hover, the transport buttons) still uses a flat
   background-color change — that's a fill, not a border, so it stays.
 - **Back button:** a circular icon-only button (just `BackArrowIcon`,
-  `aria-label="Back to home"`) replacing an earlier text+icon "← Home" link
-  — on request, to read as a plain nav control rather than a labeled link.
+  `aria-label="Volver al inicio"`) replacing an earlier text+icon "← Home"
+  link — on request, to read as a plain nav control rather than a labeled
+  link.
   Filled `--color-primary`/`--color-on-primary`, matching the play button's
   circle exactly (same colors, `filter: brightness(1.08)` hover, `scale(0.94)`
   press) — an earlier version only showed a background on `:hover`, i.e. no
@@ -649,16 +718,39 @@ matching against this transcript" below.
     leaves `/search` at all, so there's no route boundary for the cache to
     leak across. `handleInPageSearch()` in `karaoke-player.tsx` instead: 1)
     updates `activeQuery` (plain `useState`, not derived live from
-    `useSearchParams()` after the initial render) — re-running the seek/
-    autoplay/listener effect via its `activeQuery` dependency (see the
-    effect's own comment) exactly as if it were a fresh load, just without
-    re-fetching `metadata`/`alignment`/`word-analysis` (none of which
-    depend on the query, so there's nothing to re-fetch) or repeating the
-    simulated-delay skeleton (nothing to wait on either); 2) calls
-    `window.history.replaceState(...)` directly — not `router.push` or
-    `<Link>`, so Next's router is never asked to do anything — purely to
-    keep the address bar honest. The overlay closing is just its own
-    `isOpen` prop flipping back to `false`; nothing unmounts.
+    `useSearchParams()` after the initial render) — `matchIds` recomputes
+    against the already-loaded search index synchronously, and the new
+    `activeId` this produces triggers the clip-fetch effect for real (see
+    "Search resolution and matching" above — this *does* fetch, unlike the
+    search index/metadata catalog, which never need refetching since
+    neither depends on the query); 2) calls `window.history.replaceState(...)`
+    directly — not `router.push` or `<Link>`, so Next's router is never
+    asked to do anything — purely to keep the address bar honest. The
+    overlay closing (without submitting) is its own `isOpen` prop flipping
+    back to `false` via `closeSearchOverlay()` — see "Bug fixed — playback
+    kept running under the search overlay" below.
+  - **Bug fixed — playback kept running under the search overlay.**
+    Opening this overlay used to leave the clip audibly playing (and its
+    transcript highlight still advancing) behind the blur, on request
+    fixed to stop everything — audio and the highlight it drives — while
+    searching, then pick back up exactly where it left off if the overlay
+    is dismissed without submitting a new search. **Fix:** `openSearchOverlay()`
+    records whether the `<audio>` element was actually playing
+    (`wasPlayingBeforeSearchRef`, a ref rather than state — this is a
+    one-shot fact read back once on close, never rendered, so it doesn't
+    need to trigger a re-render) and pauses it before opening the overlay;
+    `closeSearchOverlay()` resumes playback only if that ref says it was
+    playing. Both are wired to `PageShell`'s `onOpenSearch` and
+    `PlayerSearchOverlay`'s `onClose` instead of the plain `setIsSearchOpen`
+    calls those used to be — `handleInPageSearch()` (an actual submission)
+    deliberately keeps calling `setIsSearchOpen(false)` directly, not
+    `closeSearchOverlay()`, since a submitted search already autoplays
+    whatever clip it resolves to on its own (see "Search resolution and
+    matching" above) and doesn't need this resume logic layered on top.
+    No separate "animation" pause was needed: the transcript highlight and
+    seek bar are both driven by `currentTime`, which only advances while
+    the `<audio>` element is actually playing, so pausing *it* is what
+    pauses *them* too.
 - **Play icon — size and rounding.** The transport play button's icon was
   small relative to its circle (`size={24}` in a `3.5rem` button); bumped to
   `size={28}`. Its corners are now also subtly rounded: each sharp vertex of
@@ -727,6 +819,25 @@ matching against this transcript" below.
     the same stylesheet can still win — see SearchBar's identical fix
     above. Setting these conditionally in `style={{ background: ... }}`
     would silently defeat `:hover` again.
+  - **Bug fixed — clicking a word activated the *previous* one.** Reported
+    against a real clip: clicking "kan," (immediately after "nuqapaq," no
+    gap to speak of) highlighted "nuqapaq" instead — reproducible, not a
+    punctuation issue as it first looked. Confirmed in-browser: "kan,"'s
+    recorded `start` is `8.264`, but seeking `audio.currentTime` to exactly
+    that value and reading it back immediately gave `8.263999` — a
+    browser/media seek-precision artifact, not anything this app computed
+    wrong. `findActiveWordIndex()`'s plain `word.start <= time` then failed
+    by a fraction of a millisecond right at the moment of the click, so the
+    word seeked-to was never counted as "reached," and the previous word
+    stayed active. **Fix:** `ACTIVE_WORD_EPSILON_S` (0.02s) added to the
+    comparison (`word.start <= time + ACTIVE_WORD_EPSILON_S`) — comfortably
+    larger than the sub-millisecond drift actually observed, comfortably
+    smaller than any real inter-word gap in the dataset (tens to hundreds
+    of ms), so it absorbs the seek imprecision without ever making the
+    *next* word activate early. Affects every path that sets
+    `audio.currentTime` directly (word clicks, the match-lead-in seek,
+    the seek bar), not just this one report — the same imprecision could
+    otherwise surface anywhere a word's own exact `start` is seeked to.
 - **Transport controls** (`audio-player-controls.tsx`): play/pause, a seek
   bar (see "Seek bar border" above for how it's built), and previous/
   next-match buttons. Previous/next navigate the *matches list* (different
@@ -742,23 +853,43 @@ matching against this transcript" below.
   the list itself shows how many there are.
   - **List** (`match-card.tsx`): one card per matching clip — region/accent,
     a 2-line clamped transcript excerpt, speaker age/gender (humanized:
-    `"male_masculine"` → `"Male"`, `"thirties"` → `"30s"`), and duration.
+    `"male_masculine"` → `"Hombre"`, `"thirties"` → `"30 años"`), and
+    duration.
     The selected card's "selected" state is the tinted-fill background
     described above (not lime — lime is reserved for the karaoke
     active-word state specifically, so a second "selected" meaning doesn't
     dilute it); its play icon swaps for a small pulsing dot while that clip
-    is actually playing. Only one real card's worth of data exists (there's
-    still only one real example), but `karaoke-player.tsx` now renders
-    `MATCH_COUNT` (5) of them — all pointing at that same example, purely
-    so the list UI itself could be previewed with more than one result, on
-    request; not meant to look like 5 distinct clips exist. The transport's
-    previous/next buttons move `activeMatchIndex` between them (clamped,
-    not wrapping) and replay from the same computed start time — real
-    interaction, even though every card resolves to the same underlying
-    audio right now. The component takes `metadata`/`isActive`/`isPlaying`/
-    `onSelect` as props and the list already scrolls independently, so it's
-    already shaped for a real, differently-sized matches array later; only
-    the `Array.from({length: MATCH_COUNT})` call site needs to change.
+    is actually playing. `karaoke-player.tsx` renders one real card per
+    match id (`matchIds.map(...)`, looked up in `metadataCatalog` — see
+    "Search resolution and matching" above — keyed by `audio_id`, stable
+    across re-searches, unlike an array index) — `matchCount` is now a
+    genuine match count (`matchIds.length`, capped at `MAX_MATCHES`), not
+    an earlier placeholder that only ever showed `0` or `1`. The
+    transport's previous/next buttons move `activeMatchIndex` between them
+    (clamped to `matchCount`, not wrapping); switching clips this way now
+    loads a genuinely different audio file (a different `<audio src>`, not
+    just a different position in the same one), so `selectMatch()` just
+    updates `activeMatchIndex` and lets the clip-fetch + event-listener
+    effects described above take it from there, rather than seeking
+    synchronously itself the way it did when every match pointed at the
+    same file.
+    - **Bug fixed — crash on a real record with no `gender`.** `humanize()`
+      assumed its `value` argument was always a string and called
+      `.replace()` on it unconditionally; 30 of the 1222 real transcribed
+      records have `gender: null` (checked against the generated dataset,
+      not assumed), so searching a word that happened to match one of them
+      crashed the whole page with `Cannot read properties of null (reading
+      'replace')` — a real-data edge case the single hand-placed example
+      never had a chance to surface, since every one of its fields was
+      always populated. **Fix:** `humanize()` returns `""` for a
+      falsy/null `value`; `speakerLine`'s existing `.filter(Boolean)` then
+      drops that empty segment on its own, so a card with no gender on
+      record just shows age alone instead of crashing. `AudioMetadata.gender`/
+      `accents` in `types.ts` are now typed `string | null` to match —
+      every field `build-audios.js` writes is nullable in principle (any
+      empty TSV cell becomes `null`), but these two are the ones actually
+      confirmed null in the real data so far; treat any other field as
+      nullable too unless it's been checked the same way.
   - **Analysis** (`word-analysis.tsx`): a graphical morphosyntactic
     breakdown — root and suffixes rendered as flat colored chips (root =
     `--color-gloss-root`/`--color-on-primary`, suffixes =
@@ -769,20 +900,20 @@ matching against this transcript" below.
     same `activeWordIndex` the transcript uses, and it indexes into
     `words` (below) with that. No translation line anymore (removed on
     request).
-    - **Per-word data**: `public/example/word-analysis.json`, one entry
-      per `alignment.json`'s `word_segments` (same order/count — checked
-      with a one-off script when the file was generated, not hand-counted)
-      so the two line up by plain array index. **Hand-authored for all 34
-      words** of this one example's transcript, not just one — "your
-      judgment, doesn't matter if it's exactly right" was the brief, so
-      each entry is a plausible root(+suffix) split reusing common
-      documented Southern Quechua suffix glosses (`-mi` evidential, `-qa`
-      topic, `-ta` accusative, `-manta` ablative, `-pi` locative, `-q`
-      agentive, `-sqa` narrative past, `-ña` already, `-spa` same-subject
-      gerund, person markers, etc.), not verified against Puno/Collao usage
-      by a native speaker — same caveat as `QUECHUA_WORDS` in SearchBar and
-      the single-word version this replaces. [TO BE DEFINED]: a real
-      morphosyntactic-analysis backend to replace this file.
+    - **Per-word data**: each clip's own `wordAnalysis.words`, one entry per
+      `alignment.word_segments` (same order/count, guaranteed by how
+      `data/scripts/build-clips.js` builds it — see `../data/README.md`),
+      so the two line up by plain array index. Real morphology from
+      `inverted_index.json`: a transcript word is normalized and looked up
+      for its `morphology.root`/`morpheme_chain`/`suffixes`; `gloss`/
+      `meaning` reuse that index's own Spanish linguistic-register fields
+      as-is (`name`/`role` for suffixes, `pos`/first sense definition for
+      the root) rather than the short English glosses an earlier
+      hand-authored single-example fixture used — there's no English gloss
+      in the real data. A transcript word with no index entry (proper
+      noun, loanword, etc.) becomes its own unanalyzed root with `"—"`
+      gloss/meaning rather than being dropped, keeping the array's
+      length/order intact.
     - **Playing vs. paused show different amounts of detail, on purpose.**
       While `isPlaying`, only the chip row shows — in fast speech the
       active word can advance a couple of times a second, far too fast to
@@ -812,10 +943,41 @@ matching against this transcript" below.
   doesn't read (votes, prompt IDs, etc.) are left untyped on purpose rather
   than modeling the full example schema.
 - **No Spanish translation shown.** `project-context.md`'s dataset model
-  describes one, but this provisional `metadata.json` only has `prompt`
+  describes one, but the real corpus's metadata only has `prompt`
   (the Quechua prompt the speaker was given) and `transcription` (Quechua) —
   no translation field — so none is fabricated here. [TO BE DEFINED] once a
   real translation field exists in the dataset.
+
+### Custom scrollbars (`app/globals.css`)
+
+A `.paqocha-scroll` class, applied to every independently-scrolling panel in
+`KaraokePlayer` — the transcript (`karaoke-transcript.tsx`), the match list
+(`karaoke-player.tsx`), and the Analysis tab (`word-analysis.tsx`) — repaints
+the browser's default scrollbar as a slim, fully-rounded, floating thumb
+instead of the plain OS-gray bar `color-scheme` alone produces (see Tokens
+above). Global, not per-component, since all three panels need the exact
+same look; defined once in `app/globals.css` rather than three component
+`<style>` tags.
+
+- **Firefox**: `scrollbar-width: thin` + `scrollbar-color` (thumb, track) —
+  the only two properties Firefox's standardized scrollbar API exposes.
+- **Chrome/Edge/Safari**: `::-webkit-scrollbar*` pseudo-elements — a
+  transparent track, and a thumb colored with `color-mix(in srgb,
+  var(--color-primary) 40%, transparent)` (65% on hover), the same tinted-fill
+  idiom as `MatchCard`'s hover/active states. `border: 2px solid transparent`
+  + `background-clip: padding-box` insets the painted thumb from the
+  scrollbar's own edges, so it reads as a floating pill rather than a bar
+  flush against the content.
+- **Bug found on Windows Chrome: leftover up/down arrow buttons.** Styling
+  `::-webkit-scrollbar-thumb` doesn't suppress the classic Windows-style
+  arrow buttons at each end of the track — confirmed in-browser, the thumb
+  itself rendered correctly (rounded, tinted) but with native triangle arrow
+  buttons still sitting above and below it, undermining the "slim, modern"
+  intent. **Fix:** `::-webkit-scrollbar-button { display: none; }`.
+- A pre-existing `paqocha-karaoke-scroll` class on the transcript container
+  predates this and had no rule defined anywhere for it — effectively a
+  no-op left over from an earlier pass. Renamed to `paqocha-scroll` rather
+  than kept alongside it.
 
 ### Theme-independent UI
 

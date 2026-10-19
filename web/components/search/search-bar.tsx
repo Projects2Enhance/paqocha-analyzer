@@ -6,11 +6,11 @@ import { SearchIcon } from "./search-icon";
 // Top-center search pill, modeled on compasspathways.com's dark expanding
 // navbar (see web/DESIGN.md -> Components -> SearchBar for the full writeup).
 //
-// Real Quechua words (Southern/Cusco-Collao variety), not invented, themed
-// around the product's flow — search, listen, learn, speak, word — but
-// their spelling hasn't been checked against Puno/Collao-specific usage by
-// a Quechua speaker yet — flag for review before this ships for real.
-const QUECHUA_WORDS = ["Maskhay", "Uyariy", "Yachay", "Rimay", "Simi"];
+// Real Quechua words, each confirmed present in the real generated
+// search-index.json (not just plausible-looking) — a word that isn't
+// indexed would send a user straight to NoResultsState the moment they hit
+// search without typing anything, by coincidence of word choice alone.
+const QUECHUA_WORDS = ["P'unchaykuna", "Mikhuy", "T'anta", "Wasi", "P'unchay"];
 
 const WORD_DISPLAY_MS = 3000;
 const WORD_FADE_MS = 350;
@@ -202,7 +202,7 @@ export function SearchBar() {
           <button
             type="button"
             className="paqocha-search-icon-button"
-            aria-label="Search"
+            aria-label="Buscar"
             onClick={handleSearch}
             style={{
               flexShrink: 0,

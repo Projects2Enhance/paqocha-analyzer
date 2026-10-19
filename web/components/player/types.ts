@@ -1,6 +1,7 @@
-// Shapes matching the provisional example data in public/example/
-// (metadata.json + alignment.json) — see web/DESIGN.md -> Components ->
-// KaraokePlayer. Only the fields the player actually reads are typed.
+// Shapes matching the real generated data in public/data/ (clips/<id>.json,
+// search-index.json) — see ../../../data/README.md for how they're built,
+// and web/DESIGN.md -> Components -> KaraokePlayer for how the player
+// consumes them. Only the fields the player actually reads are typed.
 
 export type AlignmentWord = {
   word: string;
@@ -23,6 +24,11 @@ export type Alignment = {
   word_segments: AlignmentWord[];
 };
 
+// `gender`/`accents` are `null` for a real, non-trivial share of the
+// generated dataset (30/1222 and 384/1222 respectively) — checked against
+// data/processed/audios.json, not assumed. Every TSV column build-audios.js
+// writes empty as `null` rather than `""`, so treat any field here as
+// nullable unless it's been checked, the way these two have.
 export type AudioMetadata = {
   audio_id: number;
   audio_file: string;
@@ -30,8 +36,8 @@ export type AudioMetadata = {
   prompt: string;
   transcription: string;
   age: string;
-  gender: string;
-  accents: string;
+  gender: string | null;
+  accents: string | null;
   language: string;
 };
 
@@ -53,3 +59,22 @@ export type WordAnalysisData = {
   audio_file: string;
   words: WordAnalysisEntry[];
 };
+
+// One combined file per clip — public/data/clips/<audio_id>.json, built by
+// data/scripts/build-clips.js. Replaces separately fetching metadata.json/
+// alignment.json/word-analysis.json for a given audio.
+export type ClipData = {
+  metadata: AudioMetadata;
+  alignment: Alignment;
+  wordAnalysis: WordAnalysisData;
+};
+
+// public/data/search-index.json, built by data/scripts/build-search-index.js
+// — normalized word -> every audio_id whose transcript contains it.
+export type SearchIndex = Record<string, number[]>;
+
+// public/data/metadata.json, built by data/scripts/build-metadata.js —
+// every transcribed audio's metadata, keyed by audio_id, fetched once so
+// every match card in a search's results can render without fetching each
+// match's full ClipData (only ever needed for the one active match).
+export type MetadataCatalog = Record<string, AudioMetadata>;

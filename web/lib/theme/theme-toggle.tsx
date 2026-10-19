@@ -66,7 +66,7 @@ export function ThemeToggle() {
       <button
         type="button"
         onClick={toggleTheme}
-        aria-label="Toggle theme"
+        aria-label="Cambiar tema"
         className="paqocha-theme-toggle"
         style={{
           display: "inline-flex",

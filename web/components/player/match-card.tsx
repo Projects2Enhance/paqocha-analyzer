@@ -3,22 +3,27 @@ import { formatSeconds } from "./format-time";
 import { PlayIcon } from "./player-icons";
 
 const AGE_LABELS: Record<string, string> = {
-  teens: "Teens",
-  twenties: "20s",
-  thirties: "30s",
-  fourties: "40s",
-  forties: "40s",
-  fifties: "50s",
-  sixties: "60s",
-  seventies: "70s",
+  teens: "Adolescente",
+  twenties: "20 años",
+  thirties: "30 años",
+  fourties: "40 años",
+  forties: "40 años",
+  fifties: "50 años",
+  sixties: "60 años",
+  seventies: "70 años",
 };
 
 const GENDER_LABELS: Record<string, string> = {
-  male_masculine: "Male",
-  female_feminine: "Female",
+  male_masculine: "Hombre",
+  female_feminine: "Mujer",
 };
 
-function humanize(value: string, table: Record<string, string>): string {
+// `value` is `null` for some real records (30 of 1222 have no `gender`,
+// confirmed against the generated dataset) — humanize-able data isn't
+// guaranteed to exist, unlike the hand-placed single example this
+// component was originally written against.
+function humanize(value: string | null, table: Record<string, string>): string {
+  if (!value) return "";
   return table[value] ?? value.replace(/_/g, " ");
 }
 
