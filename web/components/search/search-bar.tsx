@@ -465,11 +465,10 @@ export function SearchBar() {
         .paqocha-search-suggestions-label {
           width: 100%;
           text-align: center;
-          font-size: 0.8rem;
-          letter-spacing: 0.06em;
-          text-transform: uppercase;
+          font-size: 0.95rem;
+          font-weight: 500;
           color: var(--brand-cream);
-          opacity: 0.85;
+          opacity: 0.8;
           text-shadow: 0 1px 8px rgba(31, 33, 80, 0.6);
         }
 
@@ -478,19 +477,17 @@ export function SearchBar() {
           padding: 0 1.25rem;
           border: none;
           border-radius: 999px;
-          background: var(--brand-ink);
-          color: var(--brand-cream);
+          background: var(--brand-cream);
+          color: var(--brand-ink);
           font-size: 1.05rem;
-          font-weight: 500;
+          font-weight: 600;
           cursor: pointer;
-          box-shadow: 0 6px 20px rgba(31, 33, 80, 0.3);
-          transition: background 200ms ease, color 200ms ease, transform 150ms ease;
+          box-shadow: 0 6px 18px rgba(31, 33, 80, 0.35);
+          transition: background 200ms ease, transform 150ms ease;
         }
 
         .paqocha-search-chip:hover {
-          background: rgba(158, 161, 224, 0.25);
-          color: var(--brand-periwinkle-light);
-          backdrop-filter: blur(12px);
+          background: var(--brand-periwinkle-light);
         }
 
         .paqocha-search-chip:active {
