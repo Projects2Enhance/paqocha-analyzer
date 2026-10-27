@@ -359,6 +359,16 @@ export function SearchBar() {
           color: var(--brand-cream);
           box-shadow: 0 14px 44px rgba(31, 33, 80, 0.45);
           font-family: inherit;
+          transition: opacity 200ms ease;
+        }
+
+        /* Toggled on <body> by search-tour.ts while a step change is in
+           flight, so the popover fades out, the pill animates underneath
+           while nothing is visible, and the new step's popover fades back
+           in — instead of its content jumping mid-animation. */
+        body.paqocha-tour-transitioning .driver-popover.paqocha-tour-popover {
+          opacity: 0;
+          pointer-events: none;
         }
 
         .paqocha-tour-popover .driver-popover-title {
