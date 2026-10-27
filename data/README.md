@@ -15,11 +15,17 @@ Plain Node.js, no dependencies beyond what's already installed system-wide
 - `inverted_index.json` — per unique surface word: its morphosyntactic
   analysis (`morphology`) and every audio/position it occurs in
   (`postings`). ~33MB; not meant to be shipped to the browser as-is.
+  Copied from the `generative-quechua-translator` repo's
+  `data/processed/inverted_index.json` (corpus
+  `sps-corpus-5.0-2026-09-11-qxp`, the same corpus as the TSV).
 - `timestamps/<audio_file-without-.mp3>/alignment.json` — real
   forced-alignment word timestamps, one folder per transcribed audio
   (1222, matching `inverted_index.json`'s `index_info.indexed_audios_count`
   and the TSV's transcribed-row count exactly). `metadata.json` in the same
   folder duplicates that audio's TSV row and isn't read by these scripts.
+  Optional on a rerun: when an audio's folder is missing, `build-clips.js`
+  reuses the `alignment` already inside its previously generated
+  `clips/<audio_id>.json` (which came from that same file).
 
 ## Run order
 
@@ -120,3 +126,9 @@ gitignored and unused by the app — safe to delete.
   real data, unlike the earlier hand-authored example fixture.
 - A transcript word with no entry in the index gets `gloss`/`meaning`
   `"—"` and no suffix breakdown.
+- Only the first sense is shown, so the root's meaning is only as good as
+  the dictionary's sense order. Older indexes attached senses of compound
+  headwords to the bare root (`wasi` -> "Casa de las escogidas", from
+  *aklla wasi*); the current one has that fixed upstream, and resolves the
+  demonstratives `kay`/`chay` ("este"/"ése") instead of the verb *ka-* or a
+  stray "siesta" entry.

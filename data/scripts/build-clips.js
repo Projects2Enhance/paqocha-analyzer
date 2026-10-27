@@ -77,6 +77,23 @@ function buildWordAnalysis(alignment, wordsIndex) {
   return { audio_file: alignment.audio_file, words };
 }
 
+// raw/timestamps/ isn't committed, so a rerun that only brings a newer
+// inverted_index.json (corrected morphology) may not have it. In that case the
+// alignment already embedded in the previously generated clip is reused — it
+// came from that same alignment.json, and nothing here ever recomputes it.
+function loadAlignment(metadata) {
+  const stem = metadata.audio_file.replace(/\.mp3$/, "");
+  const alignmentPath = path.join(TIMESTAMPS_DIR, stem, "alignment.json");
+  if (fs.existsSync(alignmentPath)) {
+    return { alignment: JSON.parse(fs.readFileSync(alignmentPath, "utf8")), reused: false };
+  }
+  const clipPath = path.join(OUT_DIR, `${metadata.audio_id}.json`);
+  if (fs.existsSync(clipPath)) {
+    return { alignment: JSON.parse(fs.readFileSync(clipPath, "utf8")).alignment, reused: true };
+  }
+  return null;
+}
+
 function main() {
   const audios = JSON.parse(fs.readFileSync(AUDIOS_PATH, "utf8"));
   const { words_index: wordsIndex } = JSON.parse(
@@ -86,17 +103,18 @@ function main() {
   fs.mkdirSync(OUT_DIR, { recursive: true });
 
   let written = 0;
+  let reusedAlignment = 0;
   let missingAlignment = 0;
   for (const metadata of audios) {
-    const stem = metadata.audio_file.replace(/\.mp3$/, "");
-    const alignmentPath = path.join(TIMESTAMPS_DIR, stem, "alignment.json");
-    if (!fs.existsSync(alignmentPath)) {
+    const loaded = loadAlignment(metadata);
+    if (!loaded) {
       missingAlignment += 1;
       console.warn(`No alignment.json for ${metadata.audio_file}, skipped`);
       continue;
     }
+    if (loaded.reused) reusedAlignment += 1;
 
-    const alignment = JSON.parse(fs.readFileSync(alignmentPath, "utf8"));
+    const { alignment } = loaded;
     const wordAnalysis = buildWordAnalysis(alignment, wordsIndex);
     const clip = { metadata, alignment, wordAnalysis };
 
@@ -108,7 +126,9 @@ function main() {
   }
 
   console.log(
-    `clips: ${written} files written -> ${OUT_DIR} (${missingAlignment} skipped, no alignment.json)`,
+    `clips: ${written} files written -> ${OUT_DIR} ` +
+      `(${reusedAlignment} reused their previous clip's alignment, ` +
+      `${missingAlignment} skipped, no alignment.json)`,
   );
 }
 

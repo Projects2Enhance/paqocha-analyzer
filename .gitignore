@@ -1,0 +1,6 @@
+# Data pipeline inputs and intermediates — see data/README.md -> "What's committed".
+/data/raw/
+/data/processed/
+
+# Leftover local audio mirror; audio is served from the R2 CDN.
+/web/public/data/audios/
