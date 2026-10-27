@@ -12,7 +12,10 @@ import { SearchIcon } from "./search-icon";
 // search without typing anything, by coincidence of word choice alone.
 const QUECHUA_WORDS = ["P'unchaykuna", "Mikhuy", "T'anta", "Wasi", "P'unchay"];
 
-const SUGGESTION_COUNT = 3;
+// All of QUECHUA_WORDS, shown in a shuffled order each time the pill opens —
+// kept as a count (not a hardcoded 3) so the suggestion chips always match
+// the same word set cycling through the collapsed pill's placeholder.
+const SUGGESTION_COUNT = QUECHUA_WORDS.length;
 const TOUR_START_DELAY_MS = 2800;
 const TOUR_REPLAY_SETTLE_MS = 480;
 const WORD_DISPLAY_MS = 3000;
@@ -315,16 +318,16 @@ export function SearchBar() {
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 2.25rem;
-          height: 2.25rem;
+          width: 2.75rem;
+          height: 2.75rem;
           border: none;
           border-radius: 999px;
           background: var(--brand-ink);
           color: var(--brand-cream);
-          font-size: 1rem;
+          font-size: 1.25rem;
           font-weight: 600;
           cursor: pointer;
-          opacity: 0.5;
+          opacity: 1;
           transition: opacity 200ms ease, background 200ms ease, color 200ms ease, transform 150ms ease;
         }
 

@@ -34,10 +34,9 @@ interface SearchTourHandlers {
 export function startSearchTour({ openSearch, closeSearch }: SearchTourHandlers) {
   const tour = driver({
     popoverClass: "paqocha-tour-popover",
-    stagePadding: 10,
-    stageRadius: 40,
-    overlayColor: "#1f2150",
-    overlayOpacity: 0.7,
+    // No dimmed backdrop — just the step popovers themselves, so they don't
+    // compete visually with a cutout/highlight around the target.
+    overlayOpacity: 0,
     showProgress: true,
     progressText: "{{current}} de {{total}}",
     nextBtnText: "Siguiente",
