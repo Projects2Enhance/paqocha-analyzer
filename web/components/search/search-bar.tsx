@@ -12,7 +12,10 @@ import { SearchIcon } from "./search-icon";
 // search without typing anything, by coincidence of word choice alone.
 const QUECHUA_WORDS = ["P'unchaykuna", "Mikhuy", "T'anta", "Wasi", "P'unchay"];
 
-const SUGGESTION_COUNT = 3;
+// All of QUECHUA_WORDS, shown in a shuffled order each time the pill opens —
+// kept as a count (not a hardcoded 3) so the suggestion chips always match
+// the same word set cycling through the collapsed pill's placeholder.
+const SUGGESTION_COUNT = QUECHUA_WORDS.length;
 const TOUR_START_DELAY_MS = 2800;
 const TOUR_REPLAY_SETTLE_MS = 480;
 const WORD_DISPLAY_MS = 3000;
@@ -315,16 +318,16 @@ export function SearchBar() {
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 2.25rem;
-          height: 2.25rem;
+          width: 2.75rem;
+          height: 2.75rem;
           border: none;
           border-radius: 999px;
           background: var(--brand-ink);
           color: var(--brand-cream);
-          font-size: 1rem;
+          font-size: 1.25rem;
           font-weight: 600;
           cursor: pointer;
-          opacity: 0.5;
+          opacity: 1;
           transition: opacity 200ms ease, background 200ms ease, color 200ms ease, transform 150ms ease;
         }
 
@@ -356,6 +359,16 @@ export function SearchBar() {
           color: var(--brand-cream);
           box-shadow: 0 14px 44px rgba(31, 33, 80, 0.45);
           font-family: inherit;
+          transition: opacity 200ms ease;
+        }
+
+        /* Toggled on <body> by search-tour.ts while a step change is in
+           flight, so the popover fades out, the pill animates underneath
+           while nothing is visible, and the new step's popover fades back
+           in — instead of its content jumping mid-animation. */
+        body.paqocha-tour-transitioning .driver-popover.paqocha-tour-popover {
+          opacity: 0;
+          pointer-events: none;
         }
 
         .paqocha-tour-popover .driver-popover-title {
@@ -452,11 +465,10 @@ export function SearchBar() {
         .paqocha-search-suggestions-label {
           width: 100%;
           text-align: center;
-          font-size: 0.8rem;
-          letter-spacing: 0.06em;
-          text-transform: uppercase;
+          font-size: 0.95rem;
+          font-weight: 500;
           color: var(--brand-cream);
-          opacity: 0.85;
+          opacity: 0.8;
           text-shadow: 0 1px 8px rgba(31, 33, 80, 0.6);
         }
 
@@ -465,19 +477,17 @@ export function SearchBar() {
           padding: 0 1.25rem;
           border: none;
           border-radius: 999px;
-          background: var(--brand-ink);
-          color: var(--brand-cream);
+          background: var(--brand-periwinkle-light);
+          color: var(--brand-ink);
           font-size: 1.05rem;
-          font-weight: 500;
+          font-weight: 600;
           cursor: pointer;
-          box-shadow: 0 6px 20px rgba(31, 33, 80, 0.3);
-          transition: background 200ms ease, color 200ms ease, transform 150ms ease;
+          box-shadow: 0 6px 18px rgba(31, 33, 80, 0.35);
+          transition: background 200ms ease, transform 150ms ease;
         }
 
         .paqocha-search-chip:hover {
-          background: rgba(158, 161, 224, 0.25);
-          color: var(--brand-periwinkle-light);
-          backdrop-filter: blur(12px);
+          background: var(--brand-cream);
         }
 
         .paqocha-search-chip:active {
