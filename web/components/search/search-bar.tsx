@@ -477,7 +477,7 @@ export function SearchBar() {
           padding: 0 1.25rem;
           border: none;
           border-radius: 999px;
-          background: var(--brand-cream);
+          background: var(--brand-periwinkle-light);
           color: var(--brand-ink);
           font-size: 1.05rem;
           font-weight: 600;
@@ -487,7 +487,7 @@ export function SearchBar() {
         }
 
         .paqocha-search-chip:hover {
-          background: var(--brand-periwinkle-light);
+          background: var(--brand-cream);
         }
 
         .paqocha-search-chip:active {
