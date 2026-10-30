@@ -1,0 +1,12 @@
+node_modules/
+out/*.mp4
+out/*.png
+recording/frames/
+recording/takes/
+recording/layout.json
+remotion/public/takes/
+remotion/public/voices/
+remotion/public/music.wav
+remotion/public/takes-16x9/
+recording/takes-16x9/
+recording/layout-16x9.json

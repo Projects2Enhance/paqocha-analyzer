@@ -1,0 +1,5782 @@
+{
+  "A": {
+    "take": "A",
+    "video": "recording/takes/take-A.mp4",
+    "fps": 60,
+    "viewport": {
+      "width": 864,
+      "height": 1080
+    },
+    "deviceScaleFactor": 2.5,
+    "coordinates": "CSS px; multiply by deviceScaleFactor for video px",
+    "capturedFrames": 196,
+    "clockOffset_ms": 73,
+    "duration_ms": 8663,
+    "contentStart_ms": 0,
+    "events": [
+      {
+        "t_ms": -107,
+        "type": "start",
+        "cursor": {
+          "x": 432,
+          "y": 842.4
+        }
+      },
+      {
+        "t_ms": 335,
+        "type": "hero-playing"
+      },
+      {
+        "t_ms": 335,
+        "type": "wait",
+        "ms": 7000,
+        "label": "tagline + rotating word"
+      },
+      {
+        "t_ms": 8342,
+        "type": "end"
+      }
+    ],
+    "cursor": [],
+    "audio": []
+  },
+  "C": {
+    "take": "C",
+    "video": "recording/takes/take-C.mp4",
+    "fps": 60,
+    "viewport": {
+      "width": 800,
+      "height": 778
+    },
+    "deviceScaleFactor": 2.5,
+    "coordinates": "CSS px; multiply by deviceScaleFactor for video px",
+    "capturedFrames": 153,
+    "clockOffset_ms": 32,
+    "duration_ms": 13099,
+    "contentStart_ms": 0,
+    "events": [
+      {
+        "t_ms": -37,
+        "type": "start",
+        "cursor": {
+          "x": 400,
+          "y": 606.84
+        }
+      },
+      {
+        "t_ms": 790,
+        "type": "player-ready",
+        "audio": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5653,
+        "type": "click",
+        "selector": ".paqocha-play-button",
+        "x": 400,
+        "y": 579.7625122070312,
+        "box": {
+          "x": 372,
+          "y": 551.7625122070312,
+          "width": 56,
+          "height": 56
+        }
+      },
+      {
+        "t_ms": 5660,
+        "type": "wait",
+        "ms": 700,
+        "label": "paused beat"
+      },
+      {
+        "t_ms": 7660,
+        "type": "click",
+        "selector": "[data-word-index=\"2\"]",
+        "x": 265.2906265258789,
+        "y": 160.40000915527344,
+        "box": {
+          "x": 221.8562469482422,
+          "y": 146.40000915527344,
+          "width": 86.86875915527344,
+          "height": 28
+        }
+      },
+      {
+        "t_ms": 7760,
+        "type": "analysis-shown",
+        "word": "sunquyta"
+      },
+      {
+        "t_ms": 7760,
+        "type": "wait",
+        "ms": 4000,
+        "label": "hold on analysis detail"
+      },
+      {
+        "t_ms": 12773,
+        "type": "end"
+      }
+    ],
+    "cursor": [
+      {
+        "t_ms": 4671,
+        "x": 400,
+        "y": 606.84
+      },
+      {
+        "t_ms": 4719,
+        "x": 400,
+        "y": 606.8131012394151
+      },
+      {
+        "t_ms": 4746,
+        "x": 400,
+        "y": 606.6391510370188
+      },
+      {
+        "t_ms": 4767,
+        "x": 400,
+        "y": 606.463909956837
+      },
+      {
+        "t_ms": 4793,
+        "x": 400,
+        "y": 606.0280375572139
+      },
+      {
+        "t_ms": 4808,
+        "x": 400,
+        "y": 605.7310677754956
+      },
+      {
+        "t_ms": 4823,
+        "x": 400,
+        "y": 605.3693014865457
+      },
+      {
+        "t_ms": 4839,
+        "x": 400,
+        "y": 604.9047926305321
+      },
+      {
+        "t_ms": 4867,
+        "x": 400,
+        "y": 604.313820380831
+      },
+      {
+        "t_ms": 4887,
+        "x": 400,
+        "y": 602.9476652847363
+      },
+      {
+        "t_ms": 4908,
+        "x": 400,
+        "y": 602.0815544975858
+      },
+      {
+        "t_ms": 4952,
+        "x": 400,
+        "y": 600.0556440173467
+      },
+      {
+        "t_ms": 4969,
+        "x": 400,
+        "y": 597.2495712749126
+      },
+      {
+        "t_ms": 4996,
+        "x": 400,
+        "y": 594.4288795310223
+      },
+      {
+        "t_ms": 5014,
+        "x": 400,
+        "y": 592.616845837833
+      },
+      {
+        "t_ms": 5052,
+        "x": 400,
+        "y": 589.3529409321187
+      },
+      {
+        "t_ms": 5084,
+        "x": 400,
+        "y": 586.7688843274673
+      },
+      {
+        "t_ms": 5106,
+        "x": 400,
+        "y": 584.6964567757209
+      },
+      {
+        "t_ms": 5122,
+        "x": 400,
+        "y": 583.8084743254275
+      },
+      {
+        "t_ms": 5167,
+        "x": 400,
+        "y": 582.4433142283305
+      },
+      {
+        "t_ms": 5209,
+        "x": 400,
+        "y": 581.3693039108815
+      },
+      {
+        "t_ms": 5238,
+        "x": 400,
+        "y": 580.4093351303878
+      },
+      {
+        "t_ms": 5271,
+        "x": 400,
+        "y": 580.1177132709233
+      },
+      {
+        "t_ms": 5305,
+        "x": 400,
+        "y": 579.8492312167706
+      },
+      {
+        "t_ms": 5335,
+        "x": 400,
+        "y": 579.7749233275002
+      },
+      {
+        "t_ms": 5367,
+        "x": 400,
+        "y": 579.7625324164682
+      },
+      {
+        "t_ms": 5383,
+        "x": 400,
+        "y": 579.7625122070312
+      },
+      {
+        "t_ms": 6394,
+        "x": 400,
+        "y": 579.7625122070312
+      },
+      {
+        "t_ms": 6420,
+        "x": 399.9921295725171,
+        "y": 579.7380108521204
+      },
+      {
+        "t_ms": 6450,
+        "x": 399.8899581487259,
+        "y": 579.4199419389005
+      },
+      {
+        "t_ms": 6477,
+        "x": 399.56190516051794,
+        "y": 578.3986832193287
+      },
+      {
+        "t_ms": 6494,
+        "x": 399.2608539178375,
+        "y": 577.461483383702
+      },
+      {
+        "t_ms": 6535,
+        "x": 398.26105757869936,
+        "y": 574.3490266592004
+      },
+      {
+        "t_ms": 6555,
+        "x": 396.91533569908665,
+        "y": 570.1596723381789
+      },
+      {
+        "t_ms": 6601,
+        "x": 394.6862366840069,
+        "y": 563.2202848374743
+      },
+      {
+        "t_ms": 6616,
+        "x": 391.6924237846365,
+        "y": 553.9002736254126
+      },
+      {
+        "t_ms": 6633,
+        "x": 389.9092375571498,
+        "y": 548.3490530942748
+      },
+      {
+        "t_ms": 6664,
+        "x": 385.45138766479494,
+        "y": 534.4713618774414
+      },
+      {
+        "t_ms": 6680,
+        "x": 382.70867082014206,
+        "y": 525.9330354679818
+      },
+      {
+        "t_ms": 6694,
+        "x": 379.8428203688078,
+        "y": 517.0113829678725
+      },
+      {
+        "t_ms": 6712,
+        "x": 376.23096012479203,
+        "y": 505.7673342907805
+      },
+      {
+        "t_ms": 6752,
+        "x": 368.57997254823607,
+        "y": 481.949115720127
+      },
+      {
+        "t_ms": 6773,
+        "x": 359.7609323749829,
+        "y": 454.4946434277445
+      },
+      {
+        "t_ms": 6789,
+        "x": 354.4465193495835,
+        "y": 437.9503934538518
+      },
+      {
+        "t_ms": 6834,
+        "x": 342.04891302843953,
+        "y": 399.3555200266954
+      },
+      {
+        "t_ms": 6854,
+        "x": 329.11654708233436,
+        "y": 359.09589136335035
+      },
+      {
+        "t_ms": 6887,
+        "x": 316.6069749126643,
+        "y": 320.1524580900359
+      },
+      {
+        "t_ms": 6917,
+        "x": 305.8490503463013,
+        "y": 286.66206274899673
+      },
+      {
+        "t_ms": 6933,
+        "x": 300.0644051489135,
+        "y": 268.6539373551919
+      },
+      {
+        "t_ms": 6960,
+        "x": 292.5843621042175,
+        "y": 245.36788462359618
+      },
+      {
+        "t_ms": 6982,
+        "x": 289.0596664010869,
+        "y": 234.39518707152416
+      },
+      {
+        "t_ms": 7019,
+        "x": 282.58195570573685,
+        "y": 214.22948589432298
+      },
+      {
+        "t_ms": 7051,
+        "x": 277.4030606796255,
+        "y": 198.10711574901472
+      },
+      {
+        "t_ms": 7087,
+        "x": 273.82271984199144,
+        "y": 186.96118984403597
+      },
+      {
+        "t_ms": 7118,
+        "x": 270.3604295034317,
+        "y": 176.18276585448888
+      },
+      {
+        "t_ms": 7151,
+        "x": 268.3181688784166,
+        "y": 169.8250232156301
+      },
+      {
+        "t_ms": 7188,
+        "x": 266.6328034608816,
+        "y": 164.5783277420582
+      },
+      {
+        "t_ms": 7221,
+        "x": 265.76076482631487,
+        "y": 161.86359234452493
+      },
+      {
+        "t_ms": 7261,
+        "x": 265.4136019552987,
+        "y": 160.7828428257548
+      },
+      {
+        "t_ms": 7306,
+        "x": 265.2907189191392,
+        "y": 160.4002967838764
+      },
+      {
+        "t_ms": 7333,
+        "x": 265.2906265258789,
+        "y": 160.40000915527344
+      }
+    ],
+    "audio": [
+      {
+        "t_ms": 745,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 851,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 960,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1071,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1177,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1288,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1397,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1514,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1626,
+        "currentTime": 0.507478,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1740,
+        "currentTime": 0.616213,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1851,
+        "currentTime": 0.734254,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1966,
+        "currentTime": 0.841293,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2076,
+        "currentTime": 0.965534,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2195,
+        "currentTime": 1.072203,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2301,
+        "currentTime": 1.189857,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2417,
+        "currentTime": 1.296947,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2524,
+        "currentTime": 1.400656,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2631,
+        "currentTime": 1.519853,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2738,
+        "currentTime": 1.623,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2848,
+        "currentTime": 1.723975,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2966,
+        "currentTime": 1.850112,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3079,
+        "currentTime": 1.959391,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3186,
+        "currentTime": 2.075262,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3297,
+        "currentTime": 2.181021,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3405,
+        "currentTime": 2.28214,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3516,
+        "currentTime": 2.403665,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3630,
+        "currentTime": 2.510355,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3742,
+        "currentTime": 2.614099,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3849,
+        "currentTime": 2.732423,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3967,
+        "currentTime": 2.842804,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4079,
+        "currentTime": 2.963485,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4181,
+        "currentTime": 3.065763,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4303,
+        "currentTime": 3.176348,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4422,
+        "currentTime": 3.302103,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4527,
+        "currentTime": 3.404161,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4638,
+        "currentTime": 3.525869,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4745,
+        "currentTime": 3.626837,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4855,
+        "currentTime": 3.731605,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4969,
+        "currentTime": 3.85324,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5077,
+        "currentTime": 3.957825,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5186,
+        "currentTime": 4.074279,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5304,
+        "currentTime": 4.183224,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5414,
+        "currentTime": 4.291334,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5526,
+        "currentTime": 4.409549,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5636,
+        "currentTime": 4.515585,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5747,
+        "currentTime": 4.536087,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5857,
+        "currentTime": 4.536087,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5961,
+        "currentTime": 4.536087,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6076,
+        "currentTime": 4.536087,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6180,
+        "currentTime": 4.536087,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6290,
+        "currentTime": 4.536087,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6393,
+        "currentTime": 4.536087,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6496,
+        "currentTime": 4.536087,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6601,
+        "currentTime": 4.536087,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6711,
+        "currentTime": 4.536087,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6823,
+        "currentTime": 4.536087,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6929,
+        "currentTime": 4.536087,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7045,
+        "currentTime": 4.536087,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7149,
+        "currentTime": 4.536087,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7265,
+        "currentTime": 4.536087,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7375,
+        "currentTime": 4.536087,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7476,
+        "currentTime": 4.536087,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7584,
+        "currentTime": 4.536087,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7698,
+        "currentTime": 4.536087,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7806,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7923,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8024,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8135,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8246,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8356,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8465,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8575,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8683,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8792,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8902,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9021,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9136,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9244,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9354,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9463,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9571,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9678,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9789,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9897,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 10006,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 10117,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 10224,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 10336,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 10445,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 10555,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 10671,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 10775,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 10885,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 10996,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 11105,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 11214,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 11324,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 11434,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 11544,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 11652,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 11763,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 11871,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 11981,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 12089,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 12198,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 12308,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 12418,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 12526,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 12636,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 12746,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      }
+    ]
+  },
+  "B": {
+    "take": "B",
+    "video": "recording/takes/take-B.mp4",
+    "fps": 60,
+    "viewport": {
+      "width": 864,
+      "height": 1080
+    },
+    "deviceScaleFactor": 2.5,
+    "coordinates": "CSS px; multiply by deviceScaleFactor for video px",
+    "capturedFrames": 279,
+    "clockOffset_ms": 29,
+    "duration_ms": 10601,
+    "contentStart_ms": 0,
+    "events": [
+      {
+        "t_ms": -40,
+        "type": "start",
+        "cursor": {
+          "x": 432,
+          "y": 842.4
+        }
+      },
+      {
+        "t_ms": 286,
+        "type": "wait",
+        "ms": 3200,
+        "label": "tagline settles"
+      },
+      {
+        "t_ms": 4803,
+        "type": "click",
+        "selector": ".paqocha-search-word-button",
+        "x": 411,
+        "y": 63.64374923706055,
+        "box": {
+          "x": 280,
+          "y": 46.84375,
+          "width": 262,
+          "height": 33.599998474121094
+        }
+      },
+      {
+        "t_ms": 4913,
+        "type": "wait",
+        "ms": 1200,
+        "label": "pill opens, chips appear"
+      },
+      {
+        "t_ms": 6113,
+        "type": "type",
+        "text": "sunquyta",
+        "delay": 110
+      },
+      {
+        "t_ms": 7082,
+        "type": "wait",
+        "ms": 500,
+        "label": "beat before submit"
+      },
+      {
+        "t_ms": 7584,
+        "type": "key",
+        "key": "Enter"
+      },
+      {
+        "t_ms": 7664,
+        "type": "navigated",
+        "url": "http://localhost:3000/search?q=sunquyta"
+      },
+      {
+        "t_ms": 7780,
+        "type": "player-ready",
+        "audio": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7780,
+        "type": "wait",
+        "ms": 1500,
+        "label": "reveal"
+      },
+      {
+        "t_ms": 10288,
+        "type": "end"
+      }
+    ],
+    "cursor": [
+      {
+        "t_ms": 3573,
+        "x": 432,
+        "y": 842.4
+      },
+      {
+        "t_ms": 3609,
+        "x": 431.9668728888889,
+        "y": 841.1715264358335
+      },
+      {
+        "t_ms": 3639,
+        "x": 431.89483603292183,
+        "y": 838.5001382515634
+      },
+      {
+        "t_ms": 3696,
+        "x": 431.7583528559671,
+        "y": 833.4388464812071
+      },
+      {
+        "t_ms": 3739,
+        "x": 431.222076,
+        "y": 813.5517534467376
+      },
+      {
+        "t_ms": 3755,
+        "x": 430.7730699588477,
+        "y": 796.900979104945
+      },
+      {
+        "t_ms": 3805,
+        "x": 430.48543552263374,
+        "y": 786.2344498127392
+      },
+      {
+        "t_ms": 3833,
+        "x": 428.950697218107,
+        "y": 729.3207808634287
+      },
+      {
+        "t_ms": 3849,
+        "x": 428.43269122633745,
+        "y": 710.1112378147053
+      },
+      {
+        "t_ms": 3864,
+        "x": 427.85911111111113,
+        "y": 688.8408044791893
+      },
+      {
+        "t_ms": 3908,
+        "x": 427.26838888888886,
+        "y": 666.9346795734688
+      },
+      {
+        "t_ms": 3927,
+        "x": 425.0591931522634,
+        "y": 585.0096800946138
+      },
+      {
+        "t_ms": 3951,
+        "x": 424.1741368888889,
+        "y": 552.1885802193866
+      },
+      {
+        "t_ms": 3971,
+        "x": 422.6456105514403,
+        "y": 495.5052735649176
+      },
+      {
+        "t_ms": 4016,
+        "x": 421.0855751111111,
+        "y": 437.6534949664368
+      },
+      {
+        "t_ms": 4035,
+        "x": 418.3744855967078,
+        "y": 337.1164518369404
+      },
+      {
+        "t_ms": 4051,
+        "x": 417.5755781893004,
+        "y": 307.4900643464962
+      },
+      {
+        "t_ms": 4088,
+        "x": 416.6031255144033,
+        "y": 271.42798819662596
+      },
+      {
+        "t_ms": 4111,
+        "x": 414.9921289218107,
+        "y": 211.6863850328508
+      },
+      {
+        "t_ms": 4155,
+        "x": 414.049302781893,
+        "y": 176.72296837363183
+      },
+      {
+        "t_ms": 4177,
+        "x": 413.0723143374486,
+        "y": 140.49268941961896
+      },
+      {
+        "t_ms": 4196,
+        "x": 412.55339759670784,
+        "y": 121.2493724921244
+      },
+      {
+        "t_ms": 4211,
+        "x": 412.2950776625514,
+        "y": 111.66993137684108
+      },
+      {
+        "t_ms": 4231,
+        "x": 412.022028,
+        "y": 101.54425844919126
+      },
+      {
+        "t_ms": 4251,
+        "x": 411.777924,
+        "y": 92.4919957903229
+      },
+      {
+        "t_ms": 4288,
+        "x": 411.489888,
+        "y": 81.81057505485842
+      },
+      {
+        "t_ms": 4312,
+        "x": 411.2416471440329,
+        "y": 72.60490275585335
+      },
+      {
+        "t_ms": 4354,
+        "x": 411.1019448888889,
+        "y": 67.42423587780127
+      },
+      {
+        "t_ms": 4381,
+        "x": 411.0316440329218,
+        "y": 64.81722487692764
+      },
+      {
+        "t_ms": 4414,
+        "x": 411.00452885596707,
+        "y": 63.81169566054473
+      },
+      {
+        "t_ms": 4445,
+        "x": 411.00000311111114,
+        "y": 63.643864608357035
+      },
+      {
+        "t_ms": 4468,
+        "x": 411,
+        "y": 63.64374923706055
+      }
+    ],
+    "audio": [
+      {
+        "t_ms": 7813,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7916,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8021,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8133,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8238,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8348,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8457,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8569,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8678,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8787,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8899,
+        "currentTime": 0.510911,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9008,
+        "currentTime": 0.615854,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9120,
+        "currentTime": 0.735349,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9232,
+        "currentTime": 0.83976,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9337,
+        "currentTime": 0.957356,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9450,
+        "currentTime": 1.06507,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9559,
+        "currentTime": 1.166931,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9668,
+        "currentTime": 1.286738,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9778,
+        "currentTime": 1.390216,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9890,
+        "currentTime": 1.495688,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9997,
+        "currentTime": 1.612693,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 10106,
+        "currentTime": 1.717858,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 10216,
+        "currentTime": 1.835519,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      }
+    ]
+  },
+  "D": {
+    "take": "D",
+    "video": "recording/takes/take-D.mp4",
+    "fps": 60,
+    "viewport": {
+      "width": 800,
+      "height": 778
+    },
+    "deviceScaleFactor": 2.5,
+    "coordinates": "CSS px; multiply by deviceScaleFactor for video px",
+    "capturedFrames": 499,
+    "clockOffset_ms": 31,
+    "duration_ms": 14862,
+    "contentStart_ms": 0,
+    "events": [
+      {
+        "t_ms": -60,
+        "type": "start",
+        "cursor": {
+          "x": 400,
+          "y": 606.84
+        }
+      },
+      {
+        "t_ms": 207,
+        "type": "player-ready",
+        "audio": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 207,
+        "type": "wait",
+        "ms": 1500,
+        "label": "playing"
+      },
+      {
+        "t_ms": 2866,
+        "type": "click",
+        "selector": ".paqocha-view-switch button:has-text(\"Lista\")",
+        "x": 156.8968734741211,
+        "y": 659.5218811035156,
+        "box": {
+          "x": 124.90625,
+          "y": 643.7625122070312,
+          "width": 63.98124694824219,
+          "height": 31.51873779296875
+        }
+      },
+      {
+        "t_ms": 2990,
+        "type": "wait",
+        "ms": 600,
+        "label": "list revealed"
+      },
+      {
+        "t_ms": 4288,
+        "type": "hover",
+        "selector": ".paqocha-match-card >> nth=0",
+        "x": 400,
+        "y": 564.5375213623047,
+        "box": {
+          "x": 32,
+          "y": 493.8812561035156,
+          "width": 736,
+          "height": 141.31253051757812
+        }
+      },
+      {
+        "t_ms": 4288,
+        "type": "wait",
+        "ms": 450,
+        "label": "hover card 0"
+      },
+      {
+        "t_ms": 4738,
+        "type": "scroll",
+        "dy": 320,
+        "ms": 900,
+        "x": 400,
+        "y": 564.5375213623047
+      },
+      {
+        "t_ms": 6204,
+        "type": "wait",
+        "ms": 500,
+        "label": "list scrolled"
+      },
+      {
+        "t_ms": 6712,
+        "type": "scroll",
+        "dy": -320,
+        "ms": 700,
+        "x": 400,
+        "y": 564.5375213623047
+      },
+      {
+        "t_ms": 8004,
+        "type": "wait",
+        "ms": 300,
+        "label": "list back"
+      },
+      {
+        "t_ms": 8970,
+        "type": "hover",
+        "selector": ".paqocha-match-card >> nth=1",
+        "x": 400,
+        "y": 717.8500366210938,
+        "box": {
+          "x": 32,
+          "y": 647.1937866210938,
+          "width": 736,
+          "height": 141.3125
+        }
+      },
+      {
+        "t_ms": 8970,
+        "type": "wait",
+        "ms": 400,
+        "label": "hover card 1"
+      },
+      {
+        "t_ms": 10363,
+        "type": "click",
+        "selector": ".paqocha-match-card >> nth=1",
+        "x": 400,
+        "y": 717.8500366210938,
+        "box": {
+          "x": 32,
+          "y": 647.1937866210938,
+          "width": 736,
+          "height": 141.3125
+        }
+      },
+      {
+        "t_ms": 10524,
+        "type": "voice-switched",
+        "audio": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 10524,
+        "type": "wait",
+        "ms": 3000,
+        "label": "second voice playing"
+      },
+      {
+        "t_ms": 14550,
+        "type": "end"
+      }
+    ],
+    "cursor": [
+      {
+        "t_ms": 1773,
+        "x": 400,
+        "y": 606.84
+      },
+      {
+        "t_ms": 1806,
+        "x": 399.98655736951565,
+        "y": 606.8429130972976
+      },
+      {
+        "t_ms": 1835,
+        "x": 399.3957639016296,
+        "y": 606.9709415257126
+      },
+      {
+        "t_ms": 1870,
+        "x": 398.8198513703704,
+        "y": 607.0957451674075
+      },
+      {
+        "t_ms": 1905,
+        "x": 395.166111213037,
+        "y": 607.8875322057007
+      },
+      {
+        "t_ms": 1931,
+        "x": 390.558810962963,
+        "y": 608.8859613392593
+      },
+      {
+        "t_ms": 1960,
+        "x": 383.93921208576944,
+        "y": 610.3204674518911
+      },
+      {
+        "t_ms": 1976,
+        "x": 379.85030825610477,
+        "y": 611.2065570241499
+      },
+      {
+        "t_ms": 1991,
+        "x": 374.78112733610936,
+        "y": 612.3050784226025
+      },
+      {
+        "t_ms": 2007,
+        "x": 368.92596742878067,
+        "y": 613.5739261025485
+      },
+      {
+        "t_ms": 2022,
+        "x": 362.2281813998964,
+        "y": 615.0253758320233
+      },
+      {
+        "t_ms": 2039,
+        "x": 355.1333560313645,
+        "y": 616.5628663277508
+      },
+      {
+        "t_ms": 2072,
+        "x": 346.0781424405723,
+        "y": 618.5251845117018
+      },
+      {
+        "t_ms": 2087,
+        "x": 325.8778333843594,
+        "y": 622.9027106059225
+      },
+      {
+        "t_ms": 2110,
+        "x": 309.405152853588,
+        "y": 626.4724376167593
+      },
+      {
+        "t_ms": 2132,
+        "x": 288.83427712767127,
+        "y": 630.9302676935459
+      },
+      {
+        "t_ms": 2153,
+        "x": 273.6509135847258,
+        "y": 634.2205921099855
+      },
+      {
+        "t_ms": 2180,
+        "x": 246.6947030945527,
+        "y": 640.0621618846691
+      },
+      {
+        "t_ms": 2196,
+        "x": 234.57063054627608,
+        "y": 642.6895199018467
+      },
+      {
+        "t_ms": 2214,
+        "x": 222.94051704385546,
+        "y": 645.2098340808982
+      },
+      {
+        "t_ms": 2255,
+        "x": 205.88671703699208,
+        "y": 648.9054931090805
+      },
+      {
+        "t_ms": 2287,
+        "x": 191.2109303486992,
+        "y": 652.0858226279231
+      },
+      {
+        "t_ms": 2325,
+        "x": 180.1257389511211,
+        "y": 654.4880489734356
+      },
+      {
+        "t_ms": 2355,
+        "x": 169.25011382943612,
+        "y": 656.8448610711444
+      },
+      {
+        "t_ms": 2387,
+        "x": 163.22173253604237,
+        "y": 658.1512468469416
+      },
+      {
+        "t_ms": 2421,
+        "x": 160.22271901561857,
+        "y": 658.8011507620769
+      },
+      {
+        "t_ms": 2454,
+        "x": 157.83090579500595,
+        "y": 659.3194707915674
+      },
+      {
+        "t_ms": 2490,
+        "x": 157.10691457543945,
+        "y": 659.4763639582422
+      },
+      {
+        "t_ms": 2521,
+        "x": 156.90193751033067,
+        "y": 659.5207836970062
+      },
+      {
+        "t_ms": 2537,
+        "x": 156.8968734741211,
+        "y": 659.5218811035156
+      },
+      {
+        "t_ms": 3637,
+        "x": 156.8968734741211,
+        "y": 659.5218811035156
+      },
+      {
+        "t_ms": 3671,
+        "x": 157.03604398350623,
+        "y": 659.4675049137985
+      },
+      {
+        "t_ms": 3709,
+        "x": 157.91486056872185,
+        "y": 659.1241369289042
+      },
+      {
+        "t_ms": 3738,
+        "x": 160.54503943661888,
+        "y": 658.0964831124263
+      },
+      {
+        "t_ms": 3771,
+        "x": 164.49802861409324,
+        "y": 656.5519857155721
+      },
+      {
+        "t_ms": 3804,
+        "x": 173.98799568139648,
+        "y": 652.8441006762695
+      },
+      {
+        "t_ms": 3844,
+        "x": 186.95770350131016,
+        "y": 647.7766241246097
+      },
+      {
+        "t_ms": 3870,
+        "x": 203.439027021053,
+        "y": 641.3371019984149
+      },
+      {
+        "t_ms": 3908,
+        "x": 223.5400018454451,
+        "y": 633.483323023401
+      },
+      {
+        "t_ms": 3955,
+        "x": 265.47528364680204,
+        "y": 617.0985239079313
+      },
+      {
+        "t_ms": 4007,
+        "x": 311.84254988890393,
+        "y": 598.9820761275386
+      },
+      {
+        "t_ms": 4044,
+        "x": 349.81700655875466,
+        "y": 584.1448360440706
+      },
+      {
+        "t_ms": 4074,
+        "x": 366.737274516619,
+        "y": 577.5338111609482
+      },
+      {
+        "t_ms": 4104,
+        "x": 379.0035346150031,
+        "y": 572.741183116569
+      },
+      {
+        "t_ms": 4123,
+        "x": 386.814228052194,
+        "y": 569.6894176955781
+      },
+      {
+        "t_ms": 4155,
+        "x": 391.09308739935136,
+        "y": 568.0175975042027
+      },
+      {
+        "t_ms": 4190,
+        "x": 396.45912605879465,
+        "y": 565.920998609332
+      },
+      {
+        "t_ms": 4220,
+        "x": 399.27277885082924,
+        "y": 564.8216585358218
+      },
+      {
+        "t_ms": 4260,
+        "x": 399.8057051650982,
+        "y": 564.6134355258035
+      },
+      {
+        "t_ms": 4288,
+        "x": 400,
+        "y": 564.5375213623047
+      },
+      {
+        "t_ms": 8356,
+        "x": 400,
+        "y": 564.5375213623047
+      },
+      {
+        "t_ms": 8391,
+        "x": 400,
+        "y": 564.614177619934
+      },
+      {
+        "t_ms": 8421,
+        "x": 400,
+        "y": 565.3172148716185
+      },
+      {
+        "t_ms": 8458,
+        "x": 400,
+        "y": 567.2923172927323
+      },
+      {
+        "t_ms": 8495,
+        "x": 400,
+        "y": 571.2169416578768
+      },
+      {
+        "t_ms": 8542,
+        "x": 400,
+        "y": 581.0952730102539
+      },
+      {
+        "t_ms": 8571,
+        "x": 400,
+        "y": 591.973639186699
+      },
+      {
+        "t_ms": 8610,
+        "x": 400,
+        "y": 605.2757995731278
+      },
+      {
+        "t_ms": 8637,
+        "x": 400,
+        "y": 633.7808349668715
+      },
+      {
+        "t_ms": 8681,
+        "x": 400,
+        "y": 656.8516656704576
+      },
+      {
+        "t_ms": 8708,
+        "x": 400,
+        "y": 675.5842291644898
+      },
+      {
+        "t_ms": 8738,
+        "x": 400,
+        "y": 690.0256775647719
+      },
+      {
+        "t_ms": 8771,
+        "x": 400,
+        "y": 698.0674101579683
+      },
+      {
+        "t_ms": 8805,
+        "x": 400,
+        "y": 707.6815073902969
+      },
+      {
+        "t_ms": 8839,
+        "x": 400,
+        "y": 712.4369010453016
+      },
+      {
+        "t_ms": 8874,
+        "x": 400,
+        "y": 715.8485445735109
+      },
+      {
+        "t_ms": 8905,
+        "x": 400,
+        "y": 717.5913217515946
+      },
+      {
+        "t_ms": 8941,
+        "x": 400,
+        "y": 717.8422460740221
+      },
+      {
+        "t_ms": 8970,
+        "x": 400,
+        "y": 717.8500366210938
+      },
+      {
+        "t_ms": 9420,
+        "x": 400,
+        "y": 717.8500366210938
+      },
+      {
+        "t_ms": 9459,
+        "x": 400,
+        "y": 717.8500366210938
+      },
+      {
+        "t_ms": 9499,
+        "x": 400,
+        "y": 717.8500366210938
+      },
+      {
+        "t_ms": 9522,
+        "x": 400,
+        "y": 717.8500366210938
+      },
+      {
+        "t_ms": 9554,
+        "x": 400,
+        "y": 717.8500366210938
+      },
+      {
+        "t_ms": 9592,
+        "x": 400,
+        "y": 717.8500366210938
+      },
+      {
+        "t_ms": 9625,
+        "x": 400,
+        "y": 717.8500366210938
+      },
+      {
+        "t_ms": 9659,
+        "x": 400,
+        "y": 717.8500366210938
+      },
+      {
+        "t_ms": 9694,
+        "x": 400,
+        "y": 717.8500366210938
+      },
+      {
+        "t_ms": 9728,
+        "x": 400,
+        "y": 717.8500366210938
+      },
+      {
+        "t_ms": 9754,
+        "x": 400,
+        "y": 717.8500366210938
+      },
+      {
+        "t_ms": 9795,
+        "x": 400,
+        "y": 717.8500366210938
+      },
+      {
+        "t_ms": 9837,
+        "x": 400,
+        "y": 717.8500366210938
+      },
+      {
+        "t_ms": 9875,
+        "x": 400,
+        "y": 717.8500366210938
+      },
+      {
+        "t_ms": 9905,
+        "x": 400,
+        "y": 717.8500366210938
+      },
+      {
+        "t_ms": 9921,
+        "x": 400,
+        "y": 717.8500366210938
+      },
+      {
+        "t_ms": 9945,
+        "x": 400,
+        "y": 717.8500366210938
+      },
+      {
+        "t_ms": 9970,
+        "x": 400,
+        "y": 717.8500366210938
+      },
+      {
+        "t_ms": 10011,
+        "x": 400,
+        "y": 717.8500366210938
+      },
+      {
+        "t_ms": 10044,
+        "x": 400,
+        "y": 717.8500366210938
+      }
+    ],
+    "audio": [
+      {
+        "t_ms": 227,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 339,
+        "currentTime": 0.488979,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 445,
+        "currentTime": 0.590022,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 550,
+        "currentTime": 0.692043,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 657,
+        "currentTime": 0.806446,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 772,
+        "currentTime": 0.917624,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 883,
+        "currentTime": 1.017989,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 992,
+        "currentTime": 1.140708,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1102,
+        "currentTime": 1.242829,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1210,
+        "currentTime": 1.363246,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1321,
+        "currentTime": 1.465201,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1428,
+        "currentTime": 1.569455,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1539,
+        "currentTime": 1.687887,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1647,
+        "currentTime": 1.790785,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1756,
+        "currentTime": 1.892973,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1870,
+        "currentTime": 2.009189,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1975,
+        "currentTime": 2.120064,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2087,
+        "currentTime": 2.240045,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2196,
+        "currentTime": 2.344892,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2305,
+        "currentTime": 2.445656,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2410,
+        "currentTime": 2.563027,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2521,
+        "currentTime": 2.666334,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2633,
+        "currentTime": 2.772806,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2758,
+        "currentTime": 2.894234,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2873,
+        "currentTime": 3.014211,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2983,
+        "currentTime": 3.132161,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3103,
+        "currentTime": 3.244243,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3221,
+        "currentTime": 3.36629,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3338,
+        "currentTime": 3.480336,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3443,
+        "currentTime": 3.596686,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3553,
+        "currentTime": 3.698445,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3664,
+        "currentTime": 3.802301,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3770,
+        "currentTime": 3.919579,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3873,
+        "currentTime": 4.021738,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3999,
+        "currentTime": 4.13043,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4107,
+        "currentTime": 4.256256,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4216,
+        "currentTime": 4.357346,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4319,
+        "currentTime": 4.472537,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4431,
+        "currentTime": 4.576206,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4537,
+        "currentTime": 4.678871,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4641,
+        "currentTime": 4.794562,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4758,
+        "currentTime": 4.904551,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4868,
+        "currentTime": 5.007251,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4981,
+        "currentTime": 5.13012,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5093,
+        "currentTime": 5.238932,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5210,
+        "currentTime": 5.356105,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5318,
+        "currentTime": 5.463013,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5424,
+        "currentTime": 5.56619,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5535,
+        "currentTime": 5.688755,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5649,
+        "currentTime": 5.794726,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5772,
+        "currentTime": 5.922141,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5874,
+        "currentTime": 6.023457,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5982,
+        "currentTime": 6.122637,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6105,
+        "currentTime": 6.254796,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6214,
+        "currentTime": 6.358773,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6324,
+        "currentTime": 6.477572,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6432,
+        "currentTime": 6.581287,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6543,
+        "currentTime": 6.683741,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6654,
+        "currentTime": 6.806387,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6760,
+        "currentTime": 6.905082,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6872,
+        "currentTime": 7.012145,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6982,
+        "currentTime": 7.129399,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7094,
+        "currentTime": 7.2391,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7209,
+        "currentTime": 7.359677,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7312,
+        "currentTime": 7.46148,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7415,
+        "currentTime": 7.559701,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7531,
+        "currentTime": 7.683821,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7638,
+        "currentTime": 7.785333,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7750,
+        "currentTime": 7.885376,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7862,
+        "currentTime": 8.008891,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7974,
+        "currentTime": 8.118603,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8095,
+        "currentTime": 8.248982,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8202,
+        "currentTime": 8.346684,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8314,
+        "currentTime": 8.455877,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8424,
+        "currentTime": 8.572313,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8527,
+        "currentTime": 8.671562,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8636,
+        "currentTime": 8.776031,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8740,
+        "currentTime": 8.888916,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8853,
+        "currentTime": 8.997254,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8967,
+        "currentTime": 9.119866,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9073,
+        "currentTime": 9.221386,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9185,
+        "currentTime": 9.323977,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9298,
+        "currentTime": 9.444251,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9409,
+        "currentTime": 9.546061,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9522,
+        "currentTime": 9.658072,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9632,
+        "currentTime": 9.780472,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9748,
+        "currentTime": 9.888946,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9862,
+        "currentTime": 10.009286,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9968,
+        "currentTime": 10.113318,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 10088,
+        "currentTime": 10.237642,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 10198,
+        "currentTime": 10.343555,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 10308,
+        "currentTime": 10.443497,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 10412,
+        "currentTime": 10.564381,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 10524,
+        "currentTime": 8.023999,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 10636,
+        "currentTime": 8.069876,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 10739,
+        "currentTime": 8.166538,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 10853,
+        "currentTime": 8.277262,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 10964,
+        "currentTime": 8.397002,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 11073,
+        "currentTime": 8.499849,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 11180,
+        "currentTime": 8.616422,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 11289,
+        "currentTime": 8.720688,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 11396,
+        "currentTime": 8.823374,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 11502,
+        "currentTime": 8.938055,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 11611,
+        "currentTime": 9.043839,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 11723,
+        "currentTime": 9.145918,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 11830,
+        "currentTime": 9.266719,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 11939,
+        "currentTime": 9.366665,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 12051,
+        "currentTime": 9.475764,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 12158,
+        "currentTime": 9.589186,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 12266,
+        "currentTime": 9.694855,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 12377,
+        "currentTime": 9.801921,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 12485,
+        "currentTime": 9.916215,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 12593,
+        "currentTime": 10.021912,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 12701,
+        "currentTime": 10.136544,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 12809,
+        "currentTime": 10.240617,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 12918,
+        "currentTime": 10.341617,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 13026,
+        "currentTime": 10.462372,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 13136,
+        "currentTime": 10.567481,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 13241,
+        "currentTime": 10.663872,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 13347,
+        "currentTime": 10.779555,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 13449,
+        "currentTime": 10.880819,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 13553,
+        "currentTime": 10.981314,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 13674,
+        "currentTime": 11.104272,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 13783,
+        "currentTime": 11.211078,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 13890,
+        "currentTime": 11.314224,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 14005,
+        "currentTime": 11.436796,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 14118,
+        "currentTime": 11.541006,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 14225,
+        "currentTime": 11.661271,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 14334,
+        "currentTime": 11.765495,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      },
+      {
+        "t_ms": 14438,
+        "currentTime": 11.861853,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-41459.mp3"
+      }
+    ]
+  },
+  "E": {
+    "take": "E",
+    "video": "recording/takes/take-E.mp4",
+    "fps": 60,
+    "viewport": {
+      "width": 800,
+      "height": 778
+    },
+    "deviceScaleFactor": 2.5,
+    "coordinates": "CSS px; multiply by deviceScaleFactor for video px",
+    "capturedFrames": 241,
+    "clockOffset_ms": 35,
+    "duration_ms": 15708,
+    "contentStart_ms": 0,
+    "events": [
+      {
+        "t_ms": -45,
+        "type": "start",
+        "cursor": {
+          "x": 400,
+          "y": 606.84
+        }
+      },
+      {
+        "t_ms": 197,
+        "type": "player-ready",
+        "audio": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 197,
+        "type": "wait",
+        "ms": 1800,
+        "label": "playing"
+      },
+      {
+        "t_ms": 3141,
+        "type": "click",
+        "selector": "header button[aria-label=\"Buscar\"]",
+        "x": 694,
+        "y": 50,
+        "box": {
+          "x": 672,
+          "y": 28,
+          "width": 44,
+          "height": 44
+        }
+      },
+      {
+        "t_ms": 3260,
+        "type": "wait",
+        "ms": 650,
+        "label": "overlay opens"
+      },
+      {
+        "t_ms": 3920,
+        "type": "type",
+        "text": "llaqtakunapi",
+        "delay": 110
+      },
+      {
+        "t_ms": 5407,
+        "type": "wait",
+        "ms": 500,
+        "label": "beat before submit"
+      },
+      {
+        "t_ms": 5918,
+        "type": "key",
+        "key": "Enter"
+      },
+      {
+        "t_ms": 6022,
+        "type": "new-search-resolved",
+        "audio": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 9400,
+        "type": "click",
+        "selector": ".paqocha-play-button",
+        "x": 400,
+        "y": 579.7625122070312,
+        "box": {
+          "x": 372,
+          "y": 551.7625122070312,
+          "width": 56,
+          "height": 56
+        }
+      },
+      {
+        "t_ms": 9408,
+        "type": "wait",
+        "ms": 600,
+        "label": "paused beat"
+      },
+      {
+        "t_ms": 11273,
+        "type": "click",
+        "selector": "[data-word-index=\"11\"]",
+        "x": 208.38126373291016,
+        "y": 246.1500015258789,
+        "box": {
+          "x": 151.27500915527344,
+          "y": 232.15000915527344,
+          "width": 114.21250915527344,
+          "height": 27.999984741210938
+        }
+      },
+      {
+        "t_ms": 11372,
+        "type": "analysis-shown",
+        "word": "llaqtakunapi"
+      },
+      {
+        "t_ms": 11372,
+        "type": "wait",
+        "ms": 3000,
+        "label": "hold on stacked suffixes"
+      },
+      {
+        "t_ms": 15395,
+        "type": "end"
+      }
+    ],
+    "cursor": [
+      {
+        "t_ms": 2035,
+        "x": 400,
+        "y": 606.84
+      },
+      {
+        "t_ms": 2049,
+        "x": 400.038535168,
+        "y": 606.7670138675201
+      },
+      {
+        "t_ms": 2076,
+        "x": 400.1784035555556,
+        "y": 606.5021012385185
+      },
+      {
+        "t_ms": 2095,
+        "x": 400.915737088,
+        "y": 605.10558149632
+      },
+      {
+        "t_ms": 2113,
+        "x": 401.835613696,
+        "y": 603.36332268544
+      },
+      {
+        "t_ms": 2132,
+        "x": 403.04603721955556,
+        "y": 601.0707640634786
+      },
+      {
+        "t_ms": 2160,
+        "x": 405.06177718044444,
+        "y": 597.2529251525215
+      },
+      {
+        "t_ms": 2177,
+        "x": 409.408,
+        "y": 589.02112
+      },
+      {
+        "t_ms": 2217,
+        "x": 414.18433149155555,
+        "y": 579.9746831708919
+      },
+      {
+        "t_ms": 2252,
+        "x": 426.56018614044444,
+        "y": 556.5346460869215
+      },
+      {
+        "t_ms": 2285,
+        "x": 439.01886742755556,
+        "y": 532.9377342232652
+      },
+      {
+        "t_ms": 2317,
+        "x": 463.8525949724444,
+        "y": 485.90231637940155
+      },
+      {
+        "t_ms": 2349,
+        "x": 485.47843145955557,
+        "y": 444.9426878437452
+      },
+      {
+        "t_ms": 2385,
+        "x": 507.63998594844446,
+        "y": 402.9684021240415
+      },
+      {
+        "t_ms": 2417,
+        "x": 549.3394783004445,
+        "y": 323.98899626932143
+      },
+      {
+        "t_ms": 2449,
+        "x": 590.1365051164444,
+        "y": 246.71887241822822
+      },
+      {
+        "t_ms": 2482,
+        "x": 610.1496849635555,
+        "y": 208.8136374996385
+      },
+      {
+        "t_ms": 2499,
+        "x": 634.7534809884445,
+        "y": 162.21371308297478
+      },
+      {
+        "t_ms": 2516,
+        "x": 644.438430208,
+        "y": 143.87028749311997
+      },
+      {
+        "t_ms": 2550,
+        "x": 655.464832,
+        "y": 122.98613247999998
+      },
+      {
+        "t_ms": 2568,
+        "x": 668.184448,
+        "y": 98.89500672000003
+      },
+      {
+        "t_ms": 2589,
+        "x": 674.2699939839999,
+        "y": 87.36889982976004
+      },
+      {
+        "t_ms": 2610,
+        "x": 681.0170631395556,
+        "y": 74.5898590522786
+      },
+      {
+        "t_ms": 2633,
+        "x": 685.145265664,
+        "y": 66.77098730496004
+      },
+      {
+        "t_ms": 2683,
+        "x": 689.7604764444444,
+        "y": 58.02971529481488
+      },
+      {
+        "t_ms": 2699,
+        "x": 692.677159936,
+        "y": 52.50547707904002
+      },
+      {
+        "t_ms": 2715,
+        "x": 693.3672778524444,
+        "y": 51.19838435593476
+      },
+      {
+        "t_ms": 2749,
+        "x": 693.8470412515555,
+        "y": 50.28970595062515
+      },
+      {
+        "t_ms": 2782,
+        "x": 693.999397888,
+        "y": 50.00114040832
+      },
+      {
+        "t_ms": 2816,
+        "x": 694,
+        "y": 50
+      },
+      {
+        "t_ms": 8432,
+        "x": 694,
+        "y": 50
+      },
+      {
+        "t_ms": 8449,
+        "x": 693.9634925714286,
+        "y": 50.06578322134088
+      },
+      {
+        "t_ms": 8482,
+        "x": 693.6440354285714,
+        "y": 50.64141729801598
+      },
+      {
+        "t_ms": 8512,
+        "x": 692.3095805714286,
+        "y": 53.045989262461134
+      },
+      {
+        "t_ms": 8548,
+        "x": 689.4365714285715,
+        "y": 58.222902667610015
+      },
+      {
+        "t_ms": 8568,
+        "x": 684.3889565714286,
+        "y": 67.31826704643156
+      },
+      {
+        "t_ms": 8600,
+        "x": 676.5538925714286,
+        "y": 81.4363731278699
+      },
+      {
+        "t_ms": 8636,
+        "x": 665.7403154285714,
+        "y": 100.92150167598055
+      },
+      {
+        "t_ms": 8668,
+        "x": 650.6308445714286,
+        "y": 128.14745827257553
+      },
+      {
+        "t_ms": 8700,
+        "x": 636.4781165714286,
+        "y": 153.64944718367346
+      },
+      {
+        "t_ms": 8733,
+        "x": 608.6385554285714,
+        "y": 203.81392286320155
+      },
+      {
+        "t_ms": 8768,
+        "x": 575.2137965714286,
+        "y": 264.0424406253587
+      },
+      {
+        "t_ms": 8799,
+        "x": 537.1486445714286,
+        "y": 332.6325445405373
+      },
+      {
+        "t_ms": 8832,
+        "x": 502.14057142857143,
+        "y": 395.71405738301183
+      },
+      {
+        "t_ms": 8872,
+        "x": 473.6626925714286,
+        "y": 447.02872624589446
+      },
+      {
+        "t_ms": 8899,
+        "x": 445.06602057142857,
+        "y": 498.5574500536511
+      },
+      {
+        "t_ms": 8932,
+        "x": 427.42857142857144,
+        "y": 530.3386043626435
+      },
+      {
+        "t_ms": 8951,
+        "x": 419.0122274285714,
+        "y": 545.5041266110741
+      },
+      {
+        "t_ms": 8982,
+        "x": 412.522048,
+        "y": 557.1988672871094
+      },
+      {
+        "t_ms": 9015,
+        "x": 406.0739234285714,
+        "y": 568.8178287564424
+      },
+      {
+        "t_ms": 9041,
+        "x": 402.4994285714286,
+        "y": 575.2587586047114
+      },
+      {
+        "t_ms": 9083,
+        "x": 400.7041565714286,
+        "y": 578.4936831108847
+      },
+      {
+        "t_ms": 9100,
+        "x": 400.06748457142857,
+        "y": 579.6409108597686
+      },
+      {
+        "t_ms": 9132,
+        "x": 400,
+        "y": 579.7625122070312
+      },
+      {
+        "t_ms": 10042,
+        "x": 400,
+        "y": 579.7625122070312
+      },
+      {
+        "t_ms": 10083,
+        "x": 399.98546536400465,
+        "y": 579.7372070802951
+      },
+      {
+        "t_ms": 10099,
+        "x": 399.81535629087364,
+        "y": 579.441043374791
+      },
+      {
+        "t_ms": 10115,
+        "x": 399.62369024133835,
+        "y": 579.1073484906505
+      },
+      {
+        "t_ms": 10132,
+        "x": 399.30764602091585,
+        "y": 578.5571084258456
+      },
+      {
+        "t_ms": 10162,
+        "x": 398.22821378332446,
+        "y": 576.6777927289136
+      },
+      {
+        "t_ms": 10178,
+        "x": 397.4131470603943,
+        "y": 575.2587433128357
+      },
+      {
+        "t_ms": 10216,
+        "x": 395.27695300052784,
+        "y": 571.5395816196866
+      },
+      {
+        "t_ms": 10243,
+        "x": 391.8385747849121,
+        "y": 565.5532881520996
+      },
+      {
+        "t_ms": 10288,
+        "x": 386.7004116841891,
+        "y": 556.6076311369517
+      },
+      {
+        "t_ms": 10304,
+        "x": 381.5204888415343,
+        "y": 547.5892694759918
+      },
+      {
+        "t_ms": 10319,
+        "x": 377.89463548054107,
+        "y": 541.2765775822483
+      },
+      {
+        "t_ms": 10334,
+        "x": 374.0910745355417,
+        "y": 534.6544928054166
+      },
+      {
+        "t_ms": 10349,
+        "x": 369.8744687590332,
+        "y": 527.3132877277832
+      },
+      {
+        "t_ms": 10365,
+        "x": 364.8974998603037,
+        "y": 518.648273427862
+      },
+      {
+        "t_ms": 10382,
+        "x": 359.4005139848509,
+        "y": 509.0778979269377
+      },
+      {
+        "t_ms": 10399,
+        "x": 352.96128016729057,
+        "y": 497.8670476594305
+      },
+      {
+        "t_ms": 10428,
+        "x": 339.9998103400389,
+        "y": 475.30083844928197
+      },
+      {
+        "t_ms": 10443,
+        "x": 332.2040809404433,
+        "y": 461.72829899799956
+      },
+      {
+        "t_ms": 10459,
+        "x": 323.7607527592762,
+        "y": 447.028275566586
+      },
+      {
+        "t_ms": 10476,
+        "x": 314.64398644365696,
+        "y": 431.15578126306593
+      },
+      {
+        "t_ms": 10492,
+        "x": 304.1906318664551,
+        "y": 412.9562568664551
+      },
+      {
+        "t_ms": 10508,
+        "x": 294.3300252732811,
+        "y": 395.7887199832005
+      },
+      {
+        "t_ms": 10523,
+        "x": 285.7227482065045,
+        "y": 380.80325787070024
+      },
+      {
+        "t_ms": 10539,
+        "x": 277.7101989211791,
+        "y": 366.85323014320306
+      },
+      {
+        "t_ms": 10557,
+        "x": 269.7950129819966,
+        "y": 353.07271418155824
+      },
+      {
+        "t_ms": 10601,
+        "x": 256.2194915831491,
+        "y": 329.43742743505516
+      },
+      {
+        "t_ms": 10619,
+        "x": 244.47405896428847,
+        "y": 308.9883662349403
+      },
+      {
+        "t_ms": 10667,
+        "x": 235.37335182330702,
+        "y": 293.1438313140712
+      },
+      {
+        "t_ms": 10696,
+        "x": 224.41835043432047,
+        "y": 274.070928584971
+      },
+      {
+        "t_ms": 10732,
+        "x": 219.12485892545655,
+        "y": 264.85484133304413
+      },
+      {
+        "t_ms": 10758,
+        "x": 215.14690968506764,
+        "y": 257.9291426289334
+      },
+      {
+        "t_ms": 10799,
+        "x": 212.22127587114767,
+        "y": 252.8355486463749
+      },
+      {
+        "t_ms": 10822,
+        "x": 210.29045714313304,
+        "y": 249.47395000486574
+      },
+      {
+        "t_ms": 10838,
+        "x": 209.6335050541386,
+        "y": 248.3301817070664
+      },
+      {
+        "t_ms": 10883,
+        "x": 208.84280571574462,
+        "y": 246.95355645311497
+      },
+      {
+        "t_ms": 10899,
+        "x": 208.47082669823348,
+        "y": 246.30593265405372
+      },
+      {
+        "t_ms": 10915,
+        "x": 208.40434419655097,
+        "y": 246.19018512990897
+      },
+      {
+        "t_ms": 10933,
+        "x": 208.38357367180495,
+        "y": 246.15402318122028
+      },
+      {
+        "t_ms": 10948,
+        "x": 208.38126373291016,
+        "y": 246.1500015258789
+      }
+    ],
+    "audio": [
+      {
+        "t_ms": 204,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 320,
+        "currentTime": 0.47993,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 425,
+        "currentTime": 0.583259,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 537,
+        "currentTime": 0.688974,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 643,
+        "currentTime": 0.806672,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 755,
+        "currentTime": 0.911421,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 862,
+        "currentTime": 1.014288,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 974,
+        "currentTime": 1.134029,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1084,
+        "currentTime": 1.239677,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1190,
+        "currentTime": 1.354401,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1292,
+        "currentTime": 1.452567,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1395,
+        "currentTime": 1.552282,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1506,
+        "currentTime": 1.670029,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1615,
+        "currentTime": 1.77498,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1719,
+        "currentTime": 1.875704,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1823,
+        "currentTime": 1.975493,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1928,
+        "currentTime": 2.088926,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2036,
+        "currentTime": 2.192609,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2148,
+        "currentTime": 2.312092,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2264,
+        "currentTime": 2.414384,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2367,
+        "currentTime": 2.519213,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2478,
+        "currentTime": 2.638606,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2586,
+        "currentTime": 2.745787,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2695,
+        "currentTime": 2.847363,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2808,
+        "currentTime": 2.968166,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2921,
+        "currentTime": 3.075806,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3028,
+        "currentTime": 3.191899,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3145,
+        "currentTime": 3.305732,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3249,
+        "currentTime": 3.385652,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3364,
+        "currentTime": 3.385652,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3473,
+        "currentTime": 3.385652,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3590,
+        "currentTime": 3.385652,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3704,
+        "currentTime": 3.385652,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3816,
+        "currentTime": 3.385652,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3933,
+        "currentTime": 3.385652,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4047,
+        "currentTime": 3.385652,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4156,
+        "currentTime": 3.385652,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4265,
+        "currentTime": 3.385652,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4370,
+        "currentTime": 3.385652,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4486,
+        "currentTime": 3.385652,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4597,
+        "currentTime": 3.385652,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4706,
+        "currentTime": 3.385652,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4818,
+        "currentTime": 3.385652,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4926,
+        "currentTime": 3.385652,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5037,
+        "currentTime": 3.385652,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5143,
+        "currentTime": 3.385652,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5252,
+        "currentTime": 3.385652,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5377,
+        "currentTime": 3.385652,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5484,
+        "currentTime": 3.385652,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5594,
+        "currentTime": 3.385652,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5703,
+        "currentTime": 3.385652,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5812,
+        "currentTime": 3.385652,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6054,
+        "currentTime": 8.567,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 6193,
+        "currentTime": 8.606105,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 6308,
+        "currentTime": 8.727597,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 6418,
+        "currentTime": 8.848276,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 6531,
+        "currentTime": 8.951111,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 6636,
+        "currentTime": 9.053951,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 6742,
+        "currentTime": 9.172071,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 6863,
+        "currentTime": 9.28359,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 6982,
+        "currentTime": 9.412119,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 7088,
+        "currentTime": 9.510619,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 7200,
+        "currentTime": 9.617784,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 7309,
+        "currentTime": 9.734986,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 7417,
+        "currentTime": 9.838895,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 7527,
+        "currentTime": 9.95737,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 7638,
+        "currentTime": 10.062624,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 7744,
+        "currentTime": 10.166568,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 7855,
+        "currentTime": 10.281891,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 7957,
+        "currentTime": 10.3831,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 8061,
+        "currentTime": 10.48277,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 8185,
+        "currentTime": 10.611619,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 8303,
+        "currentTime": 10.72503,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 8412,
+        "currentTime": 10.840703,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 8514,
+        "currentTime": 10.939995,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 8629,
+        "currentTime": 11.047369,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 8735,
+        "currentTime": 11.164811,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 8854,
+        "currentTime": 11.273012,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 8962,
+        "currentTime": 11.375344,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 9071,
+        "currentTime": 11.497764,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 9179,
+        "currentTime": 11.596294,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 9287,
+        "currentTime": 11.717585,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 9390,
+        "currentTime": 11.816831,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 9518,
+        "currentTime": 11.830105,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 9623,
+        "currentTime": 11.830105,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 9740,
+        "currentTime": 11.830105,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 9853,
+        "currentTime": 11.830105,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 9958,
+        "currentTime": 11.830105,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 10070,
+        "currentTime": 11.830105,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 10178,
+        "currentTime": 11.830105,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 10288,
+        "currentTime": 11.830105,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 10397,
+        "currentTime": 11.830105,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 10508,
+        "currentTime": 11.830105,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 10618,
+        "currentTime": 11.830105,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 10729,
+        "currentTime": 11.830105,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 10837,
+        "currentTime": 11.830105,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 10945,
+        "currentTime": 11.830105,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 11058,
+        "currentTime": 11.830105,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 11166,
+        "currentTime": 11.830105,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 11277,
+        "currentTime": 11.830105,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 11392,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 11499,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 11607,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 11716,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 11826,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 11937,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 12047,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 12157,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 12264,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 12372,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 12481,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 12589,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 12700,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 12808,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 12918,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 13024,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 13134,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 13247,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 13357,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 13467,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 13574,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 13686,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 13799,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 13907,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 14017,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 14128,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 14236,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 14344,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 14451,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 14560,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 14669,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 14779,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 14887,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 14999,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 15106,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 15215,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      },
+      {
+        "t_ms": 15321,
+        "currentTime": 11.45,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-34210.mp3"
+      }
+    ]
+  },
+  "F": {
+    "take": "F",
+    "video": "recording/takes/take-F.mp4",
+    "fps": 60,
+    "viewport": {
+      "width": 800,
+      "height": 778
+    },
+    "deviceScaleFactor": 2.5,
+    "coordinates": "CSS px; multiply by deviceScaleFactor for video px",
+    "capturedFrames": 118,
+    "clockOffset_ms": 36,
+    "duration_ms": 9298,
+    "contentStart_ms": 0,
+    "events": [
+      {
+        "t_ms": -48,
+        "type": "start",
+        "cursor": {
+          "x": 400,
+          "y": 606.84
+        }
+      },
+      {
+        "t_ms": 777,
+        "type": "player-ready",
+        "audio": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3155,
+        "type": "click",
+        "selector": ".paqocha-play-button",
+        "x": 400,
+        "y": 579.7625122070312,
+        "box": {
+          "x": 372,
+          "y": 551.7625122070312,
+          "width": 56,
+          "height": 56
+        }
+      },
+      {
+        "t_ms": 3162,
+        "type": "wait",
+        "ms": 900,
+        "label": "paused"
+      },
+      {
+        "t_ms": 5343,
+        "type": "click",
+        "selector": "[aria-label=\"Cambiar tema\"]",
+        "x": 746,
+        "y": 50,
+        "box": {
+          "x": 724,
+          "y": 28,
+          "width": 44,
+          "height": 44
+        }
+      },
+      {
+        "t_ms": 5477,
+        "type": "theme-dark"
+      },
+      {
+        "t_ms": 5477,
+        "type": "wait",
+        "ms": 2500,
+        "label": "hold dark theme"
+      },
+      {
+        "t_ms": 8989,
+        "type": "end"
+      }
+    ],
+    "cursor": [
+      {
+        "t_ms": 2214,
+        "x": 400,
+        "y": 606.84
+      },
+      {
+        "t_ms": 2248,
+        "x": 400,
+        "y": 606.8072155566749
+      },
+      {
+        "t_ms": 2266,
+        "x": 400,
+        "y": 606.6901495511705
+      },
+      {
+        "t_ms": 2298,
+        "x": 400,
+        "y": 606.5427974939844
+      },
+      {
+        "t_ms": 2326,
+        "x": 400,
+        "y": 605.973520390625
+      },
+      {
+        "t_ms": 2340,
+        "x": 400,
+        "y": 605.6641028588334
+      },
+      {
+        "t_ms": 2356,
+        "x": 400,
+        "y": 605.2332082961498
+      },
+      {
+        "t_ms": 2372,
+        "x": 400,
+        "y": 604.7750998319739
+      },
+      {
+        "t_ms": 2387,
+        "x": 400,
+        "y": 604.1984286008692
+      },
+      {
+        "t_ms": 2403,
+        "x": 400,
+        "y": 603.5685241339671
+      },
+      {
+        "t_ms": 2419,
+        "x": 400,
+        "y": 602.7940378816038
+      },
+      {
+        "t_ms": 2435,
+        "x": 400,
+        "y": 601.9650262525678
+      },
+      {
+        "t_ms": 2449,
+        "x": 400,
+        "y": 601.0298677136589
+      },
+      {
+        "t_ms": 2465,
+        "x": 400,
+        "y": 599.908163125
+      },
+      {
+        "t_ms": 2481,
+        "x": 400,
+        "y": 598.7333711874168
+      },
+      {
+        "t_ms": 2499,
+        "x": 400,
+        "y": 597.3414916884877
+      },
+      {
+        "t_ms": 2528,
+        "x": 400,
+        "y": 594.0974425545801
+      },
+      {
+        "t_ms": 2544,
+        "x": 400,
+        "y": 592.2834649661739
+      },
+      {
+        "t_ms": 2561,
+        "x": 400,
+        "y": 590.7027570142089
+      },
+      {
+        "t_ms": 2581,
+        "x": 400,
+        "y": 588.9887870876563
+      },
+      {
+        "t_ms": 2608,
+        "x": 400,
+        "y": 586.6203443343153
+      },
+      {
+        "t_ms": 2649,
+        "x": 400,
+        "y": 584.9370955938837
+      },
+      {
+        "t_ms": 2668,
+        "x": 400,
+        "y": 582.9891739623926
+      },
+      {
+        "t_ms": 2684,
+        "x": 400,
+        "y": 582.3267742997318
+      },
+      {
+        "t_ms": 2713,
+        "x": 400,
+        "y": 581.3693039108815
+      },
+      {
+        "t_ms": 2728,
+        "x": 400,
+        "y": 580.9845178101519
+      },
+      {
+        "t_ms": 2743,
+        "x": 400,
+        "y": 580.6666596807077
+      },
+      {
+        "t_ms": 2758,
+        "x": 400,
+        "y": 580.3941758422657
+      },
+      {
+        "t_ms": 2783,
+        "x": 400,
+        "y": 580.1943724018743
+      },
+      {
+        "t_ms": 2804,
+        "x": 400,
+        "y": 579.9241877026581
+      },
+      {
+        "t_ms": 2820,
+        "x": 400,
+        "y": 579.8452900607922
+      },
+      {
+        "t_ms": 2834,
+        "x": 400,
+        "y": 579.8019837635808
+      },
+      {
+        "t_ms": 2852,
+        "x": 400,
+        "y": 579.773860121653
+      },
+      {
+        "t_ms": 2870,
+        "x": 400,
+        "y": 579.7640635970898
+      },
+      {
+        "t_ms": 2915,
+        "x": 400,
+        "y": 579.7625122070312
+      },
+      {
+        "t_ms": 4098,
+        "x": 400,
+        "y": 579.7625122070312
+      },
+      {
+        "t_ms": 4127,
+        "x": 400.0416756762689,
+        "y": 579.6987023487708
+      },
+      {
+        "t_ms": 4141,
+        "x": 400.16172106447186,
+        "y": 579.5149001914491
+      },
+      {
+        "t_ms": 4157,
+        "x": 400.38991020027436,
+        "y": 579.1655185445096
+      },
+      {
+        "t_ms": 4174,
+        "x": 400.8009259259259,
+        "y": 578.5362100954409
+      },
+      {
+        "t_ms": 4215,
+        "x": 402.19774074074076,
+        "y": 576.3975392128274
+      },
+      {
+        "t_ms": 4236,
+        "x": 404.8816907434842,
+        "y": 572.288128530482
+      },
+      {
+        "t_ms": 4282,
+        "x": 409.00194607407406,
+        "y": 565.979582822772
+      },
+      {
+        "t_ms": 4298,
+        "x": 414.96124693552815,
+        "y": 556.8552643390684
+      },
+      {
+        "t_ms": 4315,
+        "x": 418.86791632373115,
+        "y": 550.873741248153
+      },
+      {
+        "t_ms": 4345,
+        "x": 428.26271525925927,
+        "y": 536.489312676577
+      },
+      {
+        "t_ms": 4381,
+        "x": 440.3504022935528,
+        "y": 517.981788254439
+      },
+      {
+        "t_ms": 4408,
+        "x": 455.4703251138546,
+        "y": 494.83159086235963
+      },
+      {
+        "t_ms": 4450,
+        "x": 474.6182935528121,
+        "y": 465.51403056211956
+      },
+      {
+        "t_ms": 4469,
+        "x": 496.16426886145405,
+        "y": 432.52486869085703
+      },
+      {
+        "t_ms": 4515,
+        "x": 522.4169851632373,
+        "y": 392.32918967267443
+      },
+      {
+        "t_ms": 4532,
+        "x": 554.1247023429355,
+        "y": 343.78132866265423
+      },
+      {
+        "t_ms": 4548,
+        "x": 573,
+        "y": 314.8812561035156
+      },
+      {
+        "t_ms": 4565,
+        "x": 589.7297407407408,
+        "y": 289.2662575966163
+      },
+      {
+        "t_ms": 4595,
+        "x": 621.742188521262,
+        "y": 240.25182187954897
+      },
+      {
+        "t_ms": 4632,
+        "x": 648.267866074074,
+        "y": 199.63821038136575
+      },
+      {
+        "t_ms": 4659,
+        "x": 670.7213713799725,
+        "y": 165.2595243157395
+      },
+      {
+        "t_ms": 4682,
+        "x": 681.428096,
+        "y": 148.86639907812503
+      },
+      {
+        "t_ms": 4715,
+        "x": 697.7551952592593,
+        "y": 123.86788716876447
+      },
+      {
+        "t_ms": 4753,
+        "x": 710.2683170589848,
+        "y": 104.7089772260615
+      },
+      {
+        "t_ms": 4782,
+        "x": 722.5984565925926,
+        "y": 85.83023244228337
+      },
+      {
+        "t_ms": 4798,
+        "x": 730.351861903978,
+        "y": 73.95895071997438
+      },
+      {
+        "t_ms": 4833,
+        "x": 735.4724245925926,
+        "y": 66.11882888808418
+      },
+      {
+        "t_ms": 4865,
+        "x": 739.9693994074074,
+        "y": 59.233485896095544
+      },
+      {
+        "t_ms": 4886,
+        "x": 742.8007406639232,
+        "y": 54.89840365052555
+      },
+      {
+        "t_ms": 4915,
+        "x": 744.3203365925926,
+        "y": 52.57174192592595
+      },
+      {
+        "t_ms": 4931,
+        "x": 745.4290041262003,
+        "y": 50.87425493804619
+      },
+      {
+        "t_ms": 4949,
+        "x": 745.7481632592592,
+        "y": 50.38558862555158
+      },
+      {
+        "t_ms": 4986,
+        "x": 745.9434420521262,
+        "y": 50.08659618656327
+      },
+      {
+        "t_ms": 5018,
+        "x": 746,
+        "y": 50
+      }
+    ],
+    "audio": [
+      {
+        "t_ms": 700,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 820,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 930,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1036,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1142,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1254,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1366,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1476,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1582,
+        "currentTime": 0.467664,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1687,
+        "currentTime": 0.560581,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1806,
+        "currentTime": 0.663889,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1920,
+        "currentTime": 0.793901,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2030,
+        "currentTime": 0.899928,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2140,
+        "currentTime": 1.000577,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2248,
+        "currentTime": 1.122804,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2356,
+        "currentTime": 1.222058,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2465,
+        "currentTime": 1.327443,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2577,
+        "currentTime": 1.451258,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2684,
+        "currentTime": 1.549466,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2791,
+        "currentTime": 1.653187,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2900,
+        "currentTime": 1.770745,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3021,
+        "currentTime": 1.878132,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3129,
+        "currentTime": 2.003463,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3238,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3353,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3466,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3577,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3692,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3802,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3909,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4018,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4127,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4235,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4346,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4452,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4564,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4674,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4783,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4889,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5001,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5113,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5223,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5331,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5460,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5572,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5687,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5797,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5906,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6014,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6122,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6232,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6342,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6448,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6560,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6669,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6781,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6890,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6999,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7106,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7217,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7325,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7434,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7543,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7650,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7759,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7868,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7977,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8087,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8196,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8306,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8417,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8525,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8633,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8742,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8853,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8960,
+        "currentTime": 2.02819,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      }
+    ]
+  },
+  "M": {
+    "take": "M",
+    "video": "recording/takes/take-M.mp4",
+    "fps": 60,
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "deviceScaleFactor": 3,
+    "coordinates": "CSS px; multiply by deviceScaleFactor for video px",
+    "capturedFrames": 162,
+    "clockOffset_ms": 9,
+    "duration_ms": 10439,
+    "contentStart_ms": 0,
+    "events": [
+      {
+        "t_ms": -26,
+        "type": "start",
+        "cursor": {
+          "x": 195,
+          "y": 658.32
+        }
+      },
+      {
+        "t_ms": 137,
+        "type": "player-ready",
+        "audio": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4633,
+        "type": "tap",
+        "selector": ".paqocha-play-button",
+        "x": 195,
+        "y": 657.7760620117188,
+        "box": {
+          "x": 167,
+          "y": 629.7760620117188,
+          "width": 56,
+          "height": 56
+        }
+      },
+      {
+        "t_ms": 4645,
+        "type": "wait",
+        "ms": 600,
+        "label": "paused beat"
+      },
+      {
+        "t_ms": 5590,
+        "type": "tap",
+        "selector": "[data-word-index=\"2\"]",
+        "x": 244.35157012939453,
+        "y": 147.1666717529297,
+        "box": {
+          "x": 202.6041717529297,
+          "y": 133.8697967529297,
+          "width": 83.49479675292969,
+          "height": 26.59375
+        }
+      },
+      {
+        "t_ms": 5605,
+        "type": "analysis-shown",
+        "word": "sunquyta"
+      },
+      {
+        "t_ms": 5605,
+        "type": "wait",
+        "ms": 3500,
+        "label": "hold mobile analysis"
+      },
+      {
+        "t_ms": 10128,
+        "type": "end"
+      }
+    ],
+    "cursor": [],
+    "audio": [
+      {
+        "t_ms": 94,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 199,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 304,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 415,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 517,
+        "currentTime": 0.441,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 632,
+        "currentTime": 0.52426,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 741,
+        "currentTime": 0.646827,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1109,
+        "currentTime": 0.999087,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1222,
+        "currentTime": 1.126962,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1342,
+        "currentTime": 1.231556,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1461,
+        "currentTime": 1.363818,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1568,
+        "currentTime": 1.464656,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1679,
+        "currentTime": 1.570552,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1788,
+        "currentTime": 1.68903,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 1898,
+        "currentTime": 1.795226,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2006,
+        "currentTime": 1.895919,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2116,
+        "currentTime": 2.013075,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2224,
+        "currentTime": 2.120012,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2332,
+        "currentTime": 2.237733,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2440,
+        "currentTime": 2.340902,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2549,
+        "currentTime": 2.44166,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2649,
+        "currentTime": 2.554522,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2755,
+        "currentTime": 2.653214,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2863,
+        "currentTime": 2.759713,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 2972,
+        "currentTime": 2.877401,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3081,
+        "currentTime": 2.981257,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3183,
+        "currentTime": 3.080425,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3288,
+        "currentTime": 3.192623,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3392,
+        "currentTime": 3.292323,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3503,
+        "currentTime": 3.399795,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3610,
+        "currentTime": 3.514714,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3720,
+        "currentTime": 3.620721,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3827,
+        "currentTime": 3.720936,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 3936,
+        "currentTime": 3.841335,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4040,
+        "currentTime": 3.941304,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4152,
+        "currentTime": 4.044778,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4264,
+        "currentTime": 4.167621,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4369,
+        "currentTime": 4.266362,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4484,
+        "currentTime": 4.376988,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4593,
+        "currentTime": 4.492569,
+        "paused": false,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4698,
+        "currentTime": 4.549328,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4814,
+        "currentTime": 4.549328,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 4929,
+        "currentTime": 4.549328,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5035,
+        "currentTime": 4.549328,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5151,
+        "currentTime": 4.549328,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5262,
+        "currentTime": 4.549328,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5368,
+        "currentTime": 4.549328,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5480,
+        "currentTime": 4.549328,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5592,
+        "currentTime": 4.549328,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5698,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5803,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 5916,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6023,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6133,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6242,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6351,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6462,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6568,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6680,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6789,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 6900,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7012,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7121,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7229,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7340,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7448,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7557,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7668,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7777,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7886,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 7996,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8104,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8215,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8321,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8430,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8539,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8645,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8762,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8870,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 8978,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9088,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9206,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9321,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9430,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9540,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9648,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9757,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9869,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 9980,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      },
+      {
+        "t_ms": 10086,
+        "currentTime": 1.702,
+        "paused": true,
+        "src": "https://cdn-paqocha.iampol.dev/audios/spontaneous-speech-qxp-40546.mp3"
+      }
+    ]
+  }
+}
